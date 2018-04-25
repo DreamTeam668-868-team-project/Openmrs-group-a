@@ -23,10 +23,7 @@ import org.openmrs.ui.framework.fragment.FragmentModel;
 public class NewTableFragFragmentController {
 	
 	public void controller(FragmentModel model, HttpSession session, @SpringBean("userService") UserService service) {
-		List<NewTable> tables = Context.getService(NewTableService.class).getNewTables();
-		for (NewTable nt : tables) {
-			System.out.println("NewTableFragFragmentController: " + nt.getInfo());
-		}
+		List<NewTable> tables = Context.getService(NewTableService.class).getAllRecords();
 		
 		model.addAttribute("tableitems", tables);
 		model.addAttribute("user", Context.getAuthenticatedUser());

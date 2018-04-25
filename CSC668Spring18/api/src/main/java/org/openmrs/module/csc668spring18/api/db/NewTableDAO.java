@@ -13,7 +13,12 @@
  */
 package org.openmrs.module.csc668spring18.api.db;
 
+import java.sql.Date;
 import java.util.List;
+import org.hibernate.Criteria;
+import org.hibernate.criterion.Restrictions;
+import org.openmrs.api.db.hibernate.DbSession;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.csc668spring18.NewTable;
 import org.openmrs.module.csc668spring18.api.NewTableService;
 
@@ -22,9 +27,21 @@ import org.openmrs.module.csc668spring18.api.NewTableService;
  */
 public interface NewTableDAO {
 	
-	public NewTable getNewTable(Integer id);
-	
-	public NewTable saveNewTable(NewTable newTable);
-	
-	public List<NewTable> getNewTables();
+    public NewTable getRecordByUuid(String uuid);
+    
+    public NewTable getRecord(Integer id);
+
+    public List<NewTable> getAllRecords();
+
+    public List<NewTable> getRecordsByDate(Date date);
+
+    public List<NewTable> getRecordsByUser(Integer userId);
+    
+    public List<NewTable> getRecordsByTimeframe(Date start, Date end);
+
+    public List<NewTable> getRecordsByUserandDate(Integer userId, Date date);
+
+    public List<NewTable> getRecordsByUserandTimeframe(Integer userId, Date start, Date end);
+
+    public NewTable saveRecord(NewTable record);
 }

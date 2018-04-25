@@ -11,14 +11,16 @@
  */
 package org.openmrs.module.csc668spring18.api.impl;
 
+import java.sql.Date;
 import java.util.List;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.api.APIException;
+import org.openmrs.api.UserService;
 import org.openmrs.module.csc668spring18.NewTable;
 import org.openmrs.module.csc668spring18.api.NewTableService;
 import org.openmrs.module.csc668spring18.api.db.NewTableDAO;
-import org.springframework.transaction.annotation.Transactional;
 
 /**
  * It is a default implementation of {@link NewTableService}.
@@ -29,36 +31,70 @@ public class NewTableServiceImpl extends BaseOpenmrsService implements NewTableS
 	
 	private NewTableDAO dao;
 	
-	/**
-	 * @param dao the dao to set
-	 */
-	public void setDao(NewTableDAO dao) {
-		this.dao = dao;
-	}
 	
-	/**
-	 * @return the dao
-	 */
-	public NewTableDAO getDao() {
-		return dao;
-	}
-	
-	public Log getLog() {
-		return log;
-	}
-	
-	@Transactional(readOnly = true)
-	public NewTable getNewTable(Integer id) {
-		return dao.getNewTable(id);
-	}
-	
-	@Transactional
-	public NewTable saveNewTable(NewTable doe) {
-		return dao.saveNewTable(doe);
-	}
-	
-	@Transactional(readOnly = true)
-	public List<NewTable> getNewTables() {
-		return dao.getNewTables();
-	}
+
+    UserService userService;
+
+    /**
+     * Injected in moduleApplicationContext.xml
+     */
+    public void setDao(NewTableDAO dao) {
+        this.dao = dao;
+    }
+
+    /**
+     * Injected in moduleApplicationContext.xml
+     */
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Override
+    public NewTable getRecordByUuid(String uuid) throws APIException {
+        return dao.getRecordByUuid(uuid);
+    }
+
+    @Override
+    public NewTable getRecord(Integer id) throws APIException {
+        return dao.getRecord(id);
+    }
+
+    @Override
+    public List<NewTable> getAllRecords() throws APIException {
+        return dao.getAllRecords();
+    }
+
+    @Override
+    public List<NewTable> getRecordsByDate(Date date) throws APIException {
+        return dao.getRecordsByDate(date);
+    }
+
+    @Override
+    public List<NewTable> getRecordsByUser(Integer userId) throws APIException {
+        return dao.getRecordsByUser(userId);
+    }
+
+    @Override
+    public List<NewTable> getRecordsByTimeframe(Date start, Date end) throws APIException {
+        return dao.getRecordsByTimeframe(start, end);
+    }
+
+    @Override
+    public List<NewTable> getRecordsByUserandDate(Integer userId, Date date) throws APIException {
+        return dao.getRecordsByUserandDate(userId, date);
+    }
+
+    @Override
+    public List<NewTable> getRecordsByUserandTimeframe(Integer userId, Date start, Date end) throws APIException {
+        return dao.getRecordsByUserandTimeframe(userId, start, end);
+    }
+
+    @Override
+    public NewTable saveRecord(NewTable record) throws APIException {
+//		if (record.getOwner() == null) {
+//			record.setOwner(userService.getUser(1));
+//		}
+
+        return dao.saveRecord(record);
+    }
 }

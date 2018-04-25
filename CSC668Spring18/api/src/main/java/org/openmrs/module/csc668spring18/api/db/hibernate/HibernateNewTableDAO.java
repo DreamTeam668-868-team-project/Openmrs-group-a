@@ -11,13 +11,14 @@
  */
 package org.openmrs.module.csc668spring18.api.db.hibernate;
 
+import java.sql.Date;
 import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
-import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
-import org.openmrs.Patient;
+import org.openmrs.api.db.hibernate.DbSession;
+import org.openmrs.api.db.hibernate.DbSessionFactory;
 import org.openmrs.module.csc668spring18.NewTable;
 import org.openmrs.module.csc668spring18.api.db.NewTableDAO;
 
@@ -25,46 +26,64 @@ import org.openmrs.module.csc668spring18.api.db.NewTableDAO;
  * It is a default implementation of {@link NewTableDAO}.
  */
 public class HibernateNewTableDAO implements NewTableDAO {
-	
-	protected final Log log = LogFactory.getLog(this.getClass());
-	
-	private SessionFactory sessionFactory;
-	
-	/**
-	 * @param sessionFactory the sessionFactory to set
-	 */
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-	
-	/**
-	 * @return the sessionFactory
-	 */
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
-	
-	public NewTable getNewTable(Integer id) {
-		return (NewTable) sessionFactory.getCurrentSession().get(NewTable.class, id);
-	}
-	
-	/*
-	public NewTable getNewTableByUuid(String uuid) {
-	    Criteria crit = sessionFactory.getCurrentSession().createCriteria(
-	            NewTable.class);
-	    crit.add(Restrictions.eq("uuid", uuid));
-	    return (NewTable) crit.uniqueResult();
-	}
 
-	 */
-	public NewTable saveNewTable(NewTable newTable) {
-		sessionFactory.getCurrentSession().saveOrUpdate(newTable);
-		return newTable;
-	}
-	
-	public List<NewTable> getNewTables() {
-		Criteria crit = sessionFactory.getCurrentSession().createCriteria(NewTable.class);
-		return crit.list();
-	}
-	
+    protected final Log log = LogFactory.getLog(this.getClass());
+
+    private DbSessionFactory sessionFactory;
+
+    private DbSession getSession() {
+        return sessionFactory.getCurrentSession();
+    }
+
+    public NewTable getRecordByUuid(String uuid) {
+        return (NewTable) getSession().createCriteria(NewTable.class).add(Restrictions.eq("uuid", uuid)).uniqueResult();
+    }
+
+    public NewTable getRecord(Integer id) {
+        return (NewTable) getSession().createCriteria(NewTable.class).add(Restrictions.eq("record_id", id)).uniqueResult();
+    }
+
+    public List<NewTable> getAllRecords() {
+        return (List<NewTable>) getSession().createCriteria(NewTable.class).list();
+    }
+
+    public List<NewTable> getRecordsByDate(Date date) {
+        Criteria criteria = getSession().createCriteria(NewTable.class);
+        criteria.add(Restrictions.eq("access_date", date));
+        return (List<NewTable>) criteria.list();
+    }
+
+    public List<NewTable> getRecordsByUser(Integer userId) {
+        Criteria criteria = getSession().createCriteria(NewTable.class);
+        criteria.add(Restrictions.eq("accessing_user", userId));
+        return (List<NewTable>) criteria.list();
+    }
+
+    public List<NewTable> getRecordsByTimeframe(Date start, Date end) {
+        Criteria criteria = getSession().createCriteria(NewTable.class);
+        criteria.add(Restrictions.ge("access_date", start));
+        criteria.add(Restrictions.le("access_date", end));
+        return (List<NewTable>) criteria.list();
+    }
+
+    public List<NewTable> getRecordsByUserandDate(Integer userId, Date date) {
+        Criteria criteria = getSession().createCriteria(NewTable.class);
+        criteria.add(Restrictions.eq("accessing_user", userId));
+        criteria.add(Restrictions.eq("access_date", date));
+        return (List<NewTable>) criteria.list();
+    }
+
+    public List<NewTable> getRecordsByUserandTimeframe(Integer userId, Date start, Date end) {
+        Criteria criteria = getSession().createCriteria(NewTable.class);
+        criteria.add(Restrictions.eq("accessing_user", userId));
+        criteria.add(Restrictions.ge("access_date", start));
+        criteria.add(Restrictions.le("access_date", end));
+        return (List<NewTable>) criteria.list();
+    }
+
+    public NewTable saveRecord(NewTable record) {
+        getSession().saveOrUpdate(record);
+        return record;
+    }
+
 }

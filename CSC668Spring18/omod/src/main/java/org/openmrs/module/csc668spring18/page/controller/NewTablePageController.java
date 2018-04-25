@@ -48,10 +48,7 @@ public class NewTablePageController {
 		
 		System.out.println("NewTablePageController - POST: \n" + url + "\n");
 		NewTable n = new NewTable();
-		n.setEntryDate(new Date());
-		n.setInfo(info);
-		n.setUserId(Context.getAuthenticatedUser().getUserId());
-		Context.getService(NewTableService.class).saveNewTable(n);
+		Context.getService(NewTableService.class).saveRecord(n);
 		return "redirect:" + url;
 	}
 }

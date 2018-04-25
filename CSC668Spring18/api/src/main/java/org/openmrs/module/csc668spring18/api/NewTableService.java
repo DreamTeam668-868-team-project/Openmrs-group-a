@@ -13,10 +13,13 @@
  */
 package org.openmrs.module.csc668spring18.api;
 
+import java.sql.Date;
 import java.util.List;
-import org.openmrs.Patient;
+import org.openmrs.annotation.Authorized;
+import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.csc668spring18.NewTable;
+import org.openmrs.module.csc668spring18.NewTableConfig;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -33,16 +36,111 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public interface NewTableService extends OpenmrsService {
 	
-	public NewTable saveNewTable(NewTable newTable);
-	
 	/**
-	 * Get a {@link NewTable} object by primary key id.
+	 * Returns an record by uuid. It can be called by any authenticated user. It is fetched in read
+	 * only transaction.
 	 * 
-	 * @param id the primary key integer id to look up on
-	 * @return the found NewTable object which matches the row with the given id. If no row with the
-	 *         given id exists, null is returned.
+	 * @param uuid
+	 * @return
+	 * @throws APIException
 	 */
-	public NewTable getNewTable(Integer id);
+	@Authorized()
+	@Transactional(readOnly = true)
+	NewTable getRecordByUuid(String uuid) throws APIException;
+        
+        /**
+	 * Returns an record by id. It can be called by any authenticated user. It is fetched in read
+	 * only transaction.
+	 * 
+	 * @param id
+	 * @return
+	 * @throws APIException
+	 */
+        @Authorized()
+	@Transactional(readOnly = true)
+        NewTable getRecord(Integer id) throws APIException;
 	
-	public List<NewTable> getNewTables();
+        /**
+	 * Returns a List of all records. It can be called by any authenticated user. It is fetched in read
+	 * only transaction.
+	 * 
+	 * @param id
+	 * @return
+	 * @throws APIException
+	 */
+        @Authorized()
+	@Transactional(readOnly = true)
+        List<NewTable> getAllRecords() throws APIException;
+        
+        /**
+	 * Returns a List of records for the given date. It can be called by any authenticated user. It is fetched in read
+	 * only transaction.
+	 * 
+	 * @param id
+	 * @return
+	 * @throws APIException
+	 */
+	@Authorized(NewTableConfig.MODULE_PRIVILEGE)
+	@Transactional
+        List<NewTable> getRecordsByDate(Date date) throws APIException;
+        
+        /**
+	 * Returns a List of records for the given user_id. It can be called by any authenticated user. It is fetched in read
+	 * only transaction.
+	 * 
+	 * @param id
+	 * @return
+	 * @throws APIException
+	 */
+	@Authorized(NewTableConfig.MODULE_PRIVILEGE)
+	@Transactional
+        List<NewTable> getRecordsByUser(Integer userId) throws APIException;
+        
+        /**
+	 * Returns a List of records for the given timeframe. It can be called by any authenticated user. It is fetched in read
+	 * only transaction.
+	 * 
+	 * @param id
+	 * @return
+	 * @throws APIException
+	 */
+	@Authorized(NewTableConfig.MODULE_PRIVILEGE)
+	@Transactional
+        List<NewTable> getRecordsByTimeframe(Date start, Date end);
+        
+        /**
+	 * Returns a List of records for the given user and date. It can be called by any authenticated user. It is fetched in read
+	 * only transaction.
+	 * 
+	 * @param id
+	 * @return
+	 * @throws APIException
+	 */
+	@Authorized(NewTableConfig.MODULE_PRIVILEGE)
+	@Transactional
+        List<NewTable> getRecordsByUserandDate(Integer userId, Date date);
+        
+        /**
+	 * Returns a List of records for the given user and timeframe. It can be called by any authenticated user. It is fetched in read
+	 * only transaction.
+	 * 
+	 * @param id
+	 * @return
+	 * @throws APIException
+	 */
+	@Authorized(NewTableConfig.MODULE_PRIVILEGE)
+	@Transactional
+        List<NewTable> getRecordsByUserandTimeframe(Integer userId, Date start, Date end);
+        
+	/**
+	 * Saves an record. Sets the owner to superuser, if it is not set. It can be called by users
+	 * with this module's privilege. It is executed in a transaction.
+	 * 
+	 * @param record
+	 * @return
+	 * @throws APIException
+	 */
+	@Authorized(NewTableConfig.MODULE_PRIVILEGE)
+	@Transactional
+	NewTable saveRecord(NewTable record) throws APIException;
 }

@@ -29,21 +29,21 @@ public class NewTableActivator extends BaseModuleActivator {
 	 * @see ModuleActivator#started()
 	 */
 	public void started() {
-		log.info("SDK Example With DB And Table Module started");
+		log.info("CSC 668 Spring 2018 Module started");
 	}
 	
 	/**
 	 * @see ModuleActivator#willStop()
 	 */
 	public void willStop() {
-		log.info("Stopping SDK Example With DB And Table Module");
+		log.info("CSC 668 Spring 2018 Module");
 	}
 	
 	/**
 	 * @see ModuleActivator#stopped()
 	 */
 	public void shutdown() {
-		log.info("SDK Example With DB And Table Module shutdown");
+		log.info("CSC 668 Spring 2018 Module shutdown");
 	}
 	
 }

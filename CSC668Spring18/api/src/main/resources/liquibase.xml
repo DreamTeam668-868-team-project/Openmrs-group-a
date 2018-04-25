@@ -9,31 +9,36 @@
         for a list of supported elements and attributes
     -->
 
-    <changeSet id="levinenewtable-1" author="levine">
+    <changeSet id="csc668spring18newtable-1" author="travis">
         <sql>
             drop table if exists new_table;
         </sql>
     </changeSet>
 
-    <changeSet author="levine" id="levinenewtable-2">
-        <preConditions onFail="WARN" onError="WARN">
-            <not>
-                <tableExists tableName="new_table" />
-            </not>
-        </preConditions>
-        <createTable tableName="new_table">
-            <column name="id" type="int" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
-            </column>
-            <column name="info" type="varchar(255)"></column>
-            
-            <column name="entry_date" type="datetime"></column>
-            
-            <column name="user_id" type="int"></column>
-            
-        </createTable>
-        
-        <addForeignKeyConstraint constraintName="user_fk" baseTableName="new_table" baseColumnNames="user_id"  referencedTableName="users"
+    <changeSet id="csc668spring18-2018-04-019-19-19" author="travis">
+		<preConditions onFail="MARK_RAN">
+			<not><tableExists tableName="csc668spring18_records"/></not>
+		</preConditions>
+		<comment>
+			Creating the csc668spring18_records table
+		</comment>
+		<createTable tableName="csc668spring18_records">
+			<column name="record_id" type="int" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false"/>
+			</column>
+			<column name="uuid" type="char(38)">
+				<constraints nullable="false" unique="true"></constraints>
+			</column>
+
+                        <column name="access_date" type="date" defaultValue="now()"/>
+            		<column name="access_time" type="time" defaultValue="now()"/>
+                        <column name="accessed_record_id" type="int" />
+                        <column name="accessed_record_type" type="varchar(255)" />
+
+                </createTable>
+        <addForeignKeyConstraint constraintName="user" baseTableName="csc668spring18_records" baseColumnNames="accessing_user"  referencedTableName="users"
                                  referencedColumnNames="user_id" />
+        <addForeignKeyConstraint constraintName="user" baseTableName="csc668spring18_records" baseColumnNames="access_location"  referencedTableName="location"
+                                 referencedColumnNames="location_id" />
     </changeSet>
 </databaseChangeLog>
