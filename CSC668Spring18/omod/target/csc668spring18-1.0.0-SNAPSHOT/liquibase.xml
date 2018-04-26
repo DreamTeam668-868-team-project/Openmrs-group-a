@@ -9,31 +9,33 @@
         for a list of supported elements and attributes
     -->
 
-    <changeSet id="levinenewtable-1" author="levine">
+    <changeSet id="csc668spring18-1" author="travis">
         <sql>
-            drop table if exists new_table;
+            drop table if exists access_log;
         </sql>
     </changeSet>
 
-    <changeSet author="levine" id="levinenewtable-2">
+    <changeSet id="csc668spring18-2" author="travis">
         <preConditions onFail="WARN" onError="WARN">
             <not>
-                <tableExists tableName="new_table" />
+                <tableExists tableName="access_log"/>
             </not>
         </preConditions>
-        <createTable tableName="new_table">
+        
+        <createTable tableName="access_log">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="info" type="varchar(255)"></column>
-            
-            <column name="entry_date" type="datetime"></column>
-            
-            <column name="user_id" type="int"></column>
-            
+            <column name="accessing_user" type="int" />
+            <column name="access_location" type="int" />
+            <column name="accessed_on" type="datetime" />
+            <column name="accessed_record_id" type="int" />
+            <column name="accessed_record_type" type="varchar(255)" />
         </createTable>
         
-        <addForeignKeyConstraint constraintName="user_fk" baseTableName="new_table" baseColumnNames="user_id"  referencedTableName="users"
+        <addForeignKeyConstraint constraintName="user" baseTableName="access_log" baseColumnNames="accessing_user"  referencedTableName="users"
                                  referencedColumnNames="user_id" />
+        <addForeignKeyConstraint constraintName="location" baseTableName="access_log" baseColumnNames="access_location"  referencedTableName="location"
+                                 referencedColumnNames="location_id" />
     </changeSet>
 </databaseChangeLog>

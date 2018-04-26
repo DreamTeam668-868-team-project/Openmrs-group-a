@@ -36,7 +36,7 @@ public class AdminList extends AdministrationSectionExt {
 	 * @see AdministrationSectionExt#getTitle()
 	 */
 	public String getTitle() {
-		return "basictestdbwithtable.title";
+		return "csc668spring18.title";
 	}
 	
 	/**
@@ -44,7 +44,7 @@ public class AdminList extends AdministrationSectionExt {
 	 */
 	public Map<String, String> getLinks() {
 		LinkedHashMap<String, String> map = new LinkedHashMap<String, String>();
-		map.put("/module/basictestdbwithtable/manage.form", "basictestdbwithtable.manage");
+		map.put("/module/csc668spring18/manage.form", "csc668spring18.manage");
 		return map;
 	}
 	

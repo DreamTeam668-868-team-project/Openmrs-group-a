@@ -34,7 +34,7 @@
 	</require_modules>
 	
 	<!-- Module Activator -->
-	<activator>org.openmrs.module.csc668spring18.NewTableActivator</activator>
+	<activator>org.openmrs.module.csc668spring18.AccessRecordActivator</activator>
 	
 	<aware_of_modules>
 		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>
@@ -48,7 +48,7 @@
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
 				
-		NewTable.hbm.xml
+		AccessLog.hbm.xml
 				
 	</mappingFiles>
 

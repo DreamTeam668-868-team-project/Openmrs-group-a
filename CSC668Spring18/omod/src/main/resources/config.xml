@@ -34,7 +34,7 @@
 	</require_modules>
 	
 	<!-- Module Activator -->
-	<activator>${project.parent.groupId}.${project.parent.artifactId}.NewTableActivator</activator>
+	<activator>${project.parent.groupId}.${project.parent.artifactId}.AccessRecordActivator</activator>
 	
 	<aware_of_modules>
 		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>
@@ -48,7 +48,7 @@
 	<!-- Maps hibernate file's, if present -->
 	<mappingFiles>
 				
-		NewTable.hbm.xml
+		AccessLog.hbm.xml
 				
 	</mappingFiles>
 

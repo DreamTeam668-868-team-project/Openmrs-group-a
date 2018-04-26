@@ -24,16 +24,16 @@
 	<bean parent="serviceContext">
 		<property name="moduleService">
 			<list>
-				<value>${project.parent.groupId}.${project.parent.artifactId}.api.NewTableService</value>
+				<value>${project.parent.groupId}.${project.parent.artifactId}.api.AccessRecordService</value>
 				<bean
 					class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 					<property name="transactionManager">
 						<ref bean="transactionManager" />
 					</property>
 					<property name="target">
-						<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.impl.NewTableServiceImpl">
+						<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.impl.AccessRecordServiceImpl">
 							<property name="dao">
-								<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.db.hibernate.HibernateNewTableDAO">
+								<bean class="${project.parent.groupId}.${project.parent.artifactId}.api.db.hibernate.HibernateAccessRecordDAO">
 									<property name="sessionFactory">
 										<ref bean="sessionFactory" />
 									</property>

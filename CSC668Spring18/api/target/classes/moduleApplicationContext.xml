@@ -24,16 +24,16 @@
 	<bean parent="serviceContext">
 		<property name="moduleService">
 			<list>
-				<value>org.openmrs.module.csc668spring18.api.NewTableService</value>
+				<value>org.openmrs.module.csc668spring18.api.AccessRecordService</value>
 				<bean
 					class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 					<property name="transactionManager">
 						<ref bean="transactionManager" />
 					</property>
 					<property name="target">
-						<bean class="org.openmrs.module.csc668spring18.api.impl.NewTableServiceImpl">
+						<bean class="org.openmrs.module.csc668spring18.api.impl.AccessRecordServiceImpl">
 							<property name="dao">
-								<bean class="org.openmrs.module.csc668spring18.api.db.hibernate.HibernateNewTableDAO">
+								<bean class="org.openmrs.module.csc668spring18.api.db.hibernate.HibernateAccessRecordDAO">
 									<property name="sessionFactory">
 										<ref bean="sessionFactory" />
 									</property>
