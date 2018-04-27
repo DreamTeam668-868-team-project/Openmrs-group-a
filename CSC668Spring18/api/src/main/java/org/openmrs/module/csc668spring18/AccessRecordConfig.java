@@ -8,10 +8,10 @@ package org.openmrs.module.csc668spring18;
 import org.springframework.stereotype.Component;
 
 /**
- * @author levine
+ * @author travis
  */
-@Component("csc668spring18.NewTableConfig")
+@Component("csc668spring18.AccessRecordConfig")
 public class AccessRecordConfig {
 	
-	public final static String MODULE_PRIVILEGE = "App: NewTableConfig";
+	public final static String MODULE_PRIVILEGE = "App: AccessRecordConfig";
 }
