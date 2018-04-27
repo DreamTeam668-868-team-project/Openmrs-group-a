@@ -17,6 +17,10 @@ import org.openmrs.BaseOpenmrsObject;
 import org.openmrs.Location;
 import org.openmrs.User;
 
+/**
+ * 
+ * @author Travis
+ */
 public class AccessRecord extends BaseOpenmrsObject implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
