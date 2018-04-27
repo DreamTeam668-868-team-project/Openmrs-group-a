@@ -16,11 +16,14 @@ import java.util.List;
 import org.openmrs.api.impl.BaseOpenmrsService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.UserService;
 import org.openmrs.module.csc668spring18.AccessRecord;
+import org.openmrs.module.csc668spring18.AccessRecordConfig;
 import org.openmrs.module.csc668spring18.api.AccessRecordService;
 import org.openmrs.module.csc668spring18.api.db.AccessRecordDAO;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * It is a default implementation of {@link AccessRecordService}.
@@ -47,48 +50,66 @@ public class AccessRecordServiceImpl extends BaseOpenmrsService implements Acces
 		this.userService = userService;
 	}
 	
+	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Transactional(readOnly = true)
 	@Override
-	public AccessRecord getRecordByUuid(String uuid) throws APIException {
+	public AccessRecord getAccessRecordByUuid(String uuid) throws APIException {
 		return dao.getRecordByUuid(uuid);
 	}
 	
+	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Transactional(readOnly = true)
 	@Override
-	public AccessRecord getRecord(Integer id) throws APIException {
+	public AccessRecord getAccessRecord(Integer id) throws APIException {
 		return dao.getRecord(id);
 	}
 	
+	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Transactional(readOnly = true)
 	@Override
-	public List<AccessRecord> getAllRecords() throws APIException {
+	public List<AccessRecord> getAllAccessRecords() throws APIException {
 		return dao.getAllRecords();
 	}
 	
+	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Transactional(readOnly = true)
 	@Override
-	public List<AccessRecord> getRecordsByDate(Date date) throws APIException {
+	public List<AccessRecord> getAccessRecordsByDate(Date date) throws APIException {
 		return dao.getRecordsByDate(date);
 	}
 	
+	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Transactional(readOnly = true)
 	@Override
-	public List<AccessRecord> getRecordsByUser(Integer userId) throws APIException {
+	public List<AccessRecord> getAccessRecordsByUser(Integer userId) throws APIException {
 		return dao.getRecordsByUser(userId);
 	}
 	
+	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Transactional(readOnly = true)
 	@Override
-	public List<AccessRecord> getRecordsByTimeframe(Date start, Date end) throws APIException {
+	public List<AccessRecord> getAccessRecordsByTimeframe(Date start, Date end) throws APIException {
 		return dao.getRecordsByTimeframe(start, end);
 	}
 	
+	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Transactional(readOnly = true)
 	@Override
-	public List<AccessRecord> getRecordsByUserandDate(Integer userId, Date date) throws APIException {
+	public List<AccessRecord> getAccessRecordsByUserandDate(Integer userId, Date date) throws APIException {
 		return dao.getRecordsByUserandDate(userId, date);
 	}
 	
+	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Transactional(readOnly = true)
 	@Override
-	public List<AccessRecord> getRecordsByUserandTimeframe(Integer userId, Date start, Date end) throws APIException {
+	public List<AccessRecord> getAccessRecordsByUserandTimeframe(Integer userId, Date start, Date end) throws APIException {
 		return dao.getRecordsByUserandTimeframe(userId, start, end);
 	}
 	
+	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Transactional
 	@Override
-	public AccessRecord saveRecord(AccessRecord record) throws APIException {
+	public AccessRecord saveAccessRecord(AccessRecord record) throws APIException {
 		//		if (record.getOwner() == null) {
 		//			record.setOwner(userService.getUser(1));
 		//		}

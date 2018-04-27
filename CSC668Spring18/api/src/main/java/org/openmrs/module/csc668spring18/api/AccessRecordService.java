@@ -46,7 +46,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 */
 	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
-	public AccessRecord getRecordByUuid(String uuid) throws APIException;
+	public AccessRecord getAccessRecordByUuid(String uuid) throws APIException;
 	
 	/**
 	 * Returns an record by id. It can be called by any authenticated user. It is fetched in read
@@ -58,7 +58,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 */
 	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
-	AccessRecord getRecord(Integer id) throws APIException;
+	AccessRecord getAccessRecord(Integer id) throws APIException;
 	
 	/**
 	 * Returns a List of all records. It can be called by any authenticated user. It is fetched in
@@ -70,7 +70,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 */
 	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
-	List<AccessRecord> getAllRecords() throws APIException;
+	List<AccessRecord> getAllAccessRecords() throws APIException;
 	
 	/**
 	 * Returns a List of records for the given date. It can be called by any authenticated user. It
@@ -82,7 +82,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 */
 	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
-	List<AccessRecord> getRecordsByDate(Date date) throws APIException;
+	List<AccessRecord> getAccessRecordsByDate(Date date) throws APIException;
 	
 	/**
 	 * Returns a List of records for the given user_id. It can be called by any authenticated user.
@@ -94,7 +94,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 */
 	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
-	List<AccessRecord> getRecordsByUser(Integer userId) throws APIException;
+	List<AccessRecord> getAccessRecordsByUser(Integer userId) throws APIException;
 	
 	/**
 	 * Returns a List of records for the given timeframe. It can be called by any authenticated
@@ -106,7 +106,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 */
 	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
-	List<AccessRecord> getRecordsByTimeframe(Date start, Date end);
+	List<AccessRecord> getAccessRecordsByTimeframe(Date start, Date end);
 	
 	/**
 	 * Returns a List of records for the given user and date. It can be called by any authenticated
@@ -118,7 +118,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 */
 	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
-	List<AccessRecord> getRecordsByUserandDate(Integer userId, Date date);
+	List<AccessRecord> getAccessRecordsByUserandDate(Integer userId, Date date);
 	
 	/**
 	 * Returns a List of records for the given user and timeframe. It can be called by any
@@ -130,7 +130,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 */
 	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
-	List<AccessRecord> getRecordsByUserandTimeframe(Integer userId, Date start, Date end);
+	List<AccessRecord> getAccessRecordsByUserandTimeframe(Integer userId, Date start, Date end);
 	
 	/**
 	 * Saves an record. Sets the owner to superuser, if it is not set. It can be called by users
@@ -140,7 +140,5 @@ public interface AccessRecordService extends OpenmrsService {
 	 * @return
 	 * @throws APIException
 	 */
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
-	@Transactional(readOnly = true)
-	AccessRecord saveRecord(AccessRecord record) throws APIException;
+	AccessRecord saveAccessRecord(AccessRecord record) throws APIException;
 }
