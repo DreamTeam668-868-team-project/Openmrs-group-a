@@ -37,17 +37,17 @@ public class AccessRecordPageController {
 		
 	}
 	
-	public String post(HttpSession session, HttpServletRequest request,
-	        @RequestParam(value = "info", required = false) String info) {
-		
-		String url = (request.getRequestURL().toString()).trim();
-		System.out.println("AccessRecordPageController - POST: BEFORE FIX\n" + url + "\n");
-		url = url.substring(url.indexOf("//") + 2);
-		url = url.substring(url.indexOf("/") + 1);
-		
-		System.out.println("AccessRecordPageController - POST: \n" + url + "\n");
-		AccessRecord n = new AccessRecord();
-		Context.getService(AccessRecordService.class).saveRecord(n);
-		return "redirect:" + url;
-	}
+	//	public String post(HttpSession session, HttpServletRequest request,
+	//	        @RequestParam(value = "info", required = false) String info) {
+	//		
+	//		String url = (request.getRequestURL().toString()).trim();
+	//		System.out.println("AccessRecordPageController - POST: BEFORE FIX\n" + url + "\n");
+	//		url = url.substring(url.indexOf("//") + 2);
+	//		url = url.substring(url.indexOf("/") + 1);
+	//		
+	//		System.out.println("AccessRecordPageController - POST: \n" + url + "\n");
+	//		AccessRecord n = new AccessRecord();
+	//		Context.getService(AccessRecordService.class).saveAccessRecord(n);
+	//		return "redirect:" + url;
+	//	}
 }

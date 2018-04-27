@@ -22,22 +22,22 @@ import org.openmrs.module.csc668spring18.api.AccessRecordService;
  */
 public class AccessRecordFragFragmentController {
 	
-	public void controller(FragmentModel model, HttpSession session, @SpringBean("userService") UserService service) {
-		List<AccessRecord> tables = Context.getService(AccessRecordService.class).getAllRecords();
-		
-		model.addAttribute("tableitems", tables);
-		model.addAttribute("user", Context.getAuthenticatedUser());
-	}
-	
-	public List<SimpleObject> getUsers(@SpringBean("userService") UserService service, UiUtils ui) {
-		List<User> allUsers = service.getAllUsers();
-		
-		System.out.println("AccessRecordFragFragmentController, getUsers: ");
-		String[] properties;
-		properties = new String[2];
-		properties[0] = "givenName";
-		properties[1] = "familyName";
-		
-		return SimpleObject.fromCollection(allUsers, ui, properties);
-	}
+		public void controller(FragmentModel model, HttpSession session, @SpringBean("userService") UserService service) {
+			List<AccessRecord> tables = Context.getService(AccessRecordService.class).getAllAccessRecords();
+			
+			model.addAttribute("tableitems", tables);
+			model.addAttribute("user", Context.getAuthenticatedUser());
+		}
+
+		public List<SimpleObject> getUsers(@SpringBean("userService") UserService service, UiUtils ui) {
+			List<User> allUsers = service.getAllUsers();
+			
+			System.out.println("AccessRecordFragFragmentController, getUsers: ");
+			String[] properties;
+			properties = new String[2];
+			properties[0] = "givenName";
+			properties[1] = "familyName";
+			
+			return SimpleObject.fromCollection(allUsers, ui, properties);
+		}
 }
