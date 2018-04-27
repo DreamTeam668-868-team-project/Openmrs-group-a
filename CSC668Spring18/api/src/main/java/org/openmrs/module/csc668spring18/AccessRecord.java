@@ -54,11 +54,11 @@ public class AccessRecord extends BaseOpenmrsObject implements Serializable {
 		super.setUuid(uuid);
 	}
 	
-	public User getUser() {
+	public User getAccessingUser() {
 		return this.accessingUser;
 	}
 	
-	public void setUser(User user) {
+	public void setAccessingUser(User user) {
 		this.accessingUser = user;
 	}
 	

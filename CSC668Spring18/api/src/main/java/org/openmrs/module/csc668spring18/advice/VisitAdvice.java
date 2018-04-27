@@ -13,7 +13,7 @@ import org.openmrs.api.context.Context;
 import org.springframework.aop.AfterReturningAdvice;
 
 /**
- * @author Travis
+ * @author 
  */
 public class VisitAdvice implements AfterReturningAdvice {
 	
