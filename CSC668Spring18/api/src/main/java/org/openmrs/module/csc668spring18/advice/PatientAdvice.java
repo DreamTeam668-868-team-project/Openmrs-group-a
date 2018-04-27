@@ -16,9 +16,8 @@ import org.openmrs.api.context.Context;
 import org.springframework.aop.AfterReturningAdvice;
 
 /**
- * Advice code for the Patient Class in the OpenMRS system
- * provides reporting on when methods are invoked from the PatientService
- * interface
+ * Advice code for the Patient Class in the OpenMRS system provides reporting on when methods are
+ * invoked from the PatientService interface
  * 
  * @author Travis
  */
@@ -26,7 +25,7 @@ public class PatientAdvice implements AfterReturningAdvice {
 	
 	@Override
 	public void afterReturning(Object returnObject, Method method, Object[] args, Object target) {
-        
+		
 		// Patient retrievals
 		// returns type List<Patient>
 		Context.getPatientService().getAllPatients();

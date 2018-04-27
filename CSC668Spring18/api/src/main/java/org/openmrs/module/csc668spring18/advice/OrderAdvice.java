@@ -6,9 +6,8 @@
 package org.openmrs.module.csc668spring18.advice;
 
 /**
- *
- * @author 
+ * @author
  */
 public class OrderAdvice {
-    
+	
 }
