@@ -13,12 +13,11 @@ package org.openmrs.module.csc668spring18;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Locale;
 import org.openmrs.BaseOpenmrsObject;
-import org.openmrs.Location;
 import org.openmrs.User;
 
 /**
- * 
  * @author Travis
  */
 public class AccessRecord extends BaseOpenmrsObject implements Serializable {
@@ -29,7 +28,7 @@ public class AccessRecord extends BaseOpenmrsObject implements Serializable {
 	
 	private User accessingUser;
 	
-	private Location accessLocation;
+	private Locale accessLocale;
 	
 	private Date accessedOn;
 	
@@ -66,12 +65,12 @@ public class AccessRecord extends BaseOpenmrsObject implements Serializable {
 		this.accessingUser = user;
 	}
 	
-	public Location getAccessLocation() {
-		return this.accessLocation;
+	public Locale getAccessLocale() {
+		return this.accessLocale;
 	}
 	
-	public void setAccessLocation(Location location) {
-		this.accessLocation = location;
+	public void setAccessLocale(Locale location) {
+		this.accessLocale = location;
 	}
 	
 	public void setAccessedOn(Date date) {
