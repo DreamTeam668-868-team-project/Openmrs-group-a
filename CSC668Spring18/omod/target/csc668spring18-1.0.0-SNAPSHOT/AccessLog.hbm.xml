@@ -8,9 +8,8 @@
     <discriminator column="id" insert="false"/>
     <property column="accessed_on" name="accessedOn" type="java.util.Date" />
     <property column="accessing_user" name="accessingUser" type="org.openmrs.User" />
-    <property column="access_locale" name="accessLocale" type="java.util.Locale" />
+    <property column="access_location" name="accessLocation" type="org.openmrs.Location" />
     <property column="accessed_record_id" name="recordId" type="java.lang.Integer" />
     <property column="accessed_record_type" name="recordType" type="java.lang.String" />
-    <property name="uuid" type="java.lang.String" column="uuid" length="38" not-null="true" unique="true"/>
   </class>
 </hibernate-mapping>

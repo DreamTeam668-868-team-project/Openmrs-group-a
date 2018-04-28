@@ -14,9 +14,9 @@
                 "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
                 "type": "link",
                 "label": "View All Table Entries",
-                "url": "csc668spring18/accessLog.page",
+                "url": "basictestdbwithtable/newTable.page",
                 "icon": "icon-signin",
-                "requiredPrivilege": "App: Access Log"
+                "requiredPrivilege": "App: newTables"
             }
         ]
     }

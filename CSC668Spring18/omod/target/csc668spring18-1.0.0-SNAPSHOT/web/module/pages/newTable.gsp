@@ -19,7 +19,7 @@ ui.includeCss("uicommons", "datatables/dataTables_jui.css")
     ];
 </script>
 
-${ ui.includeFragment("csc668spring18", "accessLogFrag") }
+${ ui.includeFragment("csc668spring18", "newTableFrag") }
 
 <script type="text/javascript">
             //var OPENMRS_CONTEXT_PATH = 'openmrs';

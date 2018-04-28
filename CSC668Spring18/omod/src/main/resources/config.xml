@@ -2,94 +2,71 @@
 
 <module configVersion="1.2">
 
-    <!-- Module Properties -->
-    <id>${project.parent.artifactId}</id>
-    <name>${project.parent.name}</name>
-    <version>${project.parent.version}</version>
-    <package>${project.parent.groupId}.${project.parent.artifactId}</package>
-    <author>levine</author>
-    <description>
-        ${project.parent.description}
-    </description>
+	<!-- Module Properties -->
+	<id>${project.parent.artifactId}</id>
+	<name>${project.parent.name}</name>
+	<version>${project.parent.version}</version>
+	<package>${project.parent.groupId}.${project.parent.artifactId}</package>
+	<author>levine</author>
+	<description>
+		${project.parent.description}
+	</description>
         
-    <!--
-    <updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf</updateURL>
-    -->
-    <require_version>${openmrsPlatformVersion}</require_version>
-    <!-- / Module Properties -->
+        <!--
+	<updateURL>https://modules.openmrs.org/modules/download/${project.parent.artifactId}/update.rdf</updateURL>
+        -->
+	<require_version>${openmrsPlatformVersion}</require_version>
+	<!-- / Module Properties -->
 
-    <require_modules>
-        <require_module version="${appframeworkVersion}">
-            org.openmrs.module.appframework
-        </require_module>
-        <require_module version="${uiframeworkVersion}">
-            org.openmrs.module.uiframework
-        </require_module>
-        <require_module version="${uicommonsModuleVersion}">
-            org.openmrs.module.uicommons
-        </require_module>
-        <require_module version="${appuiVersion}">
-            org.openmrs.module.appui
-        </require_module>
-    </require_modules>
+	<require_modules>
+		<require_module version="${appframeworkVersion}">
+			org.openmrs.module.appframework
+		</require_module>
+		<require_module version="${uiframeworkVersion}">
+			org.openmrs.module.uiframework
+		</require_module>
+		<require_module version="${uicommonsModuleVersion}">
+			org.openmrs.module.uicommons
+		</require_module>
+		<require_module version="${appuiVersion}">
+			org.openmrs.module.appui
+		</require_module>
+	</require_modules>
 	
-    <!-- Module Activator -->
-    <activator>${project.parent.groupId}.${project.parent.artifactId}.AccessRecordActivator</activator>
+	<!-- Module Activator -->
+	<activator>${project.parent.groupId}.${project.parent.artifactId}.AccessRecordActivator</activator>
 	
-    <aware_of_modules>
-        <aware_of_module>org.openmrs.module.legacyui</aware_of_module>
-    </aware_of_modules>
-    <!-- Adds link to admin page 
-    <extension>
-            <point>org.openmrs.admin.list</point>
-            <class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.AdminList</class>
-    </extension>
-    -->
-    <!-- Maps hibernate file's, if present -->
-    <mappingFiles>
+	<aware_of_modules>
+		<aware_of_module>org.openmrs.module.legacyui</aware_of_module>
+	</aware_of_modules>
+	<!-- Adds link to admin page 
+	<extension>
+		<point>org.openmrs.admin.list</point>
+		<class>${project.parent.groupId}.${project.parent.artifactId}.extension.html.AdminList</class>
+	</extension>
+	-->
+	<!-- Maps hibernate file's, if present -->
+	<mappingFiles>
 				
-        AccessLog.hbm.xml
+		AccessLog.hbm.xml
 				
-    </mappingFiles>
+	</mappingFiles>
 
-    <!-- Internationalization -->
-    <!-- All message codes should start with ${project.parent.artifactId}. -->
-    <messages>
-        <lang>en</lang>
-        <file>messages.properties</file>
-    </messages>
-    <messages>
-        <lang>fr</lang>
-        <file>messages_fr.properties</file>
-    </messages>
-    <messages>
-        <lang>es</lang>
-        <file>messages_es.properties</file>
-    </messages>
-    <!-- /Internationalization -->
-        
-    <!-- Advice -->
-    <advice>
-        <point>org.openmrs.api.NewTableService</point>
-        <class>org.openmrs.module.csc668spring18.advice.TestAdvice</class>
-    </advice>
-    <!--
-    <advice>
-        <point>org.openmrs.api.PersonService</point>
-        <class>org.openmrs.module.csc668spring18.advice.PersonAdvice</class>
-    </advice>
-    <advice>
-        <point>org.openmrs.api.PatientService</point>
-        <class>org.openmrs.module.csc668spring18.advice.PatientAdvice</class>
-    </advice>
-    <advice>
-        <point>org.openmrs.api.OrderService</point>
-        <class>org.openmrs.module.csc668spring18.advice.OrderAdvice</class>
-    </advice>
-    <advice>
-        <point>org.openmrs.api.VisitService</point>
-        <class>org.openmrs.module.csc668spring18.advice.VisitAdvice</class>
-    </advice>-->
-    <!-- /Advice -->
+	<!-- Internationalization -->
+	<!-- All message codes should start with ${project.parent.artifactId}. -->
+	<messages>
+		<lang>en</lang>
+		<file>messages.properties</file>
+	</messages>
+	<messages>
+		<lang>fr</lang>
+		<file>messages_fr.properties</file>
+	</messages>
+	<messages>
+		<lang>es</lang>
+		<file>messages_es.properties</file>
+	</messages>
+	<!-- /Internationalization -->
+
 </module>
 

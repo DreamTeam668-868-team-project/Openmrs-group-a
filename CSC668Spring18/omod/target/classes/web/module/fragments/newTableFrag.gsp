@@ -49,7 +49,7 @@ jq(function() {
 
 <h1>Tables for $user.givenName $user.familyName</h1>
 
-<div class="Table" id="accessLog">
+<div class="Table" id="newTableList">
 <h2>The Table</h2>
 <table id="tableList"  border="1" class="display" cellspacing="0" width="50%">
 <thead>
@@ -100,7 +100,7 @@ jq(function() {
 
 
 <div>
-<form id="createAccessLogItemForm" method="post">
+<form id="createNewTableItemForm" method="post">
 
     Input Table Item Information: <input id="postType" type="text" name="info"> <br>
     <input type="submit" value="Submit">

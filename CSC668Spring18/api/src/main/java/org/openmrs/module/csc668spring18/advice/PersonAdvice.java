@@ -26,11 +26,11 @@ public class PersonAdvice implements AfterReturningAdvice {
 	 */
 	@Override
 	public void afterReturning(Object returnObject, Method method, Object[] args, Object target) {
-		//            if((method.getDeclaringClass()).equals(Context.getPersonService().getClass())){
-		//                if(returnObject.getClass().equals(Person.class)){
-		//                    
-		//                }
-		//            }
+//            if((method.getDeclaringClass()).equals(Context.getPersonService().getClass())){
+//                if(returnObject.getClass().equals(Person.class)){
+//                    
+//                }
+//            }
 	}
 	
 	public void list() {
