@@ -6,10 +6,10 @@
       <generator class="native"/>
     </id>
     <discriminator column="id" insert="false"/>
+    <property column="user_id" name="accessingUserId" type="java.lang.Integer" />
+    <property column="location_id" name="accessLocationId" type="java.lang.Integer" />
+    <property column="record_id" name="recordId" type="java.lang.Integer" />
+    <property column="record_type" name="recordType" type="java.lang.String" />
     <property column="accessed_on" name="accessedOn" type="java.util.Date" />
-    <property column="accessing_user" name="accessingUser" type="org.openmrs.User" />
-    <property column="access_location" name="accessLocation" type="org.openmrs.Location" />
-    <property column="accessed_record_id" name="recordId" type="java.lang.Integer" />
-    <property column="accessed_record_type" name="recordType" type="java.lang.String" />
   </class>
 </hibernate-mapping>

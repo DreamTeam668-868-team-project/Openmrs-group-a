@@ -38,5 +38,5 @@ public interface AccessRecordDAO {
 	
 	public List<AccessRecord> getRecordsByUserandTimeframe(Integer userId, Date start, Date end);
 	
-	public AccessRecord saveRecord(AccessRecord record);
+	public AccessRecord saveAccessRecord(AccessRecord record);
 }

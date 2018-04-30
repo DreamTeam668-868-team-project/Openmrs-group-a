@@ -114,6 +114,6 @@ public class AccessRecordServiceImpl extends BaseOpenmrsService implements Acces
 		//			record.setOwner(userService.getUser(1));
 		//		}
 		
-		return dao.saveRecord(record);
+		return dao.saveAccessRecord(record);
 	}
 }

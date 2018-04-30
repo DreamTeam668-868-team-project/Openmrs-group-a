@@ -31,6 +31,9 @@
 		<require_module version="${appuiVersion}">
 			org.openmrs.module.appui
 		</require_module>
+                <require_module version="${appuiVersion}">
+			org.openmrs.module.basictestdbwithtable
+		</require_module>
 	</require_modules>
 	
 	<!-- Module Activator -->
@@ -51,6 +54,14 @@
 		AccessLog.hbm.xml
 				
 	</mappingFiles>
+        
+        <!-- Advice -->
+        <advice>
+            <point>org.openmrs.api.UserService</point>
+            <class>org.openmrs.module.csc668spring18.advice.TestAdvice</class>
+        </advice>
+        
+        <!-- /Advice -->
 
 	<!-- Internationalization -->
 	<!-- All message codes should start with ${project.parent.artifactId}. -->
@@ -67,6 +78,5 @@
 		<file>messages_es.properties</file>
 	</messages>
 	<!-- /Internationalization -->
-
 </module>
 

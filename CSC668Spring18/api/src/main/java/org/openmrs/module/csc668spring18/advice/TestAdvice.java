@@ -9,7 +9,6 @@ import java.lang.reflect.Method;
 import java.util.Date;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.openmrs.Location;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.csc668spring18.AccessRecord;
 import org.openmrs.module.csc668spring18.api.AccessRecordService;
@@ -25,17 +24,19 @@ public class TestAdvice implements AfterReturningAdvice {
 	@Override
 	public void afterReturning(Object returnObject, Method method, Object[] args, Object target) {
 		
-		if (method.equals("getNewTables")) {
+		if (method.getName().startsWith("get")) {
 			log.info("Test Advice for CSC 668 Spring 2018 Module");
 			log.info(target.toString());
 			AccessRecord record = new AccessRecord();
 			
+			//Context.refreshAuthenticatedUser();
 			// id is set by the database, don't need to set it here
 			record.setAccessedOn(new Date());
-			record.setAccessingUser(Context.getAuthenticatedUser());
-			record.setAccessLocation(Context.getUserContext().getLocation());			
+			record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+			record.setAccessLocationId(1);
 			record.setRecordId(0);
 			record.setRecordType("TEST");
+			
 			Context.getService(AccessRecordService.class).saveAccessRecord(record);
 		}
 	}

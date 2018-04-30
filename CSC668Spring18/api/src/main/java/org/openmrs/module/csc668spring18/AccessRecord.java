@@ -15,10 +15,8 @@ import java.io.Serializable;
 import java.util.Date;
 import org.openmrs.BaseOpenmrsObject;
 import org.openmrs.Location;
-import org.openmrs.User;
 
 /**
- * 
  * @author Travis
  */
 public class AccessRecord extends BaseOpenmrsObject implements Serializable {
@@ -27,9 +25,9 @@ public class AccessRecord extends BaseOpenmrsObject implements Serializable {
 	
 	private Integer id;
 	
-	private User accessingUser;
+	private Integer accessingUserId;
 	
-	private Location accessLocation;
+	private Integer accessLocationId;
 	
 	private Date accessedOn;
 	
@@ -58,20 +56,20 @@ public class AccessRecord extends BaseOpenmrsObject implements Serializable {
 		super.setUuid(uuid);
 	}
 	
-	public User getAccessingUser() {
-		return this.accessingUser;
+	public Integer getAccessingUserId() {
+		return this.accessingUserId;
 	}
 	
-	public void setAccessingUser(User user) {
-		this.accessingUser = user;
+	public void setAccessingUserId(java.lang.Integer userId) {
+		this.accessingUserId = userId;
 	}
 	
-	public Location getAccessLocation() {
-		return this.accessLocation;
+	public Integer getAccessLocationId() {
+		return this.accessLocationId;
 	}
 	
-	public void setAccessLocation(Location location) {
-		this.accessLocation = location;
+	public void setAccessLocationId(java.lang.Integer locationId) {
+		this.accessLocationId = locationId;
 	}
 	
 	public void setAccessedOn(Date date) {

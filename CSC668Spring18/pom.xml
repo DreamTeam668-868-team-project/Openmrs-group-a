@@ -1,6 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>     
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>     
         
     <parent>
         <groupId>org.openmrs.maven.parents</groupId>
@@ -8,39 +8,39 @@
         <version>1.1.0</version>
     </parent>
 
-	<groupId>org.openmrs.module</groupId>
-	<artifactId>csc668spring18</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
-	<packaging>pom</packaging>
-	<name>CSC 668 Spring 2018 Module</name>
-	<description>API project for CSC668Spring18</description>
-	<!--<url>https://wiki.openmrs.org/display/docs/SDK+Example+With+DB+And+Table+Module+Module</url>-->
+    <groupId>org.openmrs.module</groupId>
+    <artifactId>csc668spring18</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>CSC 668 Spring 2018 Module</name>
+    <description>API project for CSC668Spring18</description>
+    <!--<url>https://wiki.openmrs.org/display/docs/SDK+Example+With+DB+And+Table+Module+Module</url>-->
 	
-	<developers>
-<!--		<developer>
-			<name>levine</name>
-		</developer>-->
-	</developers>
+    <developers>
+        <!--		<developer>
+                <name>levine</name>
+        </developer>-->
+    </developers>
 	
-	<organization>
-		<name>OpenMRS</name>
-		<url>http://openmrs.org</url>
-	</organization>
+    <organization>
+        <name>OpenMRS</name>
+        <url>http://openmrs.org</url>
+    </organization>
 
-<!--	<scm>
-		<connection>scm:svn:https://svn.openmrs.org/openmrs-modules/basictestdbwithtable/trunk/</connection>
-		<developerConnection>scm:svn:https://svn.openmrs.org/openmrs-modules/basictestdbwithtable/trunk/</developerConnection>
-		<url>https://svn.openmrs.org/openmrs-modules/basictestdbwithtable/trunk/</url>
-	</scm>-->
+    <!--	<scm>
+            <connection>scm:svn:https://svn.openmrs.org/openmrs-modules/basictestdbwithtable/trunk/</connection>
+            <developerConnection>scm:svn:https://svn.openmrs.org/openmrs-modules/basictestdbwithtable/trunk/</developerConnection>
+            <url>https://svn.openmrs.org/openmrs-modules/basictestdbwithtable/trunk/</url>
+    </scm>-->
 
-	<modules>
-		<module>api</module>
-		<module>omod</module>
-	</modules>
+    <modules>
+        <module>api</module>
+        <module>omod</module>
+    </modules>
 
-	<dependencyManagement>
-		<dependencies>
-			<!-- Importing versions from refapp distro -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Importing versions from refapp distro -->
             <dependency>
                 <groupId>org.openmrs.distro</groupId>
                 <artifactId>referenceapplication</artifactId>
@@ -48,34 +48,42 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-		</dependencies>
-	</dependencyManagement>
+            <!-- trying to load api -->
+            <dependency>
+                <groupId>org.openmrs.api</groupId>
+                <artifactId>openmrs-api</artifactId>
+                <version>${openmrsPlatformVersion}</version>
+                <type>jar</type>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-	<repositories>
-		<repository>
-			<id>openmrs-repo</id>
-			<name>OpenMRS Nexus Repository</name>
-			<url>http://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
-		</repository>
-		<repository>
-			<id>central</id>
-			<name>Maven Repository Switchboard</name>
-			<layout>default</layout>
-			<url>http://repo1.maven.org/maven2</url>
-		</repository>
-	</repositories>
-	<pluginRepositories>
-		<pluginRepository>
-			<id>openmrs-repo</id>
-			<name>OpenMRS Nexus Repository</name>
-			<url>http://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</pluginRepository>
-	</pluginRepositories>
+    <repositories>
+        <repository>
+            <id>openmrs-repo</id>
+            <name>OpenMRS Nexus Repository</name>
+            <url>http://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
+        </repository>
+        <repository>
+            <id>central</id>
+            <name>Maven Repository Switchboard</name>
+            <layout>default</layout>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+    </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>openmrs-repo</id>
+            <name>OpenMRS Nexus Repository</name>
+            <url>http://mavenrepo.openmrs.org/nexus/content/repositories/public</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
 
-	<properties>
-		<openmrsPlatformVersion>1.11.6</openmrsPlatformVersion>
-	</properties>
+    <properties>
+        <openmrsPlatformVersion>1.11.6</openmrsPlatformVersion>
+    </properties>
 </project>

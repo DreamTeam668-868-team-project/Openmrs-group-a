@@ -15,7 +15,7 @@ ui.includeCss("uicommons", "datatables/dataTables_jui.css")
    var breadcrumbs = [
        { icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm' },
 
-        { label: "View Table List"}
+        { label: "Test"}
     ];
 </script>
 

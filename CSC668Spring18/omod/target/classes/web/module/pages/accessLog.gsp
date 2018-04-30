@@ -15,11 +15,11 @@ ui.includeCss("uicommons", "datatables/dataTables_jui.css")
    var breadcrumbs = [
        { icon: "icon-home", link: '/' + OPENMRS_CONTEXT_PATH + '/index.htm' },
 
-        { label: "View Table List"}
+        { label: "Test"}
     ];
 </script>
 
-${ ui.includeFragment("csc668spring18", "newTableFrag") }
+${ ui.includeFragment("csc668spring18", "accessLogFrag") }
 
 <script type="text/javascript">
             //var OPENMRS_CONTEXT_PATH = 'openmrs';

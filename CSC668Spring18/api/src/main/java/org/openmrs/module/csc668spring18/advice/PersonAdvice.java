@@ -26,19 +26,19 @@ public class PersonAdvice implements AfterReturningAdvice {
 	 */
 	@Override
 	public void afterReturning(Object returnObject, Method method, Object[] args, Object target) {
-//            if((method.getDeclaringClass()).equals(Context.getPersonService().getClass())){
-//                if(returnObject.getClass().equals(Person.class)){
-//                    
-//                }
-//            }
+		//            if((method.getDeclaringClass()).equals(Context.getPersonService().getClass())){
+		//                if(returnObject.getClass().equals(Person.class)){
+		//                    
+		//                }
+		//            }
 	}
 	
 	public void list() {
 		Context.getPersonService().getPeople(null, Boolean.TRUE);
 		Context.getPersonService().getPeople(null, Boolean.TRUE, Boolean.TRUE);
-		Context.getPersonService().getPerson(Integer.BYTES);
+		Context.getPersonService().getPerson(new Integer(0));
 		Context.getPersonService().getPersonByUuid(null);
-		Context.getPersonService().getSimilarPeople(null, Integer.BYTES, null);
+		Context.getPersonService().getSimilarPeople(null, new Integer(0), null);
 		Context.getPersonService().savePerson(null);
 		Context.getPersonService().voidPerson(null, null);
 		Context.getPersonService().unvoidPerson(null);
