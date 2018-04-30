@@ -33,8 +33,7 @@ public class TestAdvice implements AfterReturningAdvice {
 			// id is set by the database, don't need to set it here
 			record.setAccessedOn(new Date());
 			record.setAccessingUser(Context.getAuthenticatedUser());
-			record.setAccessLocation(new Location()); // can't think of how to get this info without an httpsession object atm
-			
+			record.setAccessLocation(Context.getUserContext().getLocation());			
 			record.setRecordId(0);
 			record.setRecordType("TEST");
 			Context.getService(AccessRecordService.class).saveAccessRecord(record);
