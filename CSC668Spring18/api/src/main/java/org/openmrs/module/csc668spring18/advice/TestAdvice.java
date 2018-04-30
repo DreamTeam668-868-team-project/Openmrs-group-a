@@ -10,6 +10,7 @@ import java.util.Date;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.context.Context;
+import org.openmrs.api.context.UserContext;
 import org.openmrs.module.csc668spring18.AccessRecord;
 import org.openmrs.module.csc668spring18.api.AccessRecordService;
 import org.springframework.aop.AfterReturningAdvice;
@@ -19,25 +20,43 @@ import org.springframework.aop.AfterReturningAdvice;
  */
 public class TestAdvice implements AfterReturningAdvice {
 	
-	protected Log log = LogFactory.getLog(getClass());
+	protected Log log = LogFactory.getLog(this.getClass());
 	
 	@Override
 	public void afterReturning(Object returnObject, Method method, Object[] args, Object target) {
-		
 		if (method.getName().startsWith("get")) {
-			log.info("Test Advice for CSC 668 Spring 2018 Module");
-			log.info(target.toString());
-			AccessRecord record = new AccessRecord();
 			
-			//Context.refreshAuthenticatedUser();
-			// id is set by the database, don't need to set it here
-			record.setAccessedOn(new Date());
-			record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-			record.setAccessLocationId(1);
-			record.setRecordId(0);
-			record.setRecordType("TEST");
-			
-			Context.getService(AccessRecordService.class).saveAccessRecord(record);
+			UserContext ctx = Context.getUserContext();
+			System.out.println("Start of Test Advice for CSC 668 Spring 2018 Module\n");
+			try {
+				// Context.openSessionWithCurrentUser();
+				System.out.println(returnObject.toString());
+				System.out.println(method.getName().toString());
+				for (Object obj : args) {
+					System.out.println(obj.toString());
+				}
+				System.out.println(target.toString());
+				
+				System.out.println("\n\n");
+				// Context.setUserContext(ctx);
+				AccessRecord record = new AccessRecord();
+				record.setAccessedOn(new Date());
+				record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+				//				if (ctx.getLocationId() != null) {
+				//					record.setAccessLocationId(ctx.getLocationId());
+				//				} else {
+				record.setAccessLocationId(1);
+				//				}
+				record.setRecordId(0);
+				record.setRecordType("TEST");
+				
+				Context.getService(AccessRecordService.class).saveAccessRecord(record);
+			}
+			finally {
+				// Context.closeSessionWithCurrentUser();
+			}
+			log.debug("End of Test Advice for CSC 668 Spring 2018 Module\n");
+			System.out.println("End of Test Advice for CSC 668 Spring 2018 Module");
 		}
 	}
 }
