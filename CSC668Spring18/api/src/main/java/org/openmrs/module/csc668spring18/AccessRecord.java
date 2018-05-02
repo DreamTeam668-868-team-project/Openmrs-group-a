@@ -32,8 +32,8 @@ public class AccessRecord extends BaseOpenmrsObject implements Serializable {
 	private Integer recordId;
 	
 	private String recordType;
-        
-        private String actionType;
+	
+	private String actionType;
 	
 	@Override
 	public Integer getId() {
