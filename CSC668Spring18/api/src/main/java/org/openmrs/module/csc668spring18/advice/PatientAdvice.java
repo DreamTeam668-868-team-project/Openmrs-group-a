@@ -14,16 +14,15 @@ import org.openmrs.module.csc668spring18.AccessRecord;
 import org.springframework.aop.AfterReturningAdvice;
 
 /**
- * Advice code for the PatientService Class in the OpenMRS system provides reporting on
- * when methods are invoked from the PatientService interface
+ * Advice code for the PatientService Class in the OpenMRS system provides
+ * reporting on when methods are invoked from the PatientService interface
  * Focuses on methods which retrieve, create, or delete patient record(s)
- * 
+ *
  * @author Travis
  */
 public class PatientAdvice implements AfterReturningAdvice {
 
     /**
-     *
      * @param returnObject
      * @param method
      * @param args
@@ -36,8 +35,7 @@ public class PatientAdvice implements AfterReturningAdvice {
         String actionType = "";
         // getters
         // returns type List<Patient>
-        if (method.getName().equals("getAllPatients")
-                || method.getName().equals("getPatients")) {
+        if (method.getName().equals("getAllPatients") || method.getName().equals("getPatients")) {
             actionType = "RETRIEVAL";
 
             List<Patient> returnList = (List<Patient>) returnObject;
@@ -49,7 +47,7 @@ public class PatientAdvice implements AfterReturningAdvice {
                 record.setRecordType(recordType);
                 record.setActionType(actionType);
             }
-            
+
             return;
         }
 
@@ -66,15 +64,13 @@ public class PatientAdvice implements AfterReturningAdvice {
             record.setRecordId(patient.getId());
             record.setRecordType(recordType);
             record.setActionType(actionType);
-            
+
             return;
         }
 
-        
         // todo: potentially use before advice for these
         // deletion methods
-        if (method.getName().equals("voidPatient")
-                || method.getName().equals("purgePatient")) {
+        if (method.getName().equals("voidPatient") || method.getName().equals("purgePatient")) {
             actionType = "DELETE";
             Patient patient = (Patient) args[0];
 
@@ -84,7 +80,7 @@ public class PatientAdvice implements AfterReturningAdvice {
             record.setRecordId(patient.getId());
             record.setRecordType(recordType);
             record.setActionType(actionType);
-            
+
             return;
         }
 
@@ -102,11 +98,11 @@ public class PatientAdvice implements AfterReturningAdvice {
 
             return;
         }
-        
+
         // create or update
         if (method.getName().equals("savePatient")) {
-            actionType = "CREATE or UPDATE";  // no way to tell whether this is a creation or not, at this point
-            
+            actionType = "CREATE or UPDATE"; // no way to tell whether this is a creation or not, at this point
+
             Patient patient = (Patient) args[0];
 
             AccessRecord record = new AccessRecord();
@@ -115,8 +111,6 @@ public class PatientAdvice implements AfterReturningAdvice {
             record.setRecordId(patient.getId());
             record.setRecordType(recordType);
             record.setActionType(actionType);
-            
-            return;
         }
     }
 }
