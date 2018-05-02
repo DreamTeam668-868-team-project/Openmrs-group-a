@@ -20,7 +20,7 @@ import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.UserService;
 import org.openmrs.module.accessmonitor.AccessRecord;
-import org.openmrs.module.accessmonitor.AccessRecordConfig;
+import org.openmrs.module.accessmonitor.AccessMonitorConfig;
 import org.openmrs.module.accessmonitor.api.AccessRecordService;
 import org.openmrs.module.accessmonitor.api.db.AccessRecordDAO;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,56 +50,56 @@ public class AccessRecordServiceImpl extends BaseOpenmrsService implements Acces
         this.userService = userService;
     }
 
-    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
     @Transactional(readOnly = true)
     @Override
     public AccessRecord getAccessRecordByUuid(String uuid) throws APIException {
         return dao.getRecordByUuid(uuid);
     }
 
-    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
     @Transactional(readOnly = true)
     @Override
     public AccessRecord getAccessRecord(Integer id) throws APIException {
         return dao.getRecord(id);
     }
 
-    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
     @Transactional(readOnly = true)
     @Override
     public List<AccessRecord> getAllAccessRecords() throws APIException {
         return dao.getAllRecords();
     }
 
-    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
     @Transactional(readOnly = true)
     @Override
     public List<AccessRecord> getAccessRecordsByDate(Date date) throws APIException {
         return dao.getRecordsByDate(date);
     }
 
-    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
     @Transactional(readOnly = true)
     @Override
     public List<AccessRecord> getAccessRecordsByUser(Integer userId) throws APIException {
         return dao.getRecordsByUser(userId);
     }
 
-    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
     @Transactional(readOnly = true)
     @Override
     public List<AccessRecord> getAccessRecordsByTimeframe(Date start, Date end) throws APIException {
         return dao.getRecordsByTimeframe(start, end);
     }
 
-    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
     @Transactional(readOnly = true)
     @Override
     public List<AccessRecord> getAccessRecordsByUserandDate(Integer userId, Date date) throws APIException {
         return dao.getRecordsByUserandDate(userId, date);
     }
 
-    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
     @Transactional(readOnly = true)
     @Override
     public List<AccessRecord> getAccessRecordsByUserandTimeframe(Integer userId, Date start, Date end) throws APIException {
@@ -116,7 +116,7 @@ public class AccessRecordServiceImpl extends BaseOpenmrsService implements Acces
      * @return List of AccessRecords (might be list of 1)
      * @throws APIException
      */
-    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
     @Transactional(readOnly = true)
     @Override
     public List<AccessRecord> getAccessRecords(Integer userId, Date start, Date end) {
@@ -164,7 +164,7 @@ public class AccessRecordServiceImpl extends BaseOpenmrsService implements Acces
         return list;
     }
 
-    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
     @Transactional
     @Override
     public AccessRecord saveAccessRecord(AccessRecord record) throws APIException {

@@ -21,7 +21,7 @@ import org.openmrs.module.ModuleActivator;
 /**
  * This class contains the logic that is run every time this module is either started or stopped.
  */
-public class AccessRecordActivator extends BaseModuleActivator {
+public class AccessMonitorActivator extends BaseModuleActivator {
 	
 	protected Log log = LogFactory.getLog(getClass());
 	
@@ -29,21 +29,21 @@ public class AccessRecordActivator extends BaseModuleActivator {
 	 * @see ModuleActivator#started()
 	 */
 	public void started() {
-		log.info("CSC 668 Spring 2018 Module started");
+		log.info("Access Monitor Module started");
 	}
 	
 	/**
 	 * @see ModuleActivator#willStop()
 	 */
 	public void willStop() {
-		log.info("CSC 668 Spring 2018 Module");
+		log.info("Access Monitor Module");
 	}
 	
 	/**
 	 * @see ModuleActivator#stopped()
 	 */
 	public void shutdown() {
-		log.info("CSC 668 Spring 2018 Module shutdown");
+		log.info("Access Monitor Module shutdown");
 	}
 	
 }

@@ -19,7 +19,7 @@ import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.accessmonitor.AccessRecord;
-import org.openmrs.module.accessmonitor.AccessRecordConfig;
+import org.openmrs.module.accessmonitor.AccessMonitorConfig;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -44,7 +44,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 * @return
 	 * @throws APIException
 	 */
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
 	public AccessRecord getAccessRecordByUuid(String uuid) throws APIException;
 	
@@ -56,7 +56,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 * @return
 	 * @throws APIException
 	 */
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
 	AccessRecord getAccessRecord(Integer id) throws APIException;
 	
@@ -68,7 +68,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 * @return
 	 * @throws APIException
 	 */
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
 	List<AccessRecord> getAllAccessRecords() throws APIException;
 	
@@ -80,7 +80,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 * @return
 	 * @throws APIException
 	 */
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
 	List<AccessRecord> getAccessRecordsByDate(Date date) throws APIException;
 	
@@ -92,7 +92,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 * @return
 	 * @throws APIException
 	 */
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
 	List<AccessRecord> getAccessRecordsByUser(Integer userId) throws APIException;
 	
@@ -104,7 +104,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 * @return
 	 * @throws APIException
 	 */
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
 	List<AccessRecord> getAccessRecordsByTimeframe(Date start, Date end);
 	
@@ -116,7 +116,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 * @return
 	 * @throws APIException
 	 */
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
 	List<AccessRecord> getAccessRecordsByUserandDate(Integer userId, Date date);
 	
@@ -128,7 +128,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 * @return
 	 * @throws APIException
 	 */
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
 	List<AccessRecord> getAccessRecordsByUserandTimeframe(Integer userId, Date start, Date end);
 	
@@ -140,7 +140,7 @@ public interface AccessRecordService extends OpenmrsService {
 	 * @return
 	 * @throws APIException
 	 */
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
 	List<AccessRecord> getAccessRecords(Integer userId, Date start, Date end);
         

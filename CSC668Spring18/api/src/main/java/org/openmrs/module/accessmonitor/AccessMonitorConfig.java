@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @author travis
  */
 @Component("csc668spring18.AccessRecordConfig")
-public class AccessRecordConfig {
+public class AccessMonitorConfig {
 	
-	public final static String MODULE_PRIVILEGE = "App: AccessRecordConfig";
+	public final static String MODULE_PRIVILEGE = "App: AccessMonitorConfig";
 }
