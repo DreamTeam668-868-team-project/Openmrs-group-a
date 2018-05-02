@@ -120,6 +120,8 @@ public class AccessRecordServiceImpl extends BaseOpenmrsService implements Acces
     @Transactional(readOnly = true)
     @Override
     public List<AccessRecord> getAccessRecords(Integer userId, Date start, Date end) {
+        
+        // code the method parameters as an integer
         int method = 0;
         if (userId != null) {
             method += 4;
@@ -133,6 +135,8 @@ public class AccessRecordServiceImpl extends BaseOpenmrsService implements Acces
 
         Date date = start;
         List<AccessRecord> list = null;
+        
+        // call the appropriate method, according to the provided params
         switch (method) {
             case 1:
                 date = end;

@@ -18,39 +18,34 @@ import org.springframework.aop.AfterReturningAdvice;
  * @author Travis
  */
 public class TestAdvice implements AfterReturningAdvice {
-	
-	protected Log log = LogFactory.getLog(this.getClass());
-	
-	@Override
-	public void afterReturning(Object returnObject, Method method, Object[] args, Object target) {
-		if (method.getName().startsWith("get")) {
-			
-			System.out.println("Start of Test Advice for CSC 668 Spring 2018 Module\n");
-			try {
-				Context.openSessionWithCurrentUser();
-				System.out.println(returnObject.toString());
-				System.out.println(method.getName().toString());
-				for (Object obj : args) {
-					System.out.println(obj.toString());
-				}
-				System.out.println(target.toString());
-				
-				System.out.println("\n\n");
-				// Context.setUserContext(ctx);
-				AccessRecord record = new AccessRecord();
-				record.setAccessedOn(new Date());
-				record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-				record.setRecordId(0);
-				record.setRecordType("TEST");
-				record.setActionType("TEST");
-				
-				Context.getService(AccessRecordService.class).saveAccessRecord(record);
-			}
-			finally {
-				Context.closeSessionWithCurrentUser();
-			}
-			log.debug("End of Test Advice for CSC 668 Spring 2018 Module\n");
-			System.out.println("End of Test Advice for CSC 668 Spring 2018 Module");
-		}
-	}
+
+    protected Log log = LogFactory.getLog(this.getClass());
+
+    @Override
+    public void afterReturning(Object returnObject, Method method, Object[] args, Object target) {
+        if (method.getName().startsWith("get")) {
+
+            System.out.println("Start of Test Advice for CSC 668 Spring 2018 Module\n");
+
+            System.out.println(returnObject.toString());
+            System.out.println(method.getName().toString());
+            for (Object obj : args) {
+                System.out.println(obj.toString());
+            }
+            System.out.println(target.toString());
+
+            System.out.println("\n\n");
+            // Context.setUserContext(ctx);
+            AccessRecord record = new AccessRecord();
+            record.setAccessedOn(new Date());
+            record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+            record.setRecordId(0);
+            record.setRecordType("TEST");
+            record.setActionType("TEST");
+
+            Context.getService(AccessRecordService.class).saveAccessRecord(record);
+        }
+        log.debug("End of Test Advice for CSC 668 Spring 2018 Module\n");
+        System.out.println("End of Test Advice for CSC 668 Spring 2018 Module");
+    }
 }
