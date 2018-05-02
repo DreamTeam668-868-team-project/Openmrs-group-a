@@ -14,9 +14,10 @@ import org.openmrs.module.csc668spring18.AccessRecord;
 import org.springframework.aop.AfterReturningAdvice;
 
 /**
- * Advice code for the PersonService Class in the OpenMRS system provides reporting on
- * when methods are invoked from the PersonService interface
+ * Advice code for the PersonService Class in the OpenMRS system provides
+ * reporting on when methods are invoked from the PersonService interface
  * Focuses on methods which retrieve, create, and delete Person records
+ *
  * @author Travis
  */
 public class PersonAdvice implements AfterReturningAdvice {
@@ -37,16 +38,17 @@ public class PersonAdvice implements AfterReturningAdvice {
         //            }
         String recordType = "PERSON";
         String actionType = "";
-        
+
         // getters
         // returns type List<Person>
         if (method.getName().equals("getPeople")) {
             actionType = "RETRIEVAL";
-
+            Date date = new Date();
             List<Person> returnList = (List<Person>) returnObject;
+
             for (Person person : returnList) {
                 AccessRecord record = new AccessRecord();
-                record.setAccessedOn(new Date());
+                record.setAccessedOn(date);
                 record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
                 record.setRecordId(person.getId());
                 record.setRecordType(recordType);
@@ -68,13 +70,12 @@ public class PersonAdvice implements AfterReturningAdvice {
             record.setRecordId(patient.getId());
             record.setRecordType(recordType);
             record.setActionType(actionType);
-            
+
             return;
         }
 
         // deletion methods
-        if (method.getName().equals("voidPerson")
-                || method.getName().equals("purgePerson")) {
+        if (method.getName().equals("voidPerson") || method.getName().equals("purgePerson")) {
             actionType = "DELETE";
             Person patient = (Person) args[0];
 
@@ -84,7 +85,7 @@ public class PersonAdvice implements AfterReturningAdvice {
             record.setRecordId(patient.getId());
             record.setRecordType(recordType);
             record.setActionType(actionType);
-            
+
             return;
         }
 
@@ -99,7 +100,7 @@ public class PersonAdvice implements AfterReturningAdvice {
             record.setRecordId(patient.getId());
             record.setRecordType(recordType);
             record.setActionType(actionType);
-            
+
             return;
         }
 
@@ -114,9 +115,6 @@ public class PersonAdvice implements AfterReturningAdvice {
             record.setRecordId(patient.getId());
             record.setRecordType(recordType);
             record.setActionType(actionType);
-            
-            return;
         }
-
     }
 }
