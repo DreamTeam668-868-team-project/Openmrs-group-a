@@ -7,60 +7,110 @@ package org.openmrs.module.csc668spring18.advice;
 
 import java.lang.reflect.Method;
 import java.util.Date;
-import org.openmrs.Concept;
+import java.util.List;
 import org.openmrs.Patient;
-import org.openmrs.PatientIdentifierType;
-import org.openmrs.activelist.Allergy;
-import org.openmrs.activelist.Problem;
 import org.openmrs.api.context.Context;
+import org.openmrs.module.csc668spring18.AccessRecord;
 import org.springframework.aop.AfterReturningAdvice;
 
 /**
- * Advice code for the Patient Class in the OpenMRS system provides reporting on when methods are
- * invoked from the PatientService interface
- * 
+ * Advice code for the PatientService Class in the OpenMRS system provides
+ * reporting on when methods are invoked from the PatientService interface
+ * Focuses on methods which retrieve, create, or delete patient record(s)
+ *
  * @author Travis
  */
 public class PatientAdvice implements AfterReturningAdvice {
-	
-	@Override
-	public void afterReturning(Object returnObject, Method method, Object[] args, Object target) {
-		
-		// Patient retrievals
-		// returns type List<Patient>
-		Context.getPatientService().getAllPatients();
-		Context.getPatientService().getDuplicatePatientsByAttributes(null);
-		Context.getPatientService().getPatients("");
-		
-		// returns type Patient
-		Context.getPatientService().getPatient(new Integer(0));
-		Context.getPatientService().getPatientByExample(new Patient());
-		Context.getPatientService().getPatientByUuid(new String());
-		Context.getPatientService().getPatientOrPromotePerson(new Integer(0));
-		
-		// alter, create, remove patient records
-		Context.getPatientService().voidPatient(new Patient(), new String()); // also returns patient
-		Context.getPatientService().unvoidPatient(new Patient());
-		Context.getPatientService().purgePatient(new Patient());
-		Context.getPatientService().processDeath(new Patient(), new Date(), new Concept(), new String());
-		Context.getPatientService().savePatient(new Patient()); // returns patient
-		
-		Context.getPatientService().removeAllergy(new Allergy(), new String());
-		Context.getPatientService().removeProblem(new Problem(), new String());
-		Context.getPatientService().saveAllergy(new Allergy());
-		Context.getPatientService().saveProblem(new Problem());
-		Context.getPatientService().saveCauseOfDeathObs(new Patient(), new Date(), new Concept(), new String());
-		
-		// deprecated methods --- maybe intercept these as well
-		Context.getPatientService().createPatient(new Patient());
-		Context.getPatientService().deletePatient(new Patient());
-		Context.getPatientService().findPatients(new String(), true);
-		Context.getPatientService().findDuplicatePatients(null /* Type is Set<String> */);
-		Context.getPatientService().getPatientsByIdentifier(new String(), true);
-		Context.getPatientService().getPatientsByName(new String());
-		Context.getPatientService().identifierInUse(new String(), new PatientIdentifierType(), new Patient());
-		Context.getPatientService().updatePatient(new Patient());
-		
-	}
-	
+
+    /**
+     * @param returnObject
+     * @param method
+     * @param args
+     * @param target
+     */
+    @Override
+    public void afterReturning(Object returnObject, Method method, Object[] args, Object target) {
+
+        String recordType = "PATIENT";
+        String actionType = "";
+        // getters
+        // returns type List<Patient>
+        if (method.getName().equals("getAllPatients") || method.getName().equals("getPatients")) {
+            actionType = "RETRIEVAL";
+
+            List<Patient> returnList = (List<Patient>) returnObject;
+            for (Patient patient : returnList) {
+                AccessRecord record = new AccessRecord();
+                record.setAccessedOn(new Date());
+                record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+                record.setRecordId(patient.getId());
+                record.setRecordType(recordType);
+                record.setActionType(actionType);
+            }
+
+            return;
+        }
+
+        // getters
+        // returns type Patient
+        if (method.getName().startsWith("getPatient")) {
+            actionType = "RETRIEVAL";
+
+            Patient patient = (Patient) returnObject;
+
+            AccessRecord record = new AccessRecord();
+            record.setAccessedOn(new Date());
+            record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+            record.setRecordId(patient.getId());
+            record.setRecordType(recordType);
+            record.setActionType(actionType);
+
+            return;
+        }
+
+        // todo: potentially use before advice for these
+        // deletion methods
+        if (method.getName().equals("voidPatient") || method.getName().equals("purgePatient")) {
+            actionType = "DELETE";
+            Patient patient = (Patient) args[0];
+
+            AccessRecord record = new AccessRecord();
+            record.setAccessedOn(new Date());
+            record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+            record.setRecordId(patient.getId());
+            record.setRecordType(recordType);
+            record.setActionType(actionType);
+
+            return;
+        }
+
+        if (method.getName().equals("unvoidPatient")) {
+            actionType = "UNVOID";
+
+            Patient patient = (Patient) args[0];
+
+            AccessRecord record = new AccessRecord();
+            record.setAccessedOn(new Date());
+            record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+            record.setRecordId(patient.getId());
+            record.setRecordType(recordType);
+            record.setActionType(actionType);
+
+            return;
+        }
+
+        // create or update
+        if (method.getName().equals("savePatient")) {
+            actionType = "CREATE or UPDATE"; // no way to tell whether this is a creation or not, at this point
+
+            Patient patient = (Patient) args[0];
+
+            AccessRecord record = new AccessRecord();
+            record.setAccessedOn(new Date());
+            record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+            record.setRecordId(patient.getId());
+            record.setRecordType(recordType);
+            record.setActionType(actionType);
+        }
+    }
 }

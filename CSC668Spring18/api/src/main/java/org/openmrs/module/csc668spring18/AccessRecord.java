@@ -27,13 +27,13 @@ public class AccessRecord extends BaseOpenmrsObject implements Serializable {
 	
 	private Integer accessingUserId;
 	
-	private Integer accessLocationId;
-	
 	private Date accessedOn;
 	
 	private Integer recordId;
 	
 	private String recordType;
+	
+	private String actionType;
 	
 	@Override
 	public Integer getId() {
@@ -64,12 +64,12 @@ public class AccessRecord extends BaseOpenmrsObject implements Serializable {
 		this.accessingUserId = userId;
 	}
 	
-	public Integer getAccessLocationId() {
-		return this.accessLocationId;
+	public String getActionType() {
+		return this.actionType;
 	}
 	
-	public void setAccessLocationId(java.lang.Integer locationId) {
-		this.accessLocationId = locationId;
+	public void setActionType(java.lang.String actionType) {
+		this.actionType = actionType;
 	}
 	
 	public void setAccessedOn(Date date) {
