@@ -42,17 +42,22 @@ public class PersonAdvice implements AfterReturningAdvice {
         // getters
         // returns type List<Person>
         if (method.getName().equals("getPeople")) {
-            actionType = "RETRIEVAL";
-            Date date = new Date();
-            List<Person> returnList = (List<Person>) returnObject;
+            try {
+                Context.openSessionWithCurrentUser();
+                actionType = "RETRIEVAL";
+                Date date = new Date();
+                List<Person> returnList = (List<Person>) returnObject;
 
-            for (Person person : returnList) {
-                AccessRecord record = new AccessRecord();
-                record.setAccessedOn(date);
-                record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-                record.setRecordId(person.getId());
-                record.setRecordType(recordType);
-                record.setActionType(actionType);
+                for (Person person : returnList) {
+                    AccessRecord record = new AccessRecord();
+                    record.setAccessedOn(date);
+                    record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+                    record.setRecordId(person.getId());
+                    record.setRecordType(recordType);
+                    record.setActionType(actionType);
+                }
+            } finally {
+                Context.closeSessionWithCurrentUser();
             }
             return;
         }
@@ -60,61 +65,79 @@ public class PersonAdvice implements AfterReturningAdvice {
         // getters
         // returns type Person
         if (method.getName().startsWith("getPerson")) {
-            actionType = "RETRIEVAL";
+            try {
+                Context.openSessionWithCurrentUser();
 
-            Person patient = (Person) returnObject;
+                actionType = "RETRIEVAL";
 
-            AccessRecord record = new AccessRecord();
-            record.setAccessedOn(new Date());
-            record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-            record.setRecordId(patient.getId());
-            record.setRecordType(recordType);
-            record.setActionType(actionType);
+                Person patient = (Person) returnObject;
 
+                AccessRecord record = new AccessRecord();
+                record.setAccessedOn(new Date());
+                record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+                record.setRecordId(patient.getId());
+                record.setRecordType(recordType);
+                record.setActionType(actionType);
+            } finally {
+                Context.closeSessionWithCurrentUser();
+            }
             return;
         }
 
         // deletion methods
         if (method.getName().equals("voidPerson") || method.getName().equals("purgePerson")) {
-            actionType = "DELETE";
-            Person patient = (Person) args[0];
+            try {
+                Context.openSessionWithCurrentUser();
+                actionType = "DELETE";
+                Person patient = (Person) args[0];
 
-            AccessRecord record = new AccessRecord();
-            record.setAccessedOn(new Date());
-            record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-            record.setRecordId(patient.getId());
-            record.setRecordType(recordType);
-            record.setActionType(actionType);
-
+                AccessRecord record = new AccessRecord();
+                record.setAccessedOn(new Date());
+                record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+                record.setRecordId(patient.getId());
+                record.setRecordType(recordType);
+                record.setActionType(actionType);
+            } finally {
+                Context.closeSessionWithCurrentUser();
+            }
             return;
         }
 
         if (method.getName().equals("unvoidPerson")) {
-            actionType = "UNVOID";
+            try {
+                Context.openSessionWithCurrentUser();
+                actionType = "UNVOID";
 
-            Person patient = (Person) args[0];
+                Person patient = (Person) args[0];
 
-            AccessRecord record = new AccessRecord();
-            record.setAccessedOn(new Date());
-            record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-            record.setRecordId(patient.getId());
-            record.setRecordType(recordType);
-            record.setActionType(actionType);
-
+                AccessRecord record = new AccessRecord();
+                record.setAccessedOn(new Date());
+                record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+                record.setRecordId(patient.getId());
+                record.setRecordType(recordType);
+                record.setActionType(actionType);
+            } finally {
+                Context.closeSessionWithCurrentUser();
+            }
             return;
         }
 
         if (method.getName().equals("savePerson")) {
-            actionType = "CREATE";
+            try {
+                Context.openSessionWithCurrentUser();
+                actionType = "CREATE";
 
-            Person patient = (Person) args[0];
+                Person patient = (Person) args[0];
 
-            AccessRecord record = new AccessRecord();
-            record.setAccessedOn(new Date());
-            record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-            record.setRecordId(patient.getId());
-            record.setRecordType(recordType);
-            record.setActionType(actionType);
+                AccessRecord record = new AccessRecord();
+                record.setAccessedOn(new Date());
+                record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+                record.setRecordId(patient.getId());
+                record.setRecordType(recordType);
+                record.setActionType(actionType);
+            } finally {
+                Context.closeSessionWithCurrentUser();
+            }
         }
     }
 }

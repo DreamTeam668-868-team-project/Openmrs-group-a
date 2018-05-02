@@ -36,81 +36,107 @@ public class PatientAdvice implements AfterReturningAdvice {
         // getters
         // returns type List<Patient>
         if (method.getName().equals("getAllPatients") || method.getName().equals("getPatients")) {
-            actionType = "RETRIEVAL";
+            try {
+                Context.openSessionWithCurrentUser();
 
-            List<Patient> returnList = (List<Patient>) returnObject;
-            for (Patient patient : returnList) {
-                AccessRecord record = new AccessRecord();
-                record.setAccessedOn(new Date());
-                record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-                record.setRecordId(patient.getId());
-                record.setRecordType(recordType);
-                record.setActionType(actionType);
+                actionType = "RETRIEVAL";
+
+                List<Patient> returnList = (List<Patient>) returnObject;
+                for (Patient patient : returnList) {
+                    AccessRecord record = new AccessRecord();
+                    record.setAccessedOn(new Date());
+                    record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+                    record.setRecordId(patient.getId());
+                    record.setRecordType(recordType);
+                    record.setActionType(actionType);
+                }
+            } finally {
+                Context.closeSessionWithCurrentUser();
             }
-
             return;
         }
 
         // getters
         // returns type Patient
         if (method.getName().startsWith("getPatient")) {
-            actionType = "RETRIEVAL";
+            try {
+                Context.openSessionWithCurrentUser();
 
-            Patient patient = (Patient) returnObject;
+                actionType = "RETRIEVAL";
 
-            AccessRecord record = new AccessRecord();
-            record.setAccessedOn(new Date());
-            record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-            record.setRecordId(patient.getId());
-            record.setRecordType(recordType);
-            record.setActionType(actionType);
+                Patient patient = (Patient) returnObject;
 
+                AccessRecord record = new AccessRecord();
+                record.setAccessedOn(new Date());
+                record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+                record.setRecordId(patient.getId());
+                record.setRecordType(recordType);
+                record.setActionType(actionType);
+            } finally {
+                Context.closeSessionWithCurrentUser();
+            }
             return;
         }
 
         // todo: potentially use before advice for these
         // deletion methods
         if (method.getName().equals("voidPatient") || method.getName().equals("purgePatient")) {
-            actionType = "DELETE";
-            Patient patient = (Patient) args[0];
+            try {
+                Context.openSessionWithCurrentUser();
 
-            AccessRecord record = new AccessRecord();
-            record.setAccessedOn(new Date());
-            record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-            record.setRecordId(patient.getId());
-            record.setRecordType(recordType);
-            record.setActionType(actionType);
+                actionType = "DELETE";
+                Patient patient = (Patient) args[0];
 
+                AccessRecord record = new AccessRecord();
+                record.setAccessedOn(new Date());
+                record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+                record.setRecordId(patient.getId());
+                record.setRecordType(recordType);
+                record.setActionType(actionType);
+            } finally {
+                Context.closeSessionWithCurrentUser();
+            }
             return;
         }
 
         if (method.getName().equals("unvoidPatient")) {
-            actionType = "UNVOID";
+            try {
+                Context.openSessionWithCurrentUser();
 
-            Patient patient = (Patient) args[0];
+                actionType = "UNVOID";
 
-            AccessRecord record = new AccessRecord();
-            record.setAccessedOn(new Date());
-            record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-            record.setRecordId(patient.getId());
-            record.setRecordType(recordType);
-            record.setActionType(actionType);
+                Patient patient = (Patient) args[0];
 
+                AccessRecord record = new AccessRecord();
+                record.setAccessedOn(new Date());
+                record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+                record.setRecordId(patient.getId());
+                record.setRecordType(recordType);
+                record.setActionType(actionType);
+            } finally {
+                Context.closeSessionWithCurrentUser();
+            }
             return;
         }
 
         // create or update
         if (method.getName().equals("savePatient")) {
-            actionType = "CREATE or UPDATE"; // no way to tell whether this is a creation or not, at this point
+            try {
+                Context.openSessionWithCurrentUser();
 
-            Patient patient = (Patient) args[0];
+                actionType = "CREATE or UPDATE"; // no way to tell whether this is a creation or not, at this point
 
-            AccessRecord record = new AccessRecord();
-            record.setAccessedOn(new Date());
-            record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-            record.setRecordId(patient.getId());
-            record.setRecordType(recordType);
-            record.setActionType(actionType);
+                Patient patient = (Patient) args[0];
+
+                AccessRecord record = new AccessRecord();
+                record.setAccessedOn(new Date());
+                record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+                record.setRecordId(patient.getId());
+                record.setRecordType(recordType);
+                record.setActionType(actionType);
+            } finally {
+                Context.closeSessionWithCurrentUser();
+            }
         }
     }
 }
