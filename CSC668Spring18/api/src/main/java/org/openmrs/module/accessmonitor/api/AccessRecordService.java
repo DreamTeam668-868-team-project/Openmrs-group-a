@@ -132,6 +132,18 @@ public interface AccessRecordService extends OpenmrsService {
 	@Transactional(readOnly = true)
 	List<AccessRecord> getAccessRecordsByUserandTimeframe(Integer userId, Date start, Date end);
 	
+        /**
+	 * Returns a List of records for the given user and timeframe. It can be called by any
+	 * authenticated user. It is fetched in read only transaction.
+	 * 
+	 * @param id
+	 * @return
+	 * @throws APIException
+	 */
+	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+	@Transactional(readOnly = true)
+	List<AccessRecord> getAccessRecords(Integer userId, Date start, Date end);
+        
 	/**
 	 * Saves an record. Sets the owner to superuser, if it is not set. It can be called by users
 	 * with this module's privilege. It is executed in a transaction.

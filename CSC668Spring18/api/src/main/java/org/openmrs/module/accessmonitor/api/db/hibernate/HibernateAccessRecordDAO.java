@@ -26,79 +26,81 @@ import org.openmrs.module.accessmonitor.api.db.AccessRecordDAO;
  * It is a default implementation of {@link AccessRecordDAO}.
  */
 public class HibernateAccessRecordDAO implements AccessRecordDAO {
-	
-	protected final Log log = LogFactory.getLog(this.getClass());
-	
-	private SessionFactory sessionFactory;
-	
-	public Session getSession() {
-		return sessionFactory.getCurrentSession();
-	}
-	
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
-	
-	@Override
-	public AccessRecord getRecordByUuid(String uuid) {
-		return (AccessRecord) getSession().createCriteria(AccessRecord.class).add(Restrictions.eq("uuid", uuid))
-		        .uniqueResult();
-	}
-	
-	@Override
-	public AccessRecord getRecord(Integer id) {
-		return (AccessRecord) getSession().createCriteria(AccessRecord.class).add(Restrictions.eq("record_id", id))
-		        .uniqueResult();
-	}
-	
-	@Override
-	public List<AccessRecord> getAllRecords() {
-		return (List<AccessRecord>) getSession().createCriteria(AccessRecord.class).list();
-	}
-	
-	@Override
-	public List<AccessRecord> getRecordsByDate(Date date) {
-		Criteria criteria = getSession().createCriteria(AccessRecord.class);
-		criteria.add(Restrictions.eq("access_date", date));
-		return (List<AccessRecord>) criteria.list();
-	}
-	
-	@Override
-	public List<AccessRecord> getRecordsByUser(Integer userId) {
-		Criteria criteria = getSession().createCriteria(AccessRecord.class);
-		criteria.add(Restrictions.eq("accessing_user", userId));
-		return (List<AccessRecord>) criteria.list();
-	}
-	
-	@Override
-	public List<AccessRecord> getRecordsByTimeframe(Date start, Date end) {
-		Criteria criteria = getSession().createCriteria(AccessRecord.class);
-		criteria.add(Restrictions.ge("access_date", start));
-		criteria.add(Restrictions.le("access_date", end));
-		return (List<AccessRecord>) criteria.list();
-	}
-	
-	@Override
-	public List<AccessRecord> getRecordsByUserandDate(Integer userId, Date date) {
-		Criteria criteria = getSession().createCriteria(AccessRecord.class);
-		criteria.add(Restrictions.eq("accessing_user", userId));
-		criteria.add(Restrictions.eq("access_date", date));
-		return (List<AccessRecord>) criteria.list();
-	}
-	
-	@Override
-	public List<AccessRecord> getRecordsByUserandTimeframe(Integer userId, Date start, Date end) {
-		Criteria criteria = getSession().createCriteria(AccessRecord.class);
-		criteria.add(Restrictions.eq("accessing_user", userId));
-		criteria.add(Restrictions.ge("access_date", start));
-		criteria.add(Restrictions.le("access_date", end));
-		return (List<AccessRecord>) criteria.list();
-	}
-	
-	@Override
-	public AccessRecord saveAccessRecord(AccessRecord record) {
-		getSession().saveOrUpdate(record);
-		return record;
-	}
-	
+
+    protected final Log log = LogFactory.getLog(this.getClass());
+
+    private SessionFactory sessionFactory;
+
+    public Session getSession() {
+        return sessionFactory.getCurrentSession();
+    }
+
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
+
+    @Override
+    public AccessRecord getRecordByUuid(String uuid) {
+        return (AccessRecord) getSession().createCriteria(AccessRecord.class).add(Restrictions.eq("uuid", uuid))
+                .uniqueResult();
+    }
+
+    @Override
+    public AccessRecord getRecord(Integer id) {
+        return (AccessRecord) getSession().createCriteria(AccessRecord.class).add(Restrictions.eq("record_id", id))
+                .uniqueResult();
+    }
+
+    @Override
+    public List<AccessRecord> getAllRecords() {
+        return (List<AccessRecord>) getSession().createCriteria(AccessRecord.class).list();
+    }
+
+    @Override
+    public List<AccessRecord> getRecordsByDate(Date date) {
+        Criteria criteria = getSession().createCriteria(AccessRecord.class);
+        criteria.add(Restrictions.eq("access_date", date));
+        return (List<AccessRecord>) criteria.list();
+    }
+
+    @Override
+    public List<AccessRecord> getRecordsByUser(Integer userId) {
+        Criteria criteria = getSession().createCriteria(AccessRecord.class);
+        criteria.add(Restrictions.eq("accessing_user", userId));
+        return (List<AccessRecord>) criteria.list();
+    }
+
+    @Override
+    public List<AccessRecord> getRecordsByTimeframe(Date start, Date end) {
+        Criteria criteria = getSession().createCriteria(AccessRecord.class);
+        criteria.add(Restrictions.ge("access_date", start));
+        criteria.add(Restrictions.le("access_date", end));
+        return (List<AccessRecord>) criteria.list();
+    }
+
+    @Override
+    public List<AccessRecord> getRecordsByUserandDate(Integer userId, Date date) {
+        Criteria criteria = getSession().createCriteria(AccessRecord.class);
+        criteria.add(Restrictions.eq("accessing_user", userId));
+        criteria.add(Restrictions.eq("access_date", date));
+        return (List<AccessRecord>) criteria.list();
+    }
+
+    @Override
+    public List<AccessRecord> getRecordsByUserandTimeframe(Integer userId, Date start, Date end) {
+        Criteria criteria = getSession().createCriteria(AccessRecord.class);
+        criteria.add(Restrictions.eq("accessing_user", userId));
+        criteria.add(Restrictions.ge("access_date", start));
+        criteria.add(Restrictions.le("access_date", end));
+        return (List<AccessRecord>) criteria.list();
+    }
+
+    
+    @Override
+    public AccessRecord saveAccessRecord(AccessRecord record
+    ) {
+        getSession().saveOrUpdate(record);
+        return record;
+    }
+
 }

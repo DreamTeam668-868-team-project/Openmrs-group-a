@@ -29,91 +29,145 @@ import org.springframework.transaction.annotation.Transactional;
  * It is a default implementation of {@link AccessRecordService}.
  */
 public class AccessRecordServiceImpl extends BaseOpenmrsService implements AccessRecordService {
-	
-	protected final Log log = LogFactory.getLog(this.getClass());
-	
-	private AccessRecordDAO dao;
-	
-	UserService userService;
-	
-	/**
-	 * Injected in moduleApplicationContext.xml
-	 */
-	public void setDao(AccessRecordDAO dao) {
-		this.dao = dao;
-	}
-	
-	/**
-	 * Injected in moduleApplicationContext.xml
-	 */
-	public void setUserService(UserService userService) {
-		this.userService = userService;
-	}
-	
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
-	@Transactional(readOnly = true)
-	@Override
-	public AccessRecord getAccessRecordByUuid(String uuid) throws APIException {
-		return dao.getRecordByUuid(uuid);
-	}
-	
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
-	@Transactional(readOnly = true)
-	@Override
-	public AccessRecord getAccessRecord(Integer id) throws APIException {
-		return dao.getRecord(id);
-	}
-	
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
-	@Transactional(readOnly = true)
-	@Override
-	public List<AccessRecord> getAllAccessRecords() throws APIException {
-		return dao.getAllRecords();
-	}
-	
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
-	@Transactional(readOnly = true)
-	@Override
-	public List<AccessRecord> getAccessRecordsByDate(Date date) throws APIException {
-		return dao.getRecordsByDate(date);
-	}
-	
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
-	@Transactional(readOnly = true)
-	@Override
-	public List<AccessRecord> getAccessRecordsByUser(Integer userId) throws APIException {
-		return dao.getRecordsByUser(userId);
-	}
-	
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
-	@Transactional(readOnly = true)
-	@Override
-	public List<AccessRecord> getAccessRecordsByTimeframe(Date start, Date end) throws APIException {
-		return dao.getRecordsByTimeframe(start, end);
-	}
-	
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
-	@Transactional(readOnly = true)
-	@Override
-	public List<AccessRecord> getAccessRecordsByUserandDate(Integer userId, Date date) throws APIException {
-		return dao.getRecordsByUserandDate(userId, date);
-	}
-	
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
-	@Transactional(readOnly = true)
-	@Override
-	public List<AccessRecord> getAccessRecordsByUserandTimeframe(Integer userId, Date start, Date end) throws APIException {
-		return dao.getRecordsByUserandTimeframe(userId, start, end);
-	}
-	
-	@Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
-	@Transactional
-	@Override
-	public AccessRecord saveAccessRecord(AccessRecord record) throws APIException {
-		//		if (record.getOwner() == null) {
-		//			record.setOwner(userService.getUser(1));
-		//		}
-		
-		return dao.saveAccessRecord(record);
-	}
+
+    protected final Log log = LogFactory.getLog(this.getClass());
+
+    private AccessRecordDAO dao;
+
+    UserService userService;
+
+    /**
+     * Injected in moduleApplicationContext.xml
+     */
+    public void setDao(AccessRecordDAO dao) {
+        this.dao = dao;
+    }
+
+    /**
+     * Injected in moduleApplicationContext.xml
+     */
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Transactional(readOnly = true)
+    @Override
+    public AccessRecord getAccessRecordByUuid(String uuid) throws APIException {
+        return dao.getRecordByUuid(uuid);
+    }
+
+    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Transactional(readOnly = true)
+    @Override
+    public AccessRecord getAccessRecord(Integer id) throws APIException {
+        return dao.getRecord(id);
+    }
+
+    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Transactional(readOnly = true)
+    @Override
+    public List<AccessRecord> getAllAccessRecords() throws APIException {
+        return dao.getAllRecords();
+    }
+
+    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Transactional(readOnly = true)
+    @Override
+    public List<AccessRecord> getAccessRecordsByDate(Date date) throws APIException {
+        return dao.getRecordsByDate(date);
+    }
+
+    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Transactional(readOnly = true)
+    @Override
+    public List<AccessRecord> getAccessRecordsByUser(Integer userId) throws APIException {
+        return dao.getRecordsByUser(userId);
+    }
+
+    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Transactional(readOnly = true)
+    @Override
+    public List<AccessRecord> getAccessRecordsByTimeframe(Date start, Date end) throws APIException {
+        return dao.getRecordsByTimeframe(start, end);
+    }
+
+    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Transactional(readOnly = true)
+    @Override
+    public List<AccessRecord> getAccessRecordsByUserandDate(Integer userId, Date date) throws APIException {
+        return dao.getRecordsByUserandDate(userId, date);
+    }
+
+    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Transactional(readOnly = true)
+    @Override
+    public List<AccessRecord> getAccessRecordsByUserandTimeframe(Integer userId, Date start, Date end) throws APIException {
+        return dao.getRecordsByUserandTimeframe(userId, start, end);
+    }
+
+    /**
+     * Returns a List of records for the given user and timeframe. It can be
+     * called by any authenticated user. It is fetched in read only transaction.
+     *
+     * @param userId Integer userId or null
+     * @param start start date for time frame, single date, or null
+     * @param end end date for time frame, single date, or null
+     * @return List of AccessRecords (might be list of 1)
+     * @throws APIException
+     */
+    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Transactional(readOnly = true)
+    @Override
+    public List<AccessRecord> getAccessRecords(Integer userId, Date start, Date end) {
+        int method = 0;
+        if (userId != null) {
+            method += 4;
+        }
+        if (start != null) {
+            method += 2;
+        }
+        if (end != null) {
+            method += 1;
+        }
+
+        Date date = start;
+        List<AccessRecord> list = null;
+        switch (method) {
+            case 1:
+                date = end;
+            case 2: // getAccessRecordsByDate()
+                list = dao.getRecordsByDate(date);
+                break;
+            case 3: // getAccessRecordsByTimeframe();
+                list = dao.getRecordsByTimeframe(start, end);
+                break;
+            case 4: // getAccessRecordsByUser()
+                list = dao.getRecordsByUser(userId);
+                break;
+            case 5: // getAccessRecordsByUserAndDate()
+                date = end;
+            case 6:
+                list = dao.getRecordsByUserandDate(userId, date);
+                break;
+            case 7: // getAccessRecrodsByUserAndTimeframe()
+                list = dao.getRecordsByUserandTimeframe(userId, start, end);
+                break;
+            default: // getAllAccessRecords()
+                list = dao.getAllRecords();
+        }
+
+        return list;
+    }
+
+    @Authorized(AccessRecordConfig.MODULE_PRIVILEGE)
+    @Transactional
+    @Override
+    public AccessRecord saveAccessRecord(AccessRecord record) throws APIException {
+        //		if (record.getOwner() == null) {
+        //			record.setOwner(userService.getUser(1));
+        //		}
+
+        return dao.saveAccessRecord(record);
+    }
 }
