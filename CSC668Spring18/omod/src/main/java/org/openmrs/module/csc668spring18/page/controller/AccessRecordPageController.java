@@ -11,18 +11,13 @@
  */
 package org.openmrs.module.csc668spring18.page.controller;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.openmrs.api.UserService;
-import org.openmrs.api.context.Context;
-import org.openmrs.module.csc668spring18.AccessRecord;
-import org.openmrs.module.csc668spring18.api.AccessRecordService;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.page.PageModel;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * The main controller.
@@ -37,17 +32,17 @@ public class AccessRecordPageController {
 		
 	}
 	
-	public String post(HttpSession session, HttpServletRequest request,
-	        @RequestParam(value = "info", required = false) String info) {
-		
-		String url = (request.getRequestURL().toString()).trim();
-		System.out.println("AccessRecordPageController - POST: BEFORE FIX\n" + url + "\n");
-		url = url.substring(url.indexOf("//") + 2);
-		url = url.substring(url.indexOf("/") + 1);
-		
-		System.out.println("AccessRecordPageController - POST: \n" + url + "\n");
-		AccessRecord n = new AccessRecord();
-		Context.getService(AccessRecordService.class).saveRecord(n);
-		return "redirect:" + url;
-	}
+	//	public String post(HttpSession session, HttpServletRequest request,
+	//	        @RequestParam(value = "info", required = false) String info) {
+	//		
+	//		String url = (request.getRequestURL().toString()).trim();
+	//		System.out.println("AccessRecordPageController - POST: BEFORE FIX\n" + url + "\n");
+	//		url = url.substring(url.indexOf("//") + 2);
+	//		url = url.substring(url.indexOf("/") + 1);
+	//		
+	//		System.out.println("AccessRecordPageController - POST: \n" + url + "\n");
+	//		AccessRecord n = new AccessRecord();
+	//		Context.getService(AccessRecordService.class).saveAccessRecord(n);
+	//		return "redirect:" + url;
+	//	}
 }

@@ -10,12 +10,12 @@ import javax.servlet.http.HttpSession;
 import org.openmrs.User;
 import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.csc668spring18.AccessRecord;
+import org.openmrs.module.accessmonitor.AccessRecord;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
-import org.openmrs.module.csc668spring18.api.AccessRecordService;
+import org.openmrs.module.accessmonitor.api.AccessRecordService;
 
 /**
  * @author levine
@@ -23,7 +23,7 @@ import org.openmrs.module.csc668spring18.api.AccessRecordService;
 public class AccessRecordFragFragmentController {
 	
 	public void controller(FragmentModel model, HttpSession session, @SpringBean("userService") UserService service) {
-		List<AccessRecord> tables = Context.getService(AccessRecordService.class).getAllRecords();
+		List<AccessRecord> tables = Context.getService(AccessRecordService.class).getAllAccessRecords();
 		
 		model.addAttribute("tableitems", tables);
 		model.addAttribute("user", Context.getAuthenticatedUser());

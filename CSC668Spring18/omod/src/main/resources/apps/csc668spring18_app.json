@@ -1,6 +1,6 @@
 [
     {
-        "id": "${project.parent.artifactId}.app",
+        "id": "AccessMonitor.app",
         "description": "Text description of my app, not shown to regular user",
         "extensionPoints": [
             {
@@ -10,13 +10,13 @@
         ],
         "extensions": [
             {
-                "id": "${project.parent.artifactId}.appId2",
+                "id": "AccessMonitor.appId3",
                 "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
                 "type": "link",
-                "label": "View All Table Entries",
-                "url": "basictestdbwithtable/newTable.page",
+                "label": "Test",
+                "url": "accessmonitor/accessLog.page",
                 "icon": "icon-signin",
-                "requiredPrivilege": "App: newTables"
+                "requiredPrivilege": "App: Access Monitor"
             }
         ]
     }

@@ -17,7 +17,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
-import org.openmrs.module.csc668spring18.api.AccessRecordService;
+import org.openmrs.module.accessmonitor.api.AccessRecordService;
 
 /**
  * Tests {@link $ NewTableService} .
