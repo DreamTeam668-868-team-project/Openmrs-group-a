@@ -9,7 +9,7 @@
  *
  * Copyright (C) OpenMRS, LLC. All Rights Reserved.
  */
-package org.openmrs.module.csc668spring18.page.controller;
+package org.openmrs.module.accessmonitor.page.controller;
 
 import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;

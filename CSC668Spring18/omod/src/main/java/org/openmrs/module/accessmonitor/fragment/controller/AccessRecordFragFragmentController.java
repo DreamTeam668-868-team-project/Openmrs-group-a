@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package org.openmrs.module.csc668spring18.fragment.controller;
+package org.openmrs.module.accessmonitor.fragment.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpSession;

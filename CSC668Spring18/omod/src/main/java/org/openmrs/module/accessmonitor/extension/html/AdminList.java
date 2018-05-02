@@ -11,7 +11,7 @@
  *
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
-package org.openmrs.module.csc668spring18.extension.html;
+package org.openmrs.module.accessmonitor.extension.html;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
