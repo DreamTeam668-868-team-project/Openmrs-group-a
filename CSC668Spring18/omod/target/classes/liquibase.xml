@@ -27,15 +27,13 @@
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="user_id" type="int" />
-            <column name="location_id" type="int" />
             <column name="record_id" type="int" />
-            <column name="record_type" type="varchar(255)" />
+            <column name="record_type" type="varchar(20)" />
             <column name="accessed_on" type="datetime" />
+            <column name="action_type" type="varchar(20)" />
         </createTable>
         
         <addForeignKeyConstraint constraintName="user" baseTableName="access_log" baseColumnNames="user_id"  referencedTableName="users"
                                  referencedColumnNames="user_id" />
-        <addForeignKeyConstraint constraintName="location" baseTableName="access_log" baseColumnNames="location_id"  referencedTableName="location"
-                                 referencedColumnNames="location_id" />
     </changeSet>
 </databaseChangeLog>

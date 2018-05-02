@@ -9,29 +9,31 @@
     </parent>
 
     <groupId>org.openmrs.module</groupId>
-    <artifactId>csc668spring18</artifactId>
+    <artifactId>accessmonitor</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
-    <name>CSC 668 Spring 2018 Module</name>
-    <description>API project for CSC668Spring18</description>
-    <!--<url>https://wiki.openmrs.org/display/docs/SDK+Example+With+DB+And+Table+Module+Module</url>-->
+    <name>Access Monitor Module</name>
+    <description>Module for monitoring access to priveledged information</description>
 	
     <developers>
-        <!--		<developer>
-                <name>levine</name>
-        </developer>-->
+        <developer>
+                <name>Guanming</name>
+        </developer>
+        <developer>
+                <name>Jiawen</name>
+        </developer>
+        <developer>
+                <name>Prakash</name>
+        </developer>
+        <developer>
+                <name>Travis</name>
+        </developer>
     </developers>
 	
     <organization>
         <name>OpenMRS</name>
         <url>http://openmrs.org</url>
     </organization>
-
-    <!--	<scm>
-            <connection>scm:svn:https://svn.openmrs.org/openmrs-modules/basictestdbwithtable/trunk/</connection>
-            <developerConnection>scm:svn:https://svn.openmrs.org/openmrs-modules/basictestdbwithtable/trunk/</developerConnection>
-            <url>https://svn.openmrs.org/openmrs-modules/basictestdbwithtable/trunk/</url>
-    </scm>-->
 
     <modules>
         <module>api</module>
@@ -48,7 +50,7 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- trying to load api -->
+            <!-- load api -->
             <dependency>
                 <groupId>org.openmrs.api</groupId>
                 <artifactId>openmrs-api</artifactId>
