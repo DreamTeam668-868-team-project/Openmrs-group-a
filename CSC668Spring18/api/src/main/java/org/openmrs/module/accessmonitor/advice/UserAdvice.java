@@ -23,7 +23,7 @@ public class UserAdvice implements AfterReturningAdvice {
 	
 	@Override
 	public void afterReturning(Object returnObject, Method method, Object[] args, Object target) {
-		if (method.getName().startsWith("get")) {
+		if (method.getName().equals("getAllUsers")) {
 			
 			System.out.println("Start of Test Advice for CSC 668 Spring 2018 Module\n");
 			

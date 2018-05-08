@@ -7,10 +7,12 @@ package org.openmrs.module.accessmonitor.advice;
 
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.accessmonitor.AccessMonitor;
+import org.openmrs.module.accessmonitor.api.AccessMonitorService;
 import org.springframework.aop.AfterReturningAdvice;
 
 /**
@@ -41,13 +43,14 @@ public class VisitAdvice implements AfterReturningAdvice {
 			Date date = new Date();
 			List<Visit> returnList = (List<Visit>) returnObject;
 			
-			for (Visit visit : returnList) {
+			for (Iterator<Visit> i = returnList.iterator(); i.hasNext();) {
 				AccessMonitor record = new AccessMonitor();
 				record.setTimestamp(date);
 				record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-				record.setRecordId(visit.getId());
+				record.setRecordId(i.next().getId());
 				record.setRecordType(recordType);
 				record.setActionType(actionType);
+				Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 			}
 			return;
 		}
@@ -65,6 +68,7 @@ public class VisitAdvice implements AfterReturningAdvice {
 			record.setRecordId(visit.getId());
 			record.setRecordType(recordType);
 			record.setActionType(actionType);
+			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 			return;
 		}
 		
@@ -79,6 +83,7 @@ public class VisitAdvice implements AfterReturningAdvice {
 			record.setRecordId(visit.getId());
 			record.setRecordType(recordType);
 			record.setActionType(actionType);
+			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 			return;
 		}
 		
@@ -93,6 +98,7 @@ public class VisitAdvice implements AfterReturningAdvice {
 			record.setRecordId(visit.getId());
 			record.setRecordType(recordType);
 			record.setActionType(actionType);
+			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 			return;
 		}
 		
@@ -107,6 +113,7 @@ public class VisitAdvice implements AfterReturningAdvice {
 			record.setRecordId(visit.getId());
 			record.setRecordType(recordType);
 			record.setActionType(actionType);
+			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 		}
 	}
 }

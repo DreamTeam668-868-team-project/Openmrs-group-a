@@ -7,10 +7,12 @@ package org.openmrs.module.accessmonitor.advice;
 
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import org.openmrs.Person;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.accessmonitor.AccessMonitor;
+import org.openmrs.module.accessmonitor.api.AccessMonitorService;
 import org.springframework.aop.AfterReturningAdvice;
 
 /**
@@ -43,33 +45,34 @@ public class PersonAdvice implements AfterReturningAdvice {
 		if (method.getName().equals("getPeople")) {
 			actionType = "RETRIEVAL";
 			Date date = new Date();
-			List<Person> returnList = (List<Person>) returnObject;
 			
-			for (Person person : returnList) {
+			List<Person> returnList = (List<Person>) returnObject;
+			for (Iterator<Person> i = returnList.iterator(); i.hasNext();) {
 				AccessMonitor record = new AccessMonitor();
 				record.setTimestamp(date);
 				record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-				record.setRecordId(person.getId());
+				record.setRecordId(i.next().getId());
 				record.setRecordType(recordType);
 				record.setActionType(actionType);
+				Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 			}
 			return;
 		}
 		
 		// getters
 		// returns type Person
-		if (method.getName().startsWith("getPerson")) {
-			
+		if (method.getName().startsWith("getPerson") && returnObject.getClass().equals(Person.class)) {
 			actionType = "RETRIEVAL";
-			
-			Person patient = (Person) returnObject;
+			Date date = new Date();
+			Person person = (Person) returnObject;
 			
 			AccessMonitor record = new AccessMonitor();
-			record.setTimestamp(new Date());
+			record.setTimestamp(date);
 			record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-			record.setRecordId(patient.getId());
+			record.setRecordId(person.getId());
 			record.setRecordType(recordType);
 			record.setActionType(actionType);
+			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 			return;
 		}
 		
@@ -84,6 +87,7 @@ public class PersonAdvice implements AfterReturningAdvice {
 			record.setRecordId(patient.getId());
 			record.setRecordType(recordType);
 			record.setActionType(actionType);
+			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 			return;
 		}
 		
@@ -98,6 +102,7 @@ public class PersonAdvice implements AfterReturningAdvice {
 			record.setRecordId(patient.getId());
 			record.setRecordType(recordType);
 			record.setActionType(actionType);
+			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 			return;
 		}
 		
@@ -113,6 +118,7 @@ public class PersonAdvice implements AfterReturningAdvice {
 			record.setRecordId(patient.getId());
 			record.setRecordType(recordType);
 			record.setActionType(actionType);
+			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 		}
 	}
 }

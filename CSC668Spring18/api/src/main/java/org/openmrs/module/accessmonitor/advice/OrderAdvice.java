@@ -7,10 +7,12 @@ package org.openmrs.module.accessmonitor.advice;
 
 import java.lang.reflect.Method;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import org.openmrs.Order;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.accessmonitor.AccessMonitor;
+import org.openmrs.module.accessmonitor.api.AccessMonitorService;
 import org.springframework.aop.AfterReturningAdvice;
 
 /**
@@ -42,13 +44,15 @@ public class OrderAdvice implements AfterReturningAdvice {
 			Date date = new Date();
 			List<Order> returnList = (List<Order>) returnObject;
 			
-			for (Order order : returnList) {
+			for (Iterator<Order> i = returnList.iterator(); i.hasNext();) {
 				AccessMonitor record = new AccessMonitor();
 				record.setTimestamp(date);
 				record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-				record.setRecordId(order.getId());
+				record.setRecordId(i.next().getId());
 				record.setRecordType(recordType);
 				record.setActionType(actionType);
+				Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
+				
 			}
 			
 			return;
@@ -68,7 +72,7 @@ public class OrderAdvice implements AfterReturningAdvice {
 			record.setRecordId(order.getId());
 			record.setRecordType(recordType);
 			record.setActionType(actionType);
-			
+			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 			return;
 		}
 		
@@ -84,6 +88,7 @@ public class OrderAdvice implements AfterReturningAdvice {
 			record.setRecordId(order.getId());
 			record.setRecordType(recordType);
 			record.setActionType(actionType);
+			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 			return;
 		}
 		
@@ -98,6 +103,7 @@ public class OrderAdvice implements AfterReturningAdvice {
 			record.setRecordId(order.getId());
 			record.setRecordType(recordType);
 			record.setActionType(actionType);
+			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 			return;
 		}
 		
@@ -112,6 +118,7 @@ public class OrderAdvice implements AfterReturningAdvice {
 			record.setRecordId(order.getId());
 			record.setRecordType(recordType);
 			record.setActionType(actionType);
+			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 		}
 	}
 }

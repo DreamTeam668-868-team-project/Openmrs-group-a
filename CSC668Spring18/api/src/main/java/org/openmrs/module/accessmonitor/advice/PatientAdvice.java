@@ -6,11 +6,14 @@
 package org.openmrs.module.accessmonitor.advice;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import org.openmrs.Patient;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.accessmonitor.AccessMonitor;
+import org.openmrs.module.accessmonitor.api.AccessMonitorService;
 import org.springframework.aop.AfterReturningAdvice;
 
 /**
@@ -33,38 +36,41 @@ public class PatientAdvice implements AfterReturningAdvice {
 		
 		String recordType = "PATIENT";
 		String actionType = "";
+		
 		// getters
 		// returns type List<Patient>
-		if (method.getName().equals("getAllPatients") || method.getName().equals("getPatients")) {
+		if (method.getName().equals("getAllPatients") || method.getName().startsWith("getPatients")) {
 			actionType = "RETRIEVAL";
-			
 			List<Patient> returnList = (List<Patient>) returnObject;
-			for (Patient patient : returnList) {
+			for (Iterator<Patient> i = returnList.iterator(); i.hasNext();) {
 				AccessMonitor record = new AccessMonitor();
 				record.setTimestamp(new Date());
 				record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-				record.setRecordId(patient.getId());
+				record.setRecordId(i.next().getId());
 				record.setRecordType(recordType);
 				record.setActionType(actionType);
+				Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 			}
 			return;
 		}
 		
 		// getters
 		// returns type Patient
-		if (method.getName().startsWith("getPatient")) {
-			
-			actionType = "RETRIEVAL";
-			
-			Patient patient = (Patient) returnObject;
-			
-			AccessMonitor record = new AccessMonitor();
-			record.setTimestamp(new Date());
-			record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-			record.setRecordId(patient.getId());
-			record.setRecordType(recordType);
-			record.setActionType(actionType);
-			return;
+		if (method.getName().startsWith("getPatient") && returnObject != null) {
+			if (returnObject.getClass().equals(Patient.class)) {
+				actionType = "RETRIEVAL";
+				
+				Patient patient = (Patient) returnObject;
+				
+				AccessMonitor record = new AccessMonitor();
+				record.setTimestamp(new Date());
+				record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+				record.setRecordId(patient.getId());
+				record.setRecordType(recordType);
+				record.setActionType(actionType);
+				Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
+				return;
+			}
 		}
 		
 		// todo: potentially use before advice for these
@@ -80,7 +86,7 @@ public class PatientAdvice implements AfterReturningAdvice {
 			record.setRecordId(patient.getId());
 			record.setRecordType(recordType);
 			record.setActionType(actionType);
-			
+			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 			return;
 		}
 		
@@ -96,6 +102,7 @@ public class PatientAdvice implements AfterReturningAdvice {
 			record.setRecordId(patient.getId());
 			record.setRecordType(recordType);
 			record.setActionType(actionType);
+			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 			return;
 		}
 		
@@ -112,6 +119,8 @@ public class PatientAdvice implements AfterReturningAdvice {
 			record.setRecordId(patient.getId());
 			record.setRecordType(recordType);
 			record.setActionType(actionType);
+			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
 		}
 	}
+	
 }
