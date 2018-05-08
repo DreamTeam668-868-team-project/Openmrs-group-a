@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<title>Open Mrs</title>
+<meta charset="UTF-8">
+<head>
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script src="http://code.highcharts.com/modules/exporting.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      </head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+<style>
+html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+ th, td {
+    border: 1px solid black;
+    
+}
+#chartFilter {
+    position: absolute;
+  width: 200px;
+  height: 100px;
+  z-index: 15;
+  top: 20%;
+  left: 95%;
+  margin: -100px 0 0 -150px;
+}
+
+table {
+    position: absolute;
+  width: 150px;
+  height: 60px;
+  z-index: 15;
+  top: 100%;
+  left: 99%;
+  margin: -100px 0 0 -150px;
+}
+
+
+input[type=text] {
+    width: 130px;
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 2px;
+    font-size: 12px;
+    background-color: white;
+    background-image: url('searchicon.png');
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    padding: 8px 12px 8px 15px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 0.4s ease-in-out;
+}
+
+input[type=text]:focus {
+    width: 100%;
+}
+
+
+
+</style>
+<body class="w3-white">
+
+
+        
+        
+<!-- Top container -->
+<div class="w3-bar w3-top w3-black w3-large" style="z-index:4">
+  <button class="w3-bar-item w3-button w3-hide-large w3-hover-none w3-hover-text-light-grey" onclick="w3_open();"><i class="fa fa-bars"></i>  Menu</button>
+  <span class="w3-bar-item w3-right">Logo</span>
+</div>
+
+<!-- Sidebar/menu -->
+<nav class="w3-sidebar w3-collapse w3-light-grey w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <div class="w3-container w3-row">
+    <div class="w3-col s4">
+      <img src="/w3images/avatar2.png" class="w3-circle w3-margin-right" style="width:46px">
+    </div>
+    <div class="w3-col s8 w3-bar">
+      <span>Welcome, <strong>Mike</strong></span><br>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-envelope"></i></a>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-user"></i></a>
+      <a href="#" class="w3-bar-item w3-button"><i class="fa fa-cog"></i></a>
+    </div>
+  </div>
+  <hr>
+  <div class="w3-container w3-black">
+    <h5>Filter By</h5>
+
+  </div>
+  <div class="w3-bar-block">
+    <!-- <a href="#" class="w3-bar-item w3-button w3-padding-16 " onclick="w3_close()" title="close menu"><i class="fa fa-remove fa-fw"></i>  Close Menu</a> -->
+    <a href="#" class="w3-bar-item w3-button w3-padding" id ="userId" ><i class="fa fa-users fa-fw"></i>  User</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding" id = "userType"><i class="fa fa-eye fa-fw"></i>  Type</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding" id = "userLocation" ><i class="fa fa-users fa-fw"></i>  Location</a>
+    <a href="#" class="w3-bar-item w3-button w3-padding" id = "userPatient"  ><i class="fa fa-users fa-fw"></i>  Patient</a>
+
+    <form>
+            <input id = "box" type="text" name="search" placeholder="Search..">
+          </form>
+          <ul class="navList">
+                <li>John</li>
+                <li>jane</li>
+                <li>Asam</li>
+                <li>Guanming</li>
+                <li>Jiawen</li>
+                <li>Travis</li>
+                <li>Coco</li>
+                <li>Prakash</li>
+                <li>Duren</li>
+            </ul>
+  </div>
+</nav>
+
+
+
+<!-- Overlay effect when opening sidebar on small screens -->
+<div class="w3-overlay w3-hide-large w3-animate-opacity" onclick="w3_close()" style="cursor:pointer" title="close side menu" id="myOverlay"></div>
+
+<!-- !PAGE CONTENT! -->
+<div class="w3-main" style="margin-left:300px;margin-top:43px;">
+
+  <!-- Header -->
+  <header class="w3-container" style="padding-top:22px">
+    <h5><b><i class="fa fa-dashboard"></i> Chart Display</b></h5>
+    <div id="container1"  style= "height: 70px;" ></div>
+
+              <table  id= "chartFilter" width="150">
+                  <tr>
+                <td> Chart Filter</td>      
+                </tr>
+                    <tr>
+                            <td>  <input type="radio" name="mychart" class="mychart" id= "line" value="line" onclick= "chartfunc()"> Line</td>
+          
+                          </tr>
+                          <tr>
+                            <td><input type="radio" name="mychart" class="mychart" id= "pie" value="pie" onclick= "chartfunc()"> Pie </td>
+          
+                          </tr>
+                          <tr>
+                            <td>  <input type="radio" name="mychart" class="mychart" id= "bar" value="bar" onclick= "chartfunc()"> Bar</td>
+                          </tr>
+                          <tr>
+                            <td> <input type="radio" name="mychart" class="mychart" id= "column" value="column" onclick= "chartfunc()" checked> Column</td>
+                          </tr>
+                  </table>
+
+  </header>
+  <div class="w3-panel">
+    <div id = "container" class="w3-row-padding" style="margin:0 -16px">
+
+        <h5>Feeds</h5>
+        <p> You chart goes here</p>
+        <script>
+
+
+          
+                // Jquery starts here    
+                $(function () 
+                {    
+                // Create the chart
+                var options = {
+                  
+                    chart: {
+                        plotBorderWidth: 0
+                    },
+                
+                    title: {
+                        text: 'Chart',
+                    },
+                    //
+                    subtitle: {
+                            text: 'Subtitle'
+                    },
+                    //
+                    xAxis: {
+                
+                         categories: [ 'jan', 'Feb', "march", 'April' , 'May', "Apr", "May", "Jun", "Jul", "Aug","Sept", "Aug", "Oct", "Nov", "Dec"
+                
+                    ],
+                            tite: {
+                                margin: 40,
+                                text: 'Time'
+                            },
+                    },
+                    //
+                    yAxis: {
+                
+                            title: {
+                                margin: 10,
+                                text: 'No. of user'
+                            },      
+                    },
+                    //
+                    legend: {
+                        enabled: true,
+                    },
+                    //
+                    plotOptions: {
+                        series: {
+                            pointPadding: 0.2,
+                            borderWidth: 0,
+                            dataLabels: {
+                                enabled: true
+                            }
+                        },
+                        pie: {
+                            plotBorderWidth: 0,
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            size: '100%',
+                            dataLabels: {
+                                enabled: true,
+                                format: '{point.name}: <b>{point.y}</b>'
+                            }
+                        }
+                    },
+                    //
+                
+                     series: [{
+                        name: 'Time',
+                        colorByPoint: true,
+                        data: [3, 2, 1, 3, 4, 5, 6, 7, 5, 3,4 ,8 , 4,5,9]
+      
+                       
+                    }],
+                   
+                };
+                
+                // Column chart
+                options.chart.renderTo = 'container';
+                options.chart.type = 'column';
+                var chart1 = new Highcharts.Chart(options);
+                
+                chartfunc = function()
+                {
+                var column = document.getElementById('column');
+                var bar = document.getElementById('bar');
+                var pie = document.getElementById('pie');
+                var line = document.getElementById('area');
+                
+                        
+                if(column.checked)
+                    {
+                        
+                        options.chart.renderTo = 'container';
+                        options.chart.type = 'column';
+                        var chart1 = new Highcharts.Chart(options);
+                    }
+                else if(bar.checked)
+                    {
+                        options.chart.renderTo = 'container';
+                        options.chart.type = 'bar';
+                        var chart1 = new Highcharts.Chart(options);
+                    }
+                else if(pie.checked)
+                    {
+                        options.chart.renderTo = 'container';
+                        options.chart.type = 'pie';
+                        var chart1 = new Highcharts.Chart(options);
+                    }
+                else
+                    {
+                        options.chart.renderTo = 'container';
+                        options.chart.type = 'line';
+                        options.chart.zoomType = 'x';
+                        var chart1 = new Highcharts.Chart(options);
+                    }
+                
+                }
+                
+                $('#change_chart_title').click(function(){
+                    var new_title = $('#chart_title').val();
+                    var chart = $('#container').highcharts();
+                    chart.setTitle({ text: new_title });
+                        
+                    alert('Chart title changed to '+ new_title+' !');
+                    
+                });
+                });
+                
+                
+                
+                
+                </script>  
+
+
+        </table>
+    </div>
+  </div>
+
+
+
+
+
+  <div class="w3-container ">
+        <table width="150">
+                <tr>
+              <td> Chart Info</td>      
+              </tr>
+                  <tr>
+                      <td>Patient</td>
+                          <td> 
+                            <div class="w3-white">
+                              <div class="w3-container w3-center w3-padding w3-green" style="width:10%" ></div>
+                            </div></td>
+        
+                        </tr>
+                        <tr>
+                                <td>Order</td>
+                          <td>  
+                            <div class="w3-white">
+                              <div class="w3-container w3-center w3-padding w3-orange" style="width:10%"></div>
+                            </div> </td>
+        
+                        </tr>
+                        <tr>
+                                <td>Visit</td>
+                          <td>  
+                            <div class="w3-white">
+                              <div class="w3-container w3-center w3-padding w3-red" style="width:10%"></div>
+                            </div></td>
+                        </tr>
+                </table>
+
+
+
+
+       
+        
+    
+       
+    
+       
+      </div>
+
+  <!-- Footer/ bottom bar  -->
+  <footer class="w3-container w3-padding-16 w3-light-grey">
+
+  </footer>
+
+  <!-- End page content -->
+</div>
+
+<script>
+// Get the id for user selection
+
+$('#userId').click (function() {
+    var placeholder = 
+    $('#box').attr('placeholder', "Search For user ID");
+});
+
+$('#userPatient').click(function()
+{   
+    var placeholder = 
+    $('#box').attr('placeholder', "Search For user patient");  
+});
+$('#userType').click(function()
+{   
+    var placeholder = 
+    $('#box').attr('placeholder', "Search For user user type");   
+});
+$('#userLocation').click(function()
+{   
+    var placeholder = 
+    $('#box').attr('placeholder', "Search For user "); 
+      
+
+});
+
+
+
+
+// Get the Sidebar
+var mySidebar = document.getElementById("mySidebar");
+
+// Get the DIV with overlay effect
+var overlayBg = document.getElementById("myOverlay");
+
+// Toggle between showing and hiding the sidebar, and add overlay effect
+function w3_open() {
+    if (mySidebar.style.display === 'block') {
+        mySidebar.style.display = 'none';
+        overlayBg.style.display = "none";
+    } else {
+        mySidebar.style.display = 'block';
+        overlayBg.style.display = "block";
+    }
+}
+
+// Close the sidebar with the close button
+function w3_close() {
+    mySidebar.style.display = "none";
+    overlayBg.style.display = "none";
+}
+
+
+$('#box').keyup(function(){
+   var valThis = $(this).val().toLowerCase();
+    if(valThis == ""){
+        $('.navList > li').show();           
+    } else {
+        $('.navList > li').each(function(){
+            var text = $(this).text().toLowerCase();
+            (text.indexOf(valThis) >= 0) ? $(this).show() : $(this).hide();
+        });
+   };
+});
+
+
+</script>
+
+</body>
+</html>
+
