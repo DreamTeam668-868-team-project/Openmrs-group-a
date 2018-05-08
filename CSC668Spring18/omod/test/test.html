@@ -1,33 +1,274 @@
 <html>
-<header>
-	
-</header>
-<body>
-<form action="">
-<h2>search user</h2>
-<select name="customers" onchange="loadDoc()">
-<option value="">Select a user:</option>
-<option value="">user1</option>
-<option value="">user2</option>
-</select>
-</form>
-<div id="button">
-	<p></p>
-</div>
+<head>
+  <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <style> 
+    input[type=text] {
 
-<script>
-function loadDoc() {
-  // var xhttp = new XMLHttpRequest();
-  // xhttp.onreadystatechange = function() {
-  //   if (this.readyState == 4 && this.status == 200) {
-  //     document.getElementById("p").innerHTML = this.responseText;
-  //   }
-  // };
-  // xhttp.open("POST", "test.txt", true);
-  // xhttp.send();
-  document.getElementById("p").innerHTML = this.responseText;
+    /*background-color: white;*/
+    /*background-image: url('searchicon.png');*/
+    /*background-position: 10px 10px; */
+    background-repeat: no-repeat;
+    padding: 8px 5px 10px 10px;
+    -webkit-transition: width 0.4s ease-in-out;
+    transition: width 1s ease-in-out;
+    display: none;
 }
-</script>
 
+input[type=text]:focus {
+    width: 33%;
+}
+</style>
+</head>
+<body>
+<!-- checkbox -->
+<div class="checkbox" style="position:relative; >
+<form action="">
+<h2>Filter</h2><big>
+<input type="checkbox" id="users" value="users"><strong>users</strong><br>
+<big><input type="text" id= "search_user" placeholder= "search "></big><br>
+
+<input type="checkbox" id="type" value="type"><strong>type</strong><br>
+<big><input type="text" id= "search_type" placeholder= "search "></big><br>
+
+<input type="checkbox" id="location" value="location"><strong>location</strong><br>
+<big><input type="text" id= "search_location" placeholder= "search "></big><br>
+
+<input type="checkbox" id="patients" value="patients"><strong>patients</strong><br>
+<big><input type="text" id= "search_patients" placeholder= "search "></big><br>
+</big>
+</form>
+
+<!-- search bar -->
+<div id="button">
+  <p></p>
+</div>
+<div class="search">
+  
+</div>
+</div>
+<script>
+
+    // document.getElementById("type").onclick = function () {
+    //     alert("users");
+    var checkbox_arr;
+    var txt = "";
+    var checkbox_user = document.querySelector("input[value=users]");
+    var checkbox_type = document.querySelector("input[value=type]");
+    var checkbox_loc = document.querySelector("input[value=location]");
+    var checkbox_pat = document.querySelector("input[value=patients]");
+
+    checkbox_arr = [checkbox_user, checkbox_type, checkbox_loc, checkbox_pat];
+    for (var i = 0; i < checkbox_arr.length; i++) {
+        checkbox_arr[i].addEventListener( 'change', function() {
+            $(".search").value ="";
+            if(checkbox_arr[0].checked) {
+                document.getElementById("search_user").style.display= 'block';
+                $(".search").append(' user ');
+
+            }else{
+                document.getElementById("search_user").style.display= 'none';
+            } 
+            if(checkbox_arr[1].checked){
+                document.getElementById("search_type").style.display= 'block';
+                $(".search").append(' type ');
+
+            }else{
+                document.getElementById("search_type").style.display= 'none';
+            }
+             if(checkbox_arr[2].checked){
+                document.getElementById("search_location").style.display= 'block';
+                $(".search").append(" location ");
+
+            }else{
+                document.getElementById("search_location").style.display= 'none';
+            } 
+            if(checkbox_arr[3].checked){
+                document.getElementById("search_patients").style.display= 'block';
+                $(".search").append(" patients ");
+            }
+            else{
+                document.getElementById("search_patients").style.display= 'none';
+            }
+            // else {
+            //     checkbox_user.checked = false;
+            //     // Checkbox is not checked..
+            // }
+        });    
+    }
+    // document.getElementById("search").value = "search " + txt;
+// }
+//  var pageExecute = {
+
+//     fileContents:"Null",
+//     pagePrefix:"Null",
+//     slides:"Null",
+
+//     init: function () {
+//         $.ajax({
+//             url: "text.txt",
+//             async: false,
+//             success: function (data){
+//                 pageExecute.fileContents = data;
+//             }
+//         });
+//     }
+// };
+// function loadDoc() {
+  // alert(pageExecute.value);
+// }
+</script>
+<!-- <script type="text/javascript">
+    pageExecute.init();
+</script> -->
+<div class="chat-input" style="position:fixed; left:35%; top:20%">
+<div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+
+<input type="radio" name="mychart" class="mychart" id= "column" value="column" onclick= "chartfunc()" checked>Column
+<input type="radio" name="mychart" class="mychart" id= "bar" value="bar" onclick= "chartfunc()">Bar
+<input type="radio" name="mychart" class="mychart" id= "pie" value="pie" onclick= "chartfunc()">Pie
+<input type="radio" name="mychart" class="mychart" id= "line" value="line" onclick= "chartfunc()">Line
+    
+    <br>
+        <!-- Chart title:
+        <input type="text" id="chart_title" value="Chart Title">
+        <input type="button" id="change_chart_title" value="Change"> -->
+        </div>   
+        
+<script>
+// Jquery starts here    
+$(function () 
+{    
+// Create the chart
+var options = {
+  
+    chart: {
+     
+        plotBorderWidth: 0
+    },
+
+    title: {
+        text: 'Chart Title',
+    },
+    //
+    subtitle: {
+            text: 'Subtitle'
+    },
+    //
+    xAxis: {
+
+         categories: [ 'jan', 'Feb', "march", 'April' , 'May'
+
+    ],
+            tite: {
+                margin: 40,
+                text: 'Time'
+            },
+    },
+    //
+    yAxis: {
+
+            title: {
+                margin: 10,
+                text: 'No. of user'
+            },      
+    },
+    //
+    legend: {
+        enabled: true,
+    },
+    //
+    plotOptions: {
+        series: {
+            pointPadding: 0.2,
+            borderWidth: 0,
+            dataLabels: {
+                enabled: true
+            }
+        },
+        pie: {
+            plotBorderWidth: 0,
+            allowPointSelect: true,
+            cursor: 'pointer',
+            size: '100%',
+            dataLabels: {
+                enabled: true,
+                format: '{point.name}: <b>{point.y}</b>'
+            }
+        }
+    },
+    //
+
+     series: [{
+        name: 'Time',
+        colorByPoint: true,
+        data: [3, 2, 1, 3, 4, 5, 6, 7, 5, 3,4 ,8 ]
+       
+    }],
+   
+    
+    //
+    // drilldown: {
+    //     series: []
+    // }
+};
+
+// Column chart
+options.chart.renderTo = 'container';
+options.chart.type = 'column';
+var chart1 = new Highcharts.Chart(options);
+
+chartfunc = function()
+{
+var column = document.getElementById('column');
+var bar = document.getElementById('bar');
+var pie = document.getElementById('pie');
+var line = document.getElementById('area');
+
+        
+if(column.checked)
+    {
+        
+        options.chart.renderTo = 'container';
+        options.chart.type = 'column';
+        var chart1 = new Highcharts.Chart(options);
+    }
+else if(bar.checked)
+    {
+        options.chart.renderTo = 'container';
+        options.chart.type = 'bar';
+        var chart1 = new Highcharts.Chart(options);
+    }
+else if(pie.checked)
+    {
+        options.chart.renderTo = 'container';
+        options.chart.type = 'pie';
+        var chart1 = new Highcharts.Chart(options);
+    }
+else
+    {
+        options.chart.renderTo = 'container';
+        options.chart.type = 'line';
+        options.chart.zoomType = 'x';
+        var chart1 = new Highcharts.Chart(options);
+    }
+
+}
+
+$('#change_chart_title').click(function(){
+    var new_title = $('#chart_title').val();
+    var chart = $('#container').highcharts();
+    chart.setTitle({ text: new_title });
+        
+    alert('Chart title changed to '+ new_title+' !');
+    
+});
+});
+
+
+
+
+</script> 
 </body>
 </html>
