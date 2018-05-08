@@ -18,7 +18,7 @@ import org.openmrs.BaseOpenmrsObject;
 /**
  * @author Travis
  */
-public class AccessRecord extends BaseOpenmrsObject implements Serializable {
+public class AccessMonitor extends BaseOpenmrsObject implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -26,7 +26,7 @@ public class AccessRecord extends BaseOpenmrsObject implements Serializable {
 	
 	private Integer accessingUserId;
 	
-	private Date accessedOn;
+	private Date timestamp;
 	
 	private Integer recordId;
 	
@@ -71,12 +71,12 @@ public class AccessRecord extends BaseOpenmrsObject implements Serializable {
 		this.actionType = actionType;
 	}
 	
-	public void setAccessedOn(Date date) {
-		this.accessedOn = date;
+	public void setTimestamp(Date date) {
+		this.timestamp = date;
 	}
 	
-	public Date getAccessedOn() {
-		return this.accessedOn;
+	public Date getTimestamp() {
+		return this.timestamp;
 	}
 	
 	public void setRecordId(Integer recordId) {

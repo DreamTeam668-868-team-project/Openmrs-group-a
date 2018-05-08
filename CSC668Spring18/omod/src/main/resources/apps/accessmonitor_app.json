@@ -1,7 +1,7 @@
 [
     {
         "id": "AccessMonitor.app",
-        "description": "Text description of my app, not shown to regular user",
+        "description": "Access Monitor",
         "extensionPoints": [
             {
                 "id": "subApp.apps",
@@ -13,9 +13,9 @@
                 "id": "AccessMonitor.appId3",
                 "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
                 "type": "link",
-                "label": "Test",
-                "url": "accessmonitor/accessLog.page",
-                "icon": "icon-signin",
+                "label": "Access Monitor",
+                "url": "accessmonitor/accessMonitor.page",
+                "icon": "icon-bar-chart",
                 "requiredPrivilege": "App: Access Monitor"
             }
         ]

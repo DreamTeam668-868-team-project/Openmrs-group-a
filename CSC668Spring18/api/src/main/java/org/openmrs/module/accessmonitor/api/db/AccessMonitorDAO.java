@@ -15,28 +15,28 @@ package org.openmrs.module.accessmonitor.api.db;
 
 import java.util.Date;
 import java.util.List;
-import org.openmrs.module.accessmonitor.AccessRecord;
+import org.openmrs.module.accessmonitor.AccessMonitor;
 
 /**
  * Database methods for {@link NewTableService}.
  */
-public interface AccessRecordDAO {
+public interface AccessMonitorDAO {
 	
-	public AccessRecord getRecordByUuid(String uuid);
+	public AccessMonitor getRecordByUuid(String uuid);
 	
-	public AccessRecord getRecord(Integer id);
+	public AccessMonitor getRecord(Integer id);
 	
-	public List<AccessRecord> getAllRecords();
+	public List<AccessMonitor> getAllRecords();
 	
-	public List<AccessRecord> getRecordsByDate(Date date);
+	public List<AccessMonitor> getRecordsByDate(Date date);
 	
-	public List<AccessRecord> getRecordsByUser(Integer userId);
+	public List<AccessMonitor> getRecordsByUser(Integer userId);
 	
-	public List<AccessRecord> getRecordsByTimeframe(Date start, Date end);
+	public List<AccessMonitor> getRecordsByTimeframe(Date start, Date end);
 	
-	public List<AccessRecord> getRecordsByUserandDate(Integer userId, Date date);
+	public List<AccessMonitor> getRecordsByUserandDate(Integer userId, Date date);
 	
-	public List<AccessRecord> getRecordsByUserandTimeframe(Integer userId, Date start, Date end);
+	public List<AccessMonitor> getRecordsByUserandTimeframe(Integer userId, Date start, Date end);
 	
-	public AccessRecord saveAccessRecord(AccessRecord record);
+	public AccessMonitor saveAccessMonitor(AccessMonitor record);
 }

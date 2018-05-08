@@ -23,7 +23,7 @@ import org.springframework.stereotype.Controller;
  * The main controller.
  */
 @Controller
-public class AccessRecordPageController {
+public class AccessMonitorPageController {
 	
 	protected final Log log = LogFactory.getLog(getClass());
 	
@@ -36,13 +36,13 @@ public class AccessRecordPageController {
 	//	        @RequestParam(value = "info", required = false) String info) {
 	//		
 	//		String url = (request.getRequestURL().toString()).trim();
-	//		System.out.println("AccessRecordPageController - POST: BEFORE FIX\n" + url + "\n");
+	//		System.out.println("AccessMonitorPageController - POST: BEFORE FIX\n" + url + "\n");
 	//		url = url.substring(url.indexOf("//") + 2);
 	//		url = url.substring(url.indexOf("/") + 1);
 	//		
-	//		System.out.println("AccessRecordPageController - POST: \n" + url + "\n");
-	//		AccessRecord n = new AccessRecord();
-	//		Context.getService(AccessRecordService.class).saveAccessRecord(n);
+	//		System.out.println("AccessMonitorPageController - POST: \n" + url + "\n");
+	//		AccessMonitor n = new AccessMonitor();
+	//		Context.getService(AccessMonitorService.class).saveAccessMonitor(n);
 	//		return "redirect:" + url;
 	//	}
 }

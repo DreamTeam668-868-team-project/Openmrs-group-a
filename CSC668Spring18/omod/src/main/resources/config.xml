@@ -55,7 +55,7 @@
         <!-- Advice -->
         <advice>
             <point>org.openmrs.api.UserService</point>
-            <class>org.openmrs.module.accessmonitor.advice.TestAdvice</class>
+            <class>org.openmrs.module.accessmonitor.advice.UserAdvice</class>
         </advice>
         <advice>
             <point>org.openmrs.api.PatientService</point>

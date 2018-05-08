@@ -10,20 +10,20 @@ import javax.servlet.http.HttpSession;
 import org.openmrs.User;
 import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.accessmonitor.AccessRecord;
+import org.openmrs.module.accessmonitor.AccessMonitor;
 import org.openmrs.ui.framework.SimpleObject;
 import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
-import org.openmrs.module.accessmonitor.api.AccessRecordService;
+import org.openmrs.module.accessmonitor.api.AccessMonitorService;
 
 /**
  * @author levine
  */
-public class AccessRecordFragFragmentController {
+public class AccessMonitorFragFragmentController {
 	
 	public void controller(FragmentModel model, HttpSession session, @SpringBean("userService") UserService service) {
-		List<AccessRecord> tables = Context.getService(AccessRecordService.class).getAllAccessRecords();
+		List<AccessMonitor> tables = Context.getService(AccessMonitorService.class).getAllAccessMonitors();
 		
 		model.addAttribute("tableitems", tables);
 		model.addAttribute("user", Context.getAuthenticatedUser());
@@ -32,7 +32,7 @@ public class AccessRecordFragFragmentController {
 	public List<SimpleObject> getUsers(@SpringBean("userService") UserService service, UiUtils ui) {
 		List<User> allUsers = service.getAllUsers();
 		
-		System.out.println("AccessRecordFragFragmentController, getUsers: ");
+		System.out.println("AccessMonitorFragFragmentController, getUsers: ");
 		String[] properties;
 		properties = new String[2];
 		properties[0] = "givenName";

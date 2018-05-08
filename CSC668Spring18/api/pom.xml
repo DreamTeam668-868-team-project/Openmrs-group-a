@@ -4,12 +4,12 @@
 	<parent>
 		<groupId>org.openmrs.module</groupId>
 		<artifactId>accessmonitor</artifactId>
-		<version>1.0.0-SNAPSHOT</version>
+		<version>1.0.0</version>
 	</parent>
 
 	<artifactId>accessmonitor-api</artifactId>
 	<packaging>jar</packaging>
 	<name>Access Monitor Module API</name>
 	<description>API for the Access Monitor Module</description>
-
+    <version>1.0.0</version>
 </project>

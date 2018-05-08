@@ -11,21 +11,21 @@
  *
  * Copyright (C) OpenMRS, LLC.  All Rights Reserved.
  */
-package org.openmrs.module.csc668spring18.api;
+package org.openmrs.module.accessmonitor.api;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
 import org.openmrs.api.context.Context;
 import org.openmrs.test.BaseModuleContextSensitiveTest;
-import org.openmrs.module.accessmonitor.api.AccessRecordService;
+import org.openmrs.module.accessmonitor.api.AccessMonitorService;
 
 /**
  * Tests {@link $ NewTableService} .
  */
-public class AccessRecordServiceTest extends BaseModuleContextSensitiveTest {
+public class AccessMonitorServiceTest extends BaseModuleContextSensitiveTest {
 	
 	@Test
 	public void shouldSetupContext() {
-		assertNotNull(Context.getService(AccessRecordService.class));
+		assertNotNull(Context.getService(AccessMonitorService.class));
 	}
 }
