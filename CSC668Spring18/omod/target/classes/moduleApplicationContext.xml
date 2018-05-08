@@ -24,16 +24,16 @@
 	<bean parent="serviceContext">
 		<property name="moduleService">
 			<list>
-				<value>org.openmrs.module.accessmonitor.api.AccessRecordService</value>
+				<value>org.openmrs.module.accessmonitor.api.AccessMonitorService</value>
 				<bean
 					class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 					<property name="transactionManager">
 						<ref bean="transactionManager" />
 					</property>
 					<property name="target">
-						<bean class="org.openmrs.module.accessmonitor.api.impl.AccessRecordServiceImpl">
+						<bean class="org.openmrs.module.accessmonitor.api.impl.AccessMonitorServiceImpl">
 							<property name="dao">
-								<bean class="org.openmrs.module.accessmonitor.api.db.hibernate.HibernateAccessRecordDAO">
+								<bean class="org.openmrs.module.accessmonitor.api.db.hibernate.HibernateAccessMonitorDAO">
 									<property name="sessionFactory">
 										<ref bean="sessionFactory" />
 									</property>

@@ -1,0 +1,23 @@
+[
+    {
+        "id": "AccessMonitor.app",
+        "description": "Access Monitor",
+        "extensionPoints": [
+            {
+                "id": "subApp.apps",
+                "description": "Apps on the basic Apps App Home Page"
+            }
+        ],
+        "extensions": [
+            {
+                "id": "AccessMonitor.appId3",
+                "extensionPointId": "org.openmrs.referenceapplication.homepageLink",
+                "type": "link",
+                "label": "Access Monitor",
+                "url": "accessmonitor/accessMonitor.page",
+                "icon": "icon-bar-chart",
+                "requiredPrivilege": "App: Access Monitor"
+            }
+        ]
+    }
+]
