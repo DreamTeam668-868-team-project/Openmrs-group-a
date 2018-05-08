@@ -1,0 +1,33 @@
+<html>
+<header>
+	
+</header>
+<body>
+<form action="">
+<h2>search user</h2>
+<select name="customers" onchange="loadDoc()">
+<option value="">Select a user:</option>
+<option value="">user1</option>
+<option value="">user2</option>
+</select>
+</form>
+<div id="button">
+	<p></p>
+</div>
+
+<script>
+function loadDoc() {
+  // var xhttp = new XMLHttpRequest();
+  // xhttp.onreadystatechange = function() {
+  //   if (this.readyState == 4 && this.status == 200) {
+  //     document.getElementById("p").innerHTML = this.responseText;
+  //   }
+  // };
+  // xhttp.open("POST", "test.txt", true);
+  // xhttp.send();
+  document.getElementById("p").innerHTML = this.responseText;
+}
+</script>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+<component name="libraryTable">
+  <library name="target1">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/CSC668Spring18/api/target/csc668spring18-api-1.0.0-SNAPSHOT.jar!/" />
+      <root url="jar://$PROJECT_DIR$/CSC668Spring18/api/target/csc668spring18-api-1.0.0-SNAPSHOT-tests.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="csc668spring18-api-1.0.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/CSC668Spring18/omod/target/csc668spring18-1.0.0-SNAPSHOT/lib/csc668spring18-api-1.0.0-SNAPSHOT.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
