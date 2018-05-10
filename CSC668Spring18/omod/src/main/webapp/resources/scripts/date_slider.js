@@ -16,7 +16,7 @@ function formatDate(date) {
     if (month.length < 2) month = '0' + month;
     if (day.length < 2) day = '0' + day;
 
-    return [year, month, day].join('-');
+    return [year, month, day].join('/');
 }
 
 jq(function() {
@@ -30,7 +30,7 @@ jq(function() {
         jq( "#amount" ).val( formatDate(new Date(ui.values[ 0 ] *1000)) + " - " + formatDate(new Date(ui.values[ 1 ] *1000)) );
       },
       "stop": function(event, ui) {
-            alert(formatDate(new Date(ui.values[ 0 ] *1000)) + " - " + formatDate(new Date(ui.values[ 1 ] *1000)));
+            sliderDo(formatDate(new Date(ui.values[ 0 ] *1000)), formatDate(new Date(ui.values[ 1 ] *1000)));
         }
     });
     jq( "#amount" ).val( formatDate(new Date(jq( "#slider-range" ).slider( "values", 0 )*1000)) + " - " + formatDate(new Date(jq( "#slider-range" ).slider( "values", 1 )*1000)));

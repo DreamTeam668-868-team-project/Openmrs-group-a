@@ -53,35 +53,144 @@ jq(function() {
 
 <canvas id="myChart"></canvas>
 <script>
-    function newDate(days) {
-  return moment().add(days, 'd');
+var data = [{
+      x: new moment().add(-10, "d"),
+      y: Math.random() * 100
+    },
+    {
+      x: new moment().add(-8, "d"),
+      y: Math.random() * 100
+    },
+    {
+      x: new moment().add(-6, "d"),
+      y: Math.random() * 100
+    },
+    {
+      x: new moment().add(-4, "d"),
+      y: Math.random() * 100
+    },
+    {
+      x: new moment().add(-2, "d"),
+      y: Math.random() * 100
+    },
+    {
+      x: new moment().add(-0, "d"),
+      y: Math.random() * 100
+    },
+  ];
+var data1 = [{
+      x: new moment().add(-11, "d"),
+      y: Math.random() * 100
+    },
+    {
+      x: new moment().add(-7, "d"),
+      y: Math.random() * 100
+    },
+    {
+      x: new moment().add(-4, "d"),
+      y: Math.random() * 100
+    },
+    {
+      x: new moment().add(-2, "d"),
+      y: Math.random() * 100
+    },
+    {
+      x: new moment().add(-0, "d"),
+      y: Math.random() * 100
+    },
+    {
+      x: new moment().add(1, "d"),
+      y: Math.random() * 100
+    },
+  ];    
+var data2 = [{
+      x: new moment().add(-10, "m"),
+      y: Math.random() * 100
+    },
+    {
+      x: new moment().add(-8, "m"),
+      y: Math.random() * 100
+    },
+    {
+      x: new moment().add(-6, "m"),
+      y: Math.random() * 100
+    },
+    {
+      x: new moment().add(-4, "m"),
+      y: Math.random() * 100
+    },
+    {
+      x: new moment().add(-2, "m"),
+      y: Math.random() * 100
+    },
+    {
+      x: new moment().add(-0, "m"),
+      y: Math.random() * 100
+    },
+  ];  
+function sliderDo(s,e) {
+    
+    if(s==e){
+        chart.data.datasets[0].data = data2;
+        chart.options.scales = {
+            xAxes: [{
+            type: 'time',
+            time: {
+                unit: 'minute',
+            }
+          }],
+        }
+    } else {
+        if(chart.data.datasets[0].data == data) {
+            chart.data.datasets[0].data = data1;
+        }else {
+            chart.data.datasets[0].data = data;
+        }
+        
+        chart.options.scales = {
+            xAxes: [{
+            type: 'time',
+            time: {
+                unit: 'day',
+            }
+          }],
+        }
+    }
+    chart.update();
 }
+
+//function newDate(days) {
+//    if(oneDay){
+//        return moment().add(days, 'm');
+//    } else {
+//        return moment().add(days, 'd');
+//    }
+//}
 
 var config = {
   type: 'bar',
   data: {
-    labels: [newDate(-4), newDate(-3), newDate(2), newDate(3), newDate(4), newDate(5), newDate(6)],
-    datasets: [{
-      label: "My First dataset",
-      data: [1, 3, 4, 2, 5, 4, 2],
-    }]
-  },
+      datasets: [{
+        data: data,
+        label: "Number of Access",
+//        borderColor: "#3e95cd",
+//        fill: false
+      }]
+    },
+//  data: {
+//    labels: [newDate(-4), newDate(-3), newDate(2), newDate(3), newDate(4), newDate(5), newDate(6)],
+//    datasets: [{
+//      label: "My First dataset",
+//      data: [1, 3, 4, 2, 5, 4, 2],
+//    }]
+//  },
   options: {
     scales: {
       xAxes: [{
         type: 'time',
+        distribution: 'linear',
         time: {
-          displayFormats: {
-            'millisecond': 'mm DD ',
-            'second': 'MMM DD',
-            'minute': 'MMM DD',
-            'hour': 'MMM DD',
-            'day': 'MMM DD',
-            'week': 'MMM DD',
-            'month': 'MMM DD',
-            'quarter': 'MMM DD',
-            'year': 'MMM DD',
-          }
+            unit: 'day',
         }
       }],
     },
@@ -89,21 +198,21 @@ var config = {
 };
 
 var ctx = document.getElementById("myChart").getContext("2d");
-new Chart(ctx, config);
-
+var chart = new Chart(ctx, config);
+    
+        
 </script>
     
 <div>
     <br>
 <div style="border: 0; width: 1000px">
-  <label for="amount">Date range:</label> <input type="text" id="amount" style="border: 0; color: #f6931f; display: inline;white-space:nowrap;" size="100"/>
+  <label for="amount">Date range:</label> <input type="text" id="amount" style="border: 0; color: #000000; font-weight: bold; display: inline;white-space:nowrap;" size="50"/>
 </div>
  
 <div id="slider-range"></div>
 
-
+<br>
 <div class="Table" id="userList" hidden>
-<h2>The Users</h2>
 <table id="userTable"  border="1" class="display" cellspacing="0" width="50%">
 <thead>
   <tr>
@@ -117,7 +226,7 @@ new Chart(ctx, config);
 
 </div>
 
-<button id="getUsers" type="button">Get All Users</button>
+<button id="getUsers" type="button">By User</button>
 </div>
 
 
