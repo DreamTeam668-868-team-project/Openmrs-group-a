@@ -20,8 +20,10 @@ jq(function() {
         });
 
     jq("#getUsers").click(function(){
-       jq.getJSON('${ ui.actionLink("getUsers") }',
+       jq.getJSON('${ ui.actionLink("getChartData") }',
            {
+           start: "2018-05-01",
+           end: "2018-05-02"
             })
        .error(function(xhr, status, err) {
             alert('AJAX error ' + err);
@@ -40,8 +42,8 @@ jq(function() {
             for (index in users) {
                 var user = users[index];
                 userTable.fnAddData( [
-                    user.givenName,
-                    user.familyName
+                    user.id,
+                    user.accessingUserId
                 ]) 
             };
             document.getElementById("userList").style.display = "block";
@@ -226,7 +228,7 @@ var chart = new Chart(ctx, config);
 
 </div>
 
-<button id="getUsers" type="button">By User</button>
+<button id="getUsers" type="button">Detail</button>
 </div>
 
 

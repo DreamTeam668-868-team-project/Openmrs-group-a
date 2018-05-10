@@ -5,6 +5,7 @@
  */
 package org.openmrs.module.accessmonitor.fragment.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.openmrs.User;
@@ -16,6 +17,8 @@ import org.openmrs.ui.framework.UiUtils;
 import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.module.accessmonitor.api.AccessMonitorService;
+import java.util.Date;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author levine
@@ -29,15 +32,38 @@ public class AccessMonitorFragFragmentController {
 		model.addAttribute("user", Context.getAuthenticatedUser());
 	}
 	
-	public List<SimpleObject> getUsers(@SpringBean("userService") UserService service, UiUtils ui) {
+	public List<SimpleObject> getDetailData(@RequestParam(value = "start", required = false) Date startDate,
+	        @RequestParam(value = "end", required = false) Date endDate, @SpringBean("userService") UserService service,
+	        UiUtils ui) {
+		System.out.println("Start Date: " + startDate + ", End Date: " + endDate);
+		
 		List<User> allUsers = service.getAllUsers();
 		
-		System.out.println("AccessMonitorFragFragmentController, getUsers: ");
 		String[] properties;
 		properties = new String[2];
 		properties[0] = "givenName";
 		properties[1] = "familyName";
 		
 		return SimpleObject.fromCollection(allUsers, ui, properties);
+	}
+	
+	public List<SimpleObject> getChartData(@RequestParam(value = "start", required = false) Date startDate,
+	        @RequestParam(value = "end", required = false) Date endDate,
+	        @SpringBean("accessMonitorService") AccessMonitorService service, UiUtils ui) {
+		System.out.println("Start Date: " + startDate + ", End Date: " + endDate);
+		//		AccessMonitorService service = Context.getService(AccessMonitorService.class);
+		List<AccessMonitor> chartData = service.getAccessMonitorsByTimeframe(startDate, endDate);
+		System.out.println("getChartData Done.");
+		String[] properties;
+		properties = new String[6];
+		properties[0] = "id";
+		properties[1] = "accessingUserId";
+		properties[2] = "timestamp";
+		properties[3] = "recordId";
+		properties[4] = "recordType";
+		properties[5] = "actionType";
+		System.out.println("!!!!");
+		return SimpleObject.fromCollection(chartData, ui, properties);
+		//				return new ArrayList<SimpleObject>();
 	}
 }

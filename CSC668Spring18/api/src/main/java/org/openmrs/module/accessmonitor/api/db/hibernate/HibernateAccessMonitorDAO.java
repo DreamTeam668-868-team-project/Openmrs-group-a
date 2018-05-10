@@ -59,39 +59,39 @@ public class HibernateAccessMonitorDAO implements AccessMonitorDAO {
 	@Override
 	public List<AccessMonitor> getRecordsByDate(Date date) {
 		Criteria criteria = getSession().createCriteria(AccessMonitor.class);
-		criteria.add(Restrictions.eq("access_date", date));
+		criteria.add(Restrictions.eq("timestamp", date));
 		return (List<AccessMonitor>) criteria.list();
 	}
 	
 	@Override
 	public List<AccessMonitor> getRecordsByUser(Integer userId) {
 		Criteria criteria = getSession().createCriteria(AccessMonitor.class);
-		criteria.add(Restrictions.eq("accessing_user", userId));
+		criteria.add(Restrictions.eq("user_id", userId));
 		return (List<AccessMonitor>) criteria.list();
 	}
 	
 	@Override
 	public List<AccessMonitor> getRecordsByTimeframe(Date start, Date end) {
 		Criteria criteria = getSession().createCriteria(AccessMonitor.class);
-		criteria.add(Restrictions.ge("access_date", start));
-		criteria.add(Restrictions.le("access_date", end));
+		criteria.add(Restrictions.ge("timestamp", start));
+		criteria.add(Restrictions.le("timestamp", end));
 		return (List<AccessMonitor>) criteria.list();
 	}
 	
 	@Override
 	public List<AccessMonitor> getRecordsByUserandDate(Integer userId, Date date) {
 		Criteria criteria = getSession().createCriteria(AccessMonitor.class);
-		criteria.add(Restrictions.eq("accessing_user", userId));
-		criteria.add(Restrictions.eq("access_date", date));
+		criteria.add(Restrictions.eq("user_id", userId));
+		criteria.add(Restrictions.eq("timestamp", date));
 		return (List<AccessMonitor>) criteria.list();
 	}
 	
 	@Override
 	public List<AccessMonitor> getRecordsByUserandTimeframe(Integer userId, Date start, Date end) {
 		Criteria criteria = getSession().createCriteria(AccessMonitor.class);
-		criteria.add(Restrictions.eq("accessing_user", userId));
-		criteria.add(Restrictions.ge("access_date", start));
-		criteria.add(Restrictions.le("access_date", end));
+		criteria.add(Restrictions.eq("user_id", userId));
+		criteria.add(Restrictions.ge("timestamp", start));
+		criteria.add(Restrictions.le("timestamp", end));
 		return (List<AccessMonitor>) criteria.list();
 	}
 	
