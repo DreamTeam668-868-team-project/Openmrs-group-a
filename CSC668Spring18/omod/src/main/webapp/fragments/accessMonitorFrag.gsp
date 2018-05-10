@@ -1,4 +1,8 @@
 <%
+    ui.includeJavascript("accessmonitor", "moment.min.js")
+    ui.includeJavascript("accessmonitor", "analytics.js")
+    ui.includeJavascript("accessmonitor", "Chart.js")
+    ui.includeJavascript("accessmonitor", "utils.js")
     ui.includeJavascript("accessmonitor", "date_slider.js")
 %>
 <script type="text/javascript">
@@ -47,14 +51,53 @@ jq(function() {
 
 </script>
 
+<canvas id="myChart"></canvas>
+<script>
+    function newDate(days) {
+  return moment().add(days, 'd');
+}
 
+var config = {
+  type: 'bar',
+  data: {
+    labels: [newDate(-4), newDate(-3), newDate(2), newDate(3), newDate(4), newDate(5), newDate(6)],
+    datasets: [{
+      label: "My First dataset",
+      data: [1, 3, 4, 2, 5, 4, 2],
+    }]
+  },
+  options: {
+    scales: {
+      xAxes: [{
+        type: 'time',
+        time: {
+          displayFormats: {
+            'millisecond': 'mm DD ',
+            'second': 'MMM DD',
+            'minute': 'MMM DD',
+            'hour': 'MMM DD',
+            'day': 'MMM DD',
+            'week': 'MMM DD',
+            'month': 'MMM DD',
+            'quarter': 'MMM DD',
+            'year': 'MMM DD',
+          }
+        }
+      }],
+    },
+  }
+};
 
+var ctx = document.getElementById("myChart").getContext("2d");
+new Chart(ctx, config);
 
+</script>
+    
 <div>
     <br>
-<p>
-  <label for="amount">Date range:</label> <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" size="100"/>
-</p>
+<div style="border: 0; width: 1000px">
+  <label for="amount">Date range:</label> <input type="text" id="amount" style="border: 0; color: #f6931f; display: inline;white-space:nowrap;" size="100"/>
+</div>
  
 <div id="slider-range"></div>
 
