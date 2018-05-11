@@ -48,9 +48,11 @@ public class AccessMonitorFragFragmentController {
 	}
 	
 	public List<SimpleObject> getChartData(@RequestParam(value = "start", required = false) Date startDate,
-	        @RequestParam(value = "end", required = false) Date endDate,
-	        @SpringBean("accessMonitorService") AccessMonitorService service, UiUtils ui) {
+	        @RequestParam(value = "end", required = false) Date endDate, UiUtils ui) {
+		AccessMonitorService service = Context.getService(AccessMonitorService.class);
 		System.out.println("Start Date: " + startDate + ", End Date: " + endDate);
+		System.out.println(startDate.getClass());
+		System.out.println(endDate.getClass());
 		//		AccessMonitorService service = Context.getService(AccessMonitorService.class);
 		List<AccessMonitor> chartData = service.getAccessMonitorsByTimeframe(startDate, endDate);
 		System.out.println("getChartData Done.");
