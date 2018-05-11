@@ -11,9 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.openmrs.Order;
 import org.openmrs.api.context.Context;
-import org.openmrs.module.accessmonitor.AccessMonitor;
 import org.openmrs.module.accessmonitor.UpdateRecords;
-import org.openmrs.module.accessmonitor.api.AccessMonitorService;
 import org.springframework.aop.AfterReturningAdvice;
 
 /**
@@ -46,7 +44,7 @@ public class OrderAdvice implements AfterReturningAdvice {
 			List<Order> returnList = (List<Order>) returnObject;
 			
 			for (Iterator<Order> i = returnList.iterator(); i.hasNext();) {
-                            UpdateRecords.add(Context.getAuthenticatedUser(), i.next().getId(), recordType, actionType, date);
+				UpdateRecords.add(Context.getAuthenticatedUser(), i.next().getId(), recordType, actionType, date);
 			}
 			
 			return;
@@ -57,7 +55,8 @@ public class OrderAdvice implements AfterReturningAdvice {
 		if (method.getName().startsWith("getOrder") && returnObject.getClass().equals(Order.class)) {
 			
 			actionType = "RETRIEVAL";
-			UpdateRecords.add(Context.getAuthenticatedUser(), ((Order) returnObject).getId(), recordType, actionType, new Date());
+			UpdateRecords.add(Context.getAuthenticatedUser(), ((Order) returnObject).getId(), recordType, actionType,
+			    new Date());
 			return;
 		}
 		
@@ -66,7 +65,7 @@ public class OrderAdvice implements AfterReturningAdvice {
 			
 			actionType = "DELETE";
 			Order order = (Order) args[0];
-                        UpdateRecords.add(Context.getAuthenticatedUser(), order.getId(), recordType, actionType, new Date());
+			UpdateRecords.add(Context.getAuthenticatedUser(), order.getId(), recordType, actionType, new Date());
 			return;
 		}
 		
@@ -75,7 +74,7 @@ public class OrderAdvice implements AfterReturningAdvice {
 			
 			Order order = (Order) args[0];
 			UpdateRecords.add(Context.getAuthenticatedUser(), order.getId(), recordType, actionType, new Date());
-                        return;
+			return;
 		}
 		
 		if (method.getName().equals("saveOrder")) {

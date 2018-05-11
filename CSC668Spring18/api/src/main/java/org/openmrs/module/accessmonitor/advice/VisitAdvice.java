@@ -36,23 +36,23 @@ public class VisitAdvice implements AfterReturningAdvice {
 		
 		// getters
 		// returns type List<Visit>
-//		if (method.getName().startsWith("getVisits") || method.getName().startsWith("getActiveVisits")
-//		        || method.getName().equals("getAllVisits")) {
-//			actionType = "RETRIEVAL";
-//			Date date = new Date();
-//			List<Visit> returnList = (List<Visit>) returnObject;
-//			
-//			for (Iterator<Visit> i = returnList.iterator(); i.hasNext();) {
-//				AccessMonitor record = new AccessMonitor();
-//				record.setTimestamp(date);
-//				record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-//				record.setRecordId(i.next().getId());
-//				record.setRecordType(recordType);
-//				record.setActionType(actionType);
-//				Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
-//			}
-//			return;
-//		}
+		//		if (method.getName().startsWith("getVisits") || method.getName().startsWith("getActiveVisits")
+		//		        || method.getName().equals("getAllVisits")) {
+		//			actionType = "RETRIEVAL";
+		//			Date date = new Date();
+		//			List<Visit> returnList = (List<Visit>) returnObject;
+		//			
+		//			for (Iterator<Visit> i = returnList.iterator(); i.hasNext();) {
+		//				AccessMonitor record = new AccessMonitor();
+		//				record.setTimestamp(date);
+		//				record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+		//				record.setRecordId(i.next().getId());
+		//				record.setRecordType(recordType);
+		//				record.setActionType(actionType);
+		//				Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
+		//			}
+		//			return;
+		//		}
 		
 		// getters
 		// returns type Visit
@@ -84,6 +84,7 @@ public class VisitAdvice implements AfterReturningAdvice {
 			actionType = "CREATE";
 			
 			Visit visit = (Visit) args[0];
-			UpdateRecords.add(Context.getAuthenticatedUser(), visit.getId(), recordType, actionType, new Date());		}
+			UpdateRecords.add(Context.getAuthenticatedUser(), visit.getId(), recordType, actionType, new Date());
+		}
 	}
 }
