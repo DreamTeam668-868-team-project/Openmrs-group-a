@@ -32,7 +32,7 @@ public class AccessMonitorFragFragmentController {
 		model.addAttribute("user", Context.getAuthenticatedUser());
 	}
 	
-	public List<SimpleObject> getDetailData(@RequestParam(value = "start", required = false) Date startDate,
+	public List<SimpleObject> getChartData(@RequestParam(value = "start", required = false) Date startDate,
 	        @RequestParam(value = "end", required = false) Date endDate, @SpringBean("userService") UserService service,
 	        UiUtils ui) {
 		System.out.println("Start Date: " + startDate + ", End Date: " + endDate);
@@ -47,23 +47,26 @@ public class AccessMonitorFragFragmentController {
 		return SimpleObject.fromCollection(allUsers, ui, properties);
 	}
 	
-	public List<SimpleObject> getChartData(@RequestParam(value = "start", required = false) Date startDate,
+	public List<SimpleObject> getDetailData(@RequestParam(value = "start", required = false) Date startDate,
 	        @RequestParam(value = "end", required = false) Date endDate, UiUtils ui) {
 		AccessMonitorService service = Context.getService(AccessMonitorService.class);
 		System.out.println("Start Date: " + startDate + ", End Date: " + endDate);
 		System.out.println(startDate.getClass());
 		System.out.println(endDate.getClass());
 		//		AccessMonitorService service = Context.getService(AccessMonitorService.class);
-		List<AccessMonitor> chartData = service.getAccessMonitorsByTimeframe(startDate, endDate);
-		System.out.println("getChartData Done.");
+		List<AccessMonitor> chartData = service.getAccessMonitors(null, startDate, endDate);
+		System.out.println(chartData.size());
 		String[] properties;
-		properties = new String[6];
+		properties = new String[8];
 		properties[0] = "id";
 		properties[1] = "accessingUserId";
 		properties[2] = "timestamp";
 		properties[3] = "recordId";
 		properties[4] = "recordType";
 		properties[5] = "actionType";
+		properties[6] = "userGiven";
+		properties[7] = "userFamily";
+		
 		System.out.println("!!!!");
 		return SimpleObject.fromCollection(chartData, ui, properties);
 		//				return new ArrayList<SimpleObject>();
