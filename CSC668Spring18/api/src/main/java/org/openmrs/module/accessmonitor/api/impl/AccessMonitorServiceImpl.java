@@ -11,6 +11,8 @@
  */
 package org.openmrs.module.accessmonitor.api.impl;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import org.openmrs.api.impl.BaseOpenmrsService;
@@ -19,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.openmrs.annotation.Authorized;
 import org.openmrs.api.APIException;
 import org.openmrs.api.UserService;
+import org.openmrs.api.context.Context;
 import org.openmrs.module.accessmonitor.AccessMonitor;
 import org.openmrs.module.accessmonitor.AccessMonitorConfig;
 import org.openmrs.module.accessmonitor.api.AccessMonitorService;
@@ -159,6 +162,49 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 				break;
 			default: // getAllAccessMonitors()
 				list = dao.getAllRecords();
+		}
+		
+		return list;
+	}
+	
+	/**
+	 * Returns a number of records in given timeframe, seperated by interval authenticated user. It
+	 * is fetched in read only transaction.
+	 * 
+	 * @param start the start of the time frame
+	 * @param end the end of the time frame
+	 * @param interval integer number of hours to separate segments by
+	 * @return list of Ojbect in sequence of Date, Integer, Date, Integer, etc... representing the
+	 *         number of system accesses at the specified time represented by the Date object
+	 * @throws APIException
+	 */
+	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
+	@Transactional(readOnly = true)
+	@Override
+	public List<Object> getNumberOfRecords(Date start, Date end, Integer interval) throws IllegalArgumentException,
+	        APIException {
+		if (interval < 1 || interval > 24) {
+			throw new IllegalArgumentException();
+		}
+		
+		List<Object> list = new ArrayList();
+		
+		Calendar startTime = Calendar.getInstance();
+		Calendar stopTime = Calendar.getInstance();
+		startTime.setTime(start);
+		stopTime.setTime(start);
+		startTime.set(Calendar.HOUR_OF_DAY, 0);
+		stopTime.set(Calendar.HOUR_OF_DAY, 0);
+		stopTime.add(Calendar.DATE, 1);
+		stopTime.add(Calendar.HOUR_OF_DAY, interval);
+		stopTime.add(Calendar.MILLISECOND, -1);
+		
+		while (!stopTime.after(end)) {
+			list.add(startTime.getTime());
+			list.add(Context.getService(AccessMonitorService.class)
+			        .getAccessMonitors(null, startTime.getTime(), stopTime.getTime()).size());
+			startTime.add(Calendar.HOUR_OF_DAY, interval);
+			stopTime.add(Calendar.HOUR_OF_DAY, interval);
 		}
 		
 		return list;

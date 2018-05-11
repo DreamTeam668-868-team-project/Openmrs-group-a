@@ -12,6 +12,7 @@ import java.util.List;
 import org.openmrs.Order;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.accessmonitor.AccessMonitor;
+import org.openmrs.module.accessmonitor.UpdateRecords;
 import org.openmrs.module.accessmonitor.api.AccessMonitorService;
 import org.springframework.aop.AfterReturningAdvice;
 
@@ -45,14 +46,7 @@ public class OrderAdvice implements AfterReturningAdvice {
 			List<Order> returnList = (List<Order>) returnObject;
 			
 			for (Iterator<Order> i = returnList.iterator(); i.hasNext();) {
-				AccessMonitor record = new AccessMonitor();
-				record.setTimestamp(date);
-				record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-				record.setRecordId(i.next().getId());
-				record.setRecordType(recordType);
-				record.setActionType(actionType);
-				Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
-				
+                            UpdateRecords.add(Context.getAuthenticatedUser(), i.next().getId(), recordType, actionType, date);
 			}
 			
 			return;
@@ -63,16 +57,7 @@ public class OrderAdvice implements AfterReturningAdvice {
 		if (method.getName().startsWith("getOrder") && returnObject.getClass().equals(Order.class)) {
 			
 			actionType = "RETRIEVAL";
-			
-			Order order = (Order) returnObject;
-			
-			AccessMonitor record = new AccessMonitor();
-			record.setTimestamp(new Date());
-			record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-			record.setRecordId(order.getId());
-			record.setRecordType(recordType);
-			record.setActionType(actionType);
-			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
+			UpdateRecords.add(Context.getAuthenticatedUser(), ((Order) returnObject).getId(), recordType, actionType, new Date());
 			return;
 		}
 		
@@ -81,14 +66,7 @@ public class OrderAdvice implements AfterReturningAdvice {
 			
 			actionType = "DELETE";
 			Order order = (Order) args[0];
-			
-			AccessMonitor record = new AccessMonitor();
-			record.setTimestamp(new Date());
-			record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-			record.setRecordId(order.getId());
-			record.setRecordType(recordType);
-			record.setActionType(actionType);
-			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
+                        UpdateRecords.add(Context.getAuthenticatedUser(), order.getId(), recordType, actionType, new Date());
 			return;
 		}
 		
@@ -96,29 +74,15 @@ public class OrderAdvice implements AfterReturningAdvice {
 			actionType = "UNVOID";
 			
 			Order order = (Order) args[0];
-			
-			AccessMonitor record = new AccessMonitor();
-			record.setTimestamp(new Date());
-			record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-			record.setRecordId(order.getId());
-			record.setRecordType(recordType);
-			record.setActionType(actionType);
-			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
-			return;
+			UpdateRecords.add(Context.getAuthenticatedUser(), order.getId(), recordType, actionType, new Date());
+                        return;
 		}
 		
 		if (method.getName().equals("saveOrder")) {
 			actionType = "CREATE";
 			
 			Order order = (Order) args[0];
-			
-			AccessMonitor record = new AccessMonitor();
-			record.setTimestamp(new Date());
-			record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-			record.setRecordId(order.getId());
-			record.setRecordType(recordType);
-			record.setActionType(actionType);
-			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
+			UpdateRecords.add(Context.getAuthenticatedUser(), order.getId(), recordType, actionType, new Date());
 		}
 	}
 }

@@ -36,4 +36,16 @@
         <addForeignKeyConstraint constraintName="user" baseTableName="access_monitor" baseColumnNames="user_id"  referencedTableName="users"
                                  referencedColumnNames="user_id" />
     </changeSet>
+    
+    <changeSet id="accessmonitor-3" author="groupA">
+        <preConditions onFail="WARN" onError="WARN">
+            <not>
+                <tableExists tableName="access_monitor"/>
+            </not>
+            <addColumn tabel="access_monitor">
+                <column name="user_given" type="varchar(75)" />
+                <column name="user_family" type="varchar(75)" />
+            </addColumn>
+        </preConditions>
+    
 </databaseChangeLog>

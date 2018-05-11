@@ -7,11 +7,10 @@ package org.openmrs.module.accessmonitor.advice;
 
 import java.lang.reflect.Method;
 import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
 import org.openmrs.Visit;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.accessmonitor.AccessMonitor;
+import org.openmrs.module.accessmonitor.UpdateRecords;
 import org.openmrs.module.accessmonitor.api.AccessMonitorService;
 import org.springframework.aop.AfterReturningAdvice;
 
@@ -37,23 +36,23 @@ public class VisitAdvice implements AfterReturningAdvice {
 		
 		// getters
 		// returns type List<Visit>
-		if (method.getName().startsWith("getVisits") || method.getName().startsWith("getActiveVisits")
-		        || method.getName().equals("getAllVisits")) {
-			actionType = "RETRIEVAL";
-			Date date = new Date();
-			List<Visit> returnList = (List<Visit>) returnObject;
-			
-			for (Iterator<Visit> i = returnList.iterator(); i.hasNext();) {
-				AccessMonitor record = new AccessMonitor();
-				record.setTimestamp(date);
-				record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-				record.setRecordId(i.next().getId());
-				record.setRecordType(recordType);
-				record.setActionType(actionType);
-				Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
-			}
-			return;
-		}
+//		if (method.getName().startsWith("getVisits") || method.getName().startsWith("getActiveVisits")
+//		        || method.getName().equals("getAllVisits")) {
+//			actionType = "RETRIEVAL";
+//			Date date = new Date();
+//			List<Visit> returnList = (List<Visit>) returnObject;
+//			
+//			for (Iterator<Visit> i = returnList.iterator(); i.hasNext();) {
+//				AccessMonitor record = new AccessMonitor();
+//				record.setTimestamp(date);
+//				record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
+//				record.setRecordId(i.next().getId());
+//				record.setRecordType(recordType);
+//				record.setActionType(actionType);
+//				Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
+//			}
+//			return;
+//		}
 		
 		// getters
 		// returns type Visit
@@ -61,14 +60,7 @@ public class VisitAdvice implements AfterReturningAdvice {
 			actionType = "RETRIEVAL";
 			
 			Visit visit = (Visit) returnObject;
-			
-			AccessMonitor record = new AccessMonitor();
-			record.setTimestamp(new Date());
-			record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-			record.setRecordId(visit.getId());
-			record.setRecordType(recordType);
-			record.setActionType(actionType);
-			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
+			UpdateRecords.add(Context.getAuthenticatedUser(), visit.getId(), recordType, actionType, new Date());
 			return;
 		}
 		
@@ -76,14 +68,7 @@ public class VisitAdvice implements AfterReturningAdvice {
 		if (method.getName().equals("voidVisit") || method.getName().equals("purgeVisit")) {
 			actionType = "DELETE";
 			Visit visit = (Visit) args[0];
-			
-			AccessMonitor record = new AccessMonitor();
-			record.setTimestamp(new Date());
-			record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-			record.setRecordId(visit.getId());
-			record.setRecordType(recordType);
-			record.setActionType(actionType);
-			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
+			UpdateRecords.add(Context.getAuthenticatedUser(), visit.getId(), recordType, actionType, new Date());
 			return;
 		}
 		
@@ -91,14 +76,7 @@ public class VisitAdvice implements AfterReturningAdvice {
 			actionType = "UNVOID";
 			
 			Visit visit = (Visit) args[0];
-			
-			AccessMonitor record = new AccessMonitor();
-			record.setTimestamp(new Date());
-			record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-			record.setRecordId(visit.getId());
-			record.setRecordType(recordType);
-			record.setActionType(actionType);
-			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
+			UpdateRecords.add(Context.getAuthenticatedUser(), visit.getId(), recordType, actionType, new Date());
 			return;
 		}
 		
@@ -106,14 +84,6 @@ public class VisitAdvice implements AfterReturningAdvice {
 			actionType = "CREATE";
 			
 			Visit visit = (Visit) args[0];
-			
-			AccessMonitor record = new AccessMonitor();
-			record.setTimestamp(new Date());
-			record.setAccessingUserId(Context.getAuthenticatedUser().getUserId());
-			record.setRecordId(visit.getId());
-			record.setRecordType(recordType);
-			record.setActionType(actionType);
-			Context.getService(AccessMonitorService.class).saveAccessMonitor(record);
-		}
+			UpdateRecords.add(Context.getAuthenticatedUser(), visit.getId(), recordType, actionType, new Date());		}
 	}
 }

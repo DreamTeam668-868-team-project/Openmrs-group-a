@@ -26,6 +26,10 @@ public class AccessMonitor extends BaseOpenmrsObject implements Serializable {
 	
 	private Integer accessingUserId;
 	
+	private String userGiven;
+	
+	private String userFamily;
+	
 	private Date timestamp;
 	
 	private Integer recordId;
@@ -61,6 +65,22 @@ public class AccessMonitor extends BaseOpenmrsObject implements Serializable {
 	
 	public void setAccessingUserId(java.lang.Integer userId) {
 		this.accessingUserId = userId;
+	}
+	
+	public String getUserGiven() {
+		return this.userGiven;
+	}
+	
+	public void setUserGiven(java.lang.String userGiven) {
+		this.userGiven = userGiven;
+	}
+	
+	public String getUserFamily() {
+		return this.userFamily;
+	}
+	
+	public void setUserFamily(java.lang.String userFamily) {
+		this.userFamily = userFamily;
 	}
 	
 	public String getActionType() {

@@ -145,6 +145,20 @@ public interface AccessMonitorService extends OpenmrsService {
 	List<AccessMonitor> getAccessMonitors(Integer userId, Date start, Date end);
 	
 	/**
+	 * Returns the number of records for a given timeframe and time interval authenticated user. It
+	 * is fetched in read only transaction.
+	 * 
+	 * @param Date start
+	 * @param Date end
+	 * @param Integer interval
+	 * @return Integer
+	 * @throws APIException
+	 */
+	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
+	@Transactional(readOnly = true)
+	List<Object> getNumberOfRecords(Date start, Date end, Integer interval) throws IllegalArgumentException, APIException;
+	
+	/**
 	 * Saves an record. Sets the owner to superuser, if it is not set. It can be called by users
 	 * with this module's privilege. It is executed in a transaction.
 	 * 

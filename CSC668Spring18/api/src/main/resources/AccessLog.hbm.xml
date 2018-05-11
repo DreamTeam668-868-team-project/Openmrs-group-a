@@ -7,6 +7,8 @@
     </id>
     <discriminator column="id" insert="false"/>
     <property column="user_id" name="accessingUserId" type="java.lang.Integer"/>
+    <property column="user_given" name="userGiven" type="java.lang.String"/>
+    <property column="user_family" name="userFamily" type="java.lang.String"/>
     <property column="record_id" name="recordId" type="java.lang.Integer"/>
     <property column="record_type" name="recordType" type="java.lang.String"/>
     <property column="action_type" name="actionType" type="java.lang.String"/>
