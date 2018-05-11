@@ -39,13 +39,12 @@
     
     <changeSet id="accessmonitor-3" author="groupA">
         <preConditions onFail="WARN" onError="WARN">
-            <not>
-                <tableExists tableName="access_monitor"/>
-            </not>
-            <addColumn tabel="access_monitor">
-                <column name="user_given" type="varchar(75)" />
-                <column name="user_family" type="varchar(75)" />
-            </addColumn>
-        </preConditions>
+            <tableExists tableName="access_monitor"/>
+        </preConditions>    
+        <addColumn tableName="access_monitor">        
+            <column name="user_given" type="varchar(75)" />
+            <column name="user_family" type="varchar(75)" />
+        </addColumn>
+    </changeSet> 
     
 </databaseChangeLog>
