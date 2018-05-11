@@ -147,7 +147,10 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 				list = dao.getRecordsByDate(date);
 				break;
 			case 3: // getAccessMonitorsByTimeframe();
-				list = dao.getRecordsByTimeframe(start, end);
+				Calendar stopTime = Calendar.getInstance();
+				stopTime.setTime(end);
+				stopTime.add(Calendar.DATE, 1);
+				list = dao.getRecordsByTimeframe(start, stopTime.getTime());
 				break;
 			case 4: // getAccessMonitorsByUser()
 				list = dao.getRecordsByUser(userId);
