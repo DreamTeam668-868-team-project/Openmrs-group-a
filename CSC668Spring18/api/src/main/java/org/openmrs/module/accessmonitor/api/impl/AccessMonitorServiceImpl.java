@@ -191,36 +191,36 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 			throw new IllegalArgumentException();
 		}
 		
+		// create the return list
 		List<Object> list = new ArrayList();
 		
+		// create calendar objects to make time based decisions
 		Calendar startTime = Calendar.getInstance();
 		Calendar stopTime = Calendar.getInstance();
-		Calendar realStopTime = Calendar.getInstance();
+		Calendar endTime = Calendar.getInstance();
 		
+		// initialize calendars to provided times
+		endTime.setTime(end);
 		startTime.setTime(start);
 		stopTime.setTime(start);
-		realStopTime.setTime(end);
+		
+		// adjust start time to midnight on same day
 		startTime.set(Calendar.HOUR_OF_DAY, 0);
+		
+		// adjust end time to be one day after, at 1 ms before midnight
 		stopTime.set(Calendar.HOUR_OF_DAY, 0);
-		realStopTime.set(Calendar.HOUR_OF_DAY, 0);
-		realStopTime.add(Calendar.DATE, 1);
-		
-		if (startTime.compareTo(stopTime) == 0) {
-			interval = 1;
-		} else {
-			interval = 24;
-		}
-		
-		stopTime.add(Calendar.DATE, 1);
-		
+		stopTime.add(Calendar.DAY_OF_MONTH, 1);
 		stopTime.add(Calendar.HOUR_OF_DAY, interval);
 		stopTime.add(Calendar.MILLISECOND, -1);
-		System.out.println("bbb");
-		while (stopTime.after(realStopTime)) {
+		
+		while (!stopTime.after(endTime)) {
+			// add time to list
 			list.add(startTime.getTime());
-			System.out.println("add time");
-			list.add(this.getAccessMonitors(null, startTime.getTime(), stopTime.getTime()).size());
-			System.out.println("add size");
+			// add size of results fo list
+			list.add(Context.getService(AccessMonitorService.class)
+			        .getAccessMonitors(null, startTime.getTime(), stopTime.getTime()).size());
+			
+			// add the interval to both start and end time
 			startTime.add(Calendar.HOUR_OF_DAY, interval);
 			stopTime.add(Calendar.HOUR_OF_DAY, interval);
 		}
