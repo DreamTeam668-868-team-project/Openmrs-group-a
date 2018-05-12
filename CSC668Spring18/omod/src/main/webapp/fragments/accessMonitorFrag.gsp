@@ -59,49 +59,67 @@ jq(function() {
 <canvas id="myChart"></canvas>
 <script>
 function getDetailData(s, e){
-       jq.getJSON('${ ui.actionLink("getDetailData") }',
-           {
-           start: s,
-           end: e
-            })
-       .error(function(xhr, status, err) {
-            alert('AJAX error ' + err);
-        })
-        .success(function(users) {
-//            alert(jq('#userTable').dataTable);
-            jq('#userTable').dataTable({
-                "bDestroy": true,
-                "aaSorting": [],
-                "sPaginationType": "full_numbers",
-                "bPaginate": true,
-                "bAutoWidth": false,
-                "bLengthChange": true,
-                "bSort": true,
-                "bJQueryUI": true
-            });
-            var userTable = jq('#userTable').DataTable();
-//            alert(userTable.Rows.Count);
+    jq.getJSON('${ ui.actionLink("getDetailData") }',
+        {
+        start: s,
+        end: e
+         })
+    .error(function(xhr, status, err) {
+         alert('AJAX error ' + err);
+     })
+     .success(function(users) {
+    //            alert(jq('#userTable').dataTable);
+         jq('#userTable').dataTable({
+             "bDestroy": true,
+             "aaSorting": [],
+             "sPaginationType": "full_numbers",
+             "bPaginate": true,
+             "bAutoWidth": false,
+             "bLengthChange": true,
+             "bSort": true,
+             "bJQueryUI": true
+         });
+         var userTable = jq('#userTable').DataTable();
+    //            alert(userTable.Rows.Count);
 
-//var dr = userTable.Rows[0];
-//
-//userTable.Rows.Clear();
-//userTable.Rows.Add(dr);
+    //var dr = userTable.Rows[0];
+    //
+    //userTable.Rows.Clear();
+    //userTable.Rows.Add(dr);
 
 
-            for (index in users) {
-                var user = users[index];
-                userTable.fnAddData( [
-                    user.userGiven + " " + user.userFamily,
-                    user.actionType,
-                    user.recordType,
-                    user.recordId,
-                    user.timestamp
-                ]) 
-            };
-            document.getElementById("userList").style.display = "block";
-            })
-    }
-    
+         for (index in users) {
+             var user = users[index];
+             userTable.fnAddData( [
+                 user.userGiven + " " + user.userFamily,
+                 user.actionType,
+                 user.recordType,
+                 user.recordId,
+                 user.timestamp
+             ]) 
+         };
+         document.getElementById("userList").style.display = "block";
+    })
+}
+
+function getChartData(s, e){
+    jq.getJSON('${ ui.actionLink("getChartData") }',
+        {
+        start: s,
+        end: e
+         })
+    .error(function(xhr, status, err) {
+         alert('AJAX error ' + err);
+     })
+     .success(function(users) {
+          alert(user);
+         for (index in users) {
+             var user = users[index];
+         };
+//         document.getElementById("userList").style.display = "block";
+      }
+    )
+}
     
     
     
@@ -181,6 +199,7 @@ var data2 = [{
     },
   ];  
 function sliderDo(s,e) {
+    getChartData(s, e);
     getDetailData(s, e);
     if(s==e){
         chart.data.datasets[0].data = data2;

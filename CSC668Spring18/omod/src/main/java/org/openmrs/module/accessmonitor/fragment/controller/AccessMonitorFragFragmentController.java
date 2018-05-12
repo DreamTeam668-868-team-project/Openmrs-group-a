@@ -33,29 +33,26 @@ public class AccessMonitorFragFragmentController {
 	}
 	
 	public List<SimpleObject> getChartData(@RequestParam(value = "start", required = false) Date startDate,
-	        @RequestParam(value = "end", required = false) Date endDate, @SpringBean("userService") UserService service,
-	        UiUtils ui) {
-		System.out.println("Start Date: " + startDate + ", End Date: " + endDate);
+	        @RequestParam(value = "end", required = false) Date endDate, UiUtils ui) {//@SpringBean("userService") UserService service,
+		AccessMonitorService service = Context.getService(AccessMonitorService.class);
+		System.out.println("Chart!!!");
+		List<Object> chartData = service.getNumberOfRecords(startDate, endDate, 1);
+		System.out.println("Chart!!! Start Date: " + startDate + ", End Date: " + endDate + ", Count: " + chartData.size());
 		
-		List<User> allUsers = service.getAllUsers();
+		String[] properties = new String[] { "time", "count" };
 		
-		String[] properties;
-		properties = new String[2];
-		properties[0] = "givenName";
-		properties[1] = "familyName";
-		
-		return SimpleObject.fromCollection(allUsers, ui, properties);
+		return SimpleObject.fromCollection(chartData, ui, properties);
 	}
 	
 	public List<SimpleObject> getDetailData(@RequestParam(value = "start", required = false) Date startDate,
 	        @RequestParam(value = "end", required = false) Date endDate, UiUtils ui) {
 		AccessMonitorService service = Context.getService(AccessMonitorService.class);
-		System.out.println("Start Date: " + startDate + ", End Date: " + endDate);
-		System.out.println(startDate.getClass());
-		System.out.println(endDate.getClass());
+		System.out.println("Detail!!! Start Date: " + startDate + ", End Date: " + endDate);
+		//		System.out.println(startDate.getClass());
+		//		System.out.println(endDate.getClass());
 		//		AccessMonitorService service = Context.getService(AccessMonitorService.class);
 		List<AccessMonitor> chartData = service.getAccessMonitors(null, startDate, endDate);
-		System.out.println(chartData.size());
+		//		System.out.println(chartData.size());
 		String[] properties;
 		properties = new String[8];
 		properties[0] = "id";
@@ -67,7 +64,6 @@ public class AccessMonitorFragFragmentController {
 		properties[6] = "userGiven";
 		properties[7] = "userFamily";
 		
-		System.out.println("!!!!");
 		return SimpleObject.fromCollection(chartData, ui, properties);
 		//				return new ArrayList<SimpleObject>();
 	}
