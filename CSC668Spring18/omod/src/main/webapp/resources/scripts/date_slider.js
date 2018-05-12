@@ -30,6 +30,11 @@ jq(function() {
         jq( "#amount" ).val( formatDate(new Date(ui.values[ 0 ] *1000)) + " - " + formatDate(new Date(ui.values[ 1 ] *1000)) );
       },
       "stop": function(event, ui) {
+//            ui.prop('disabled', true);
+            jq( "#slider-range" ).slider({
+                disabled: true
+              });
+              
             sliderDo(formatDate(new Date(ui.values[ 0 ] *1000)), formatDate(new Date(ui.values[ 1 ] *1000)));
         }
     });

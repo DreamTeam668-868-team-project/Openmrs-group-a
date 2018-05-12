@@ -119,8 +119,12 @@ function getChartData(s, e){
                 x: new moment(user.time, "DD.MMM.YYYY"),
                 y: user.number
               })
-//             alert(user.time + " " + user.number);
+//             alert(user.time + ": " + user.number);
          };
+         jq( "#slider-range" ).slider({
+                disabled: false
+              });
+         
 //         alert(chart_data);
 //         document.getElementById("userList").style.display = "block";
       }
