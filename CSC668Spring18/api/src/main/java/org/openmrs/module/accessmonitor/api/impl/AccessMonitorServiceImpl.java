@@ -190,22 +190,36 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 			throw new IllegalArgumentException();
 		}
 		
+		// create the return list
 		List<Object> list = new ArrayList();
 		
+		// create calendar objects to make time based decisions
 		Calendar startTime = Calendar.getInstance();
 		Calendar stopTime = Calendar.getInstance();
+		Calendar endTime = Calendar.getInstance();
+		
+		// initialize calendars to provided times
+		endTime.setTime(end);
 		startTime.setTime(start);
 		stopTime.setTime(start);
+		
+		// adjust start time to midnight on same day
 		startTime.set(Calendar.HOUR_OF_DAY, 0);
+		
+		// adjust end time to be one day after, at 1 ms before midnight
 		stopTime.set(Calendar.HOUR_OF_DAY, 0);
-		stopTime.add(Calendar.DATE, 1);
+		stopTime.add(Calendar.DAY_OF_MONTH, 1);
 		stopTime.add(Calendar.HOUR_OF_DAY, interval);
 		stopTime.add(Calendar.MILLISECOND, -1);
 		
-		while (!stopTime.after(end)) {
+		while (!stopTime.after(endTime)) {
+			// add time to list
 			list.add(startTime.getTime());
+			// add size of results fo list
 			list.add(Context.getService(AccessMonitorService.class)
 			        .getAccessMonitors(null, startTime.getTime(), stopTime.getTime()).size());
+			
+			// add the interval to both start and end time
 			startTime.add(Calendar.HOUR_OF_DAY, interval);
 			stopTime.add(Calendar.HOUR_OF_DAY, interval);
 		}
