@@ -186,6 +186,7 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 	@Override
 	public List<Object> getNumberOfRecords(Date start, Date end, Integer interval) throws IllegalArgumentException,
 	        APIException {
+		System.out.println("aaa");
 		if (interval < 1 || interval > 24) {
 			throw new IllegalArgumentException();
 		}
@@ -194,22 +195,36 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 		
 		Calendar startTime = Calendar.getInstance();
 		Calendar stopTime = Calendar.getInstance();
+		Calendar realStopTime = Calendar.getInstance();
+		
 		startTime.setTime(start);
 		stopTime.setTime(start);
+		realStopTime.setTime(end);
 		startTime.set(Calendar.HOUR_OF_DAY, 0);
 		stopTime.set(Calendar.HOUR_OF_DAY, 0);
+		realStopTime.set(Calendar.HOUR_OF_DAY, 0);
+		realStopTime.add(Calendar.DATE, 1);
+		
+		if (startTime.compareTo(stopTime) == 0) {
+			interval = 1;
+		} else {
+			interval = 24;
+		}
+		
 		stopTime.add(Calendar.DATE, 1);
+		
 		stopTime.add(Calendar.HOUR_OF_DAY, interval);
 		stopTime.add(Calendar.MILLISECOND, -1);
-		
-		while (!stopTime.after(end)) {
+		System.out.println("bbb");
+		while (stopTime.after(realStopTime)) {
 			list.add(startTime.getTime());
-			list.add(Context.getService(AccessMonitorService.class)
-			        .getAccessMonitors(null, startTime.getTime(), stopTime.getTime()).size());
+			System.out.println("add time");
+			list.add(this.getAccessMonitors(null, startTime.getTime(), stopTime.getTime()).size());
+			System.out.println("add size");
 			startTime.add(Calendar.HOUR_OF_DAY, interval);
 			stopTime.add(Calendar.HOUR_OF_DAY, interval);
 		}
-		
+		System.out.println("ccc");
 		return list;
 	}
 	
