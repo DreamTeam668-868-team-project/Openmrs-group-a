@@ -187,43 +187,51 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 	@Override
 	public List<ChartData> getNumberOfRecords(Date start, Date end, Integer interval) throws IllegalArgumentException,
 	        APIException {
-		System.out.println("aaa");
+		
 		if (interval < 1 || interval > 24) {
 			throw new IllegalArgumentException();
 		}
-		
-		// create the return list
-		List<ChartData> list = new ArrayList();
 		
 		// create calendar objects to make time based decisions
 		Calendar startTime = Calendar.getInstance();
 		Calendar stopTime = Calendar.getInstance();
 		Calendar endTime = Calendar.getInstance();
+		Calendar tempCal = Calendar.getInstance();
 		
-		// initialize calendars to provided times
-		endTime.setTime(end);
+		// set startTime
 		startTime.setTime(start);
+		
+		// set stop time to be one interval after start
 		stopTime.setTime(start);
-		
-		// adjust start time to midnight on same day
-		startTime.set(Calendar.HOUR_OF_DAY, 0);
-		
-		// adjust end time to be one day after, at 1 ms before midnight
-		stopTime.set(Calendar.HOUR_OF_DAY, 0);
-		stopTime.add(Calendar.DAY_OF_MONTH, 1);
 		stopTime.add(Calendar.HOUR_OF_DAY, interval);
-		stopTime.add(Calendar.MILLISECOND, -1);
 		
-		while (!stopTime.after(endTime)) {
-			System.out.println("bbb");
-			list.add(new ChartData(startTime.getTime(), Context.getService(AccessMonitorService.class)
-			        .getAccessMonitors(null, startTime.getTime(), stopTime.getTime()).size()));
-			
-			// add the interval to both start and end time
-			startTime.add(Calendar.HOUR_OF_DAY, interval);
-			stopTime.add(Calendar.HOUR_OF_DAY, interval);
+		// set end time to be one day after provided date
+		endTime.setTime(end);
+		endTime.add(Calendar.DATE, 1);
+		
+		List<AccessMonitor> data = Context.getService(AccessMonitorService.class).getAccessMonitors(null,
+		    startTime.getTime(), endTime.getTime());
+		
+		System.out.println(data.size());
+		
+		// create the return list
+		List<ChartData> list = new ArrayList();
+		List<AccessMonitor> temp = new ArrayList();
+		
+		for (int i = 0; i < data.size(); ++i) {
+			tempCal.setTime(data.get(i).getTimestamp());
+			while (tempCal.before(startTime) || tempCal.after(stopTime)) {
+				if (!temp.isEmpty()) {
+					list.add(new ChartData(startTime.getTime(), temp.size()));
+					temp = new ArrayList();
+				}
+				startTime.add(Calendar.HOUR_OF_DAY, interval);
+				stopTime.add(Calendar.HOUR_OF_DAY, interval);
+			}
+			temp.add(data.get(i));
 		}
-		System.out.println("ccc");
+		list.add(new ChartData(startTime.getTime(), temp.size()));
+		System.out.println(list.size());
 		return list;
 	}
 	
