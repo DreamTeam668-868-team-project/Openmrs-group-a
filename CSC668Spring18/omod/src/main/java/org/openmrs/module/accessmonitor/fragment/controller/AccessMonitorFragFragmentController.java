@@ -18,6 +18,7 @@ import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.module.accessmonitor.api.AccessMonitorService;
 import java.util.Date;
+import org.openmrs.module.accessmonitor.ChartData;
 import org.springframework.web.bind.annotation.RequestParam;
 
 /**
@@ -36,10 +37,10 @@ public class AccessMonitorFragFragmentController {
 	        @RequestParam(value = "end", required = false) Date endDate, UiUtils ui) {//@SpringBean("userService") UserService service,
 		AccessMonitorService service = Context.getService(AccessMonitorService.class);
 		System.out.println("Chart!!!");
-		List<Object> chartData = service.getNumberOfRecords(startDate, endDate, 1);
+		List<ChartData> chartData = service.getNumberOfRecords(startDate, endDate, 24);
 		System.out.println("Chart!!! Start Date: " + startDate + ", End Date: " + endDate + ", Count: " + chartData.size());
 		
-		String[] properties = new String[] { "time", "count" };
+		String[] properties = new String[] { "time", "number" };
 		
 		return SimpleObject.fromCollection(chartData, ui, properties);
 	}

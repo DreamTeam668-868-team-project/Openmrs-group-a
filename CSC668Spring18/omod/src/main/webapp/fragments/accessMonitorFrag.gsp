@@ -112,10 +112,16 @@ function getChartData(s, e){
          alert('AJAX error ' + err);
      })
      .success(function(users) {
-          alert(user);
+     chart_data = [];
          for (index in users) {
-             var user = users[index];
+             var user = users[index]; 
+             chart_data.push({
+                x: new moment(user.time, "DD.MMM.YYYY"),
+                y: user.number
+              })
+//             alert(user.time + " " + user.number);
          };
+//         alert(chart_data);
 //         document.getElementById("userList").style.display = "block";
       }
     )
@@ -198,25 +204,27 @@ var data2 = [{
       y: Math.random() * 100
     },
   ];  
+ var chart_data = [];
 function sliderDo(s,e) {
     getChartData(s, e);
+    chart.data.datasets[0].data = chart_data;
     getDetailData(s, e);
     if(s==e){
-        chart.data.datasets[0].data = data2;
+//        chart.data.datasets[0].data = data2;
         chart.options.scales = {
             xAxes: [{
             type: 'time',
             time: {
-                unit: 'minute',
+                unit: 'hour',
             }
           }],
         }
     } else {
-        if(chart.data.datasets[0].data == data) {
-            chart.data.datasets[0].data = data1;
-        }else {
-            chart.data.datasets[0].data = data;
-        }
+//        if(chart.data.datasets[0].data == data) {
+//            chart.data.datasets[0].data = data1;
+//        }else {
+//            chart.data.datasets[0].data = data;
+//        }
         
         chart.options.scales = {
             xAxes: [{

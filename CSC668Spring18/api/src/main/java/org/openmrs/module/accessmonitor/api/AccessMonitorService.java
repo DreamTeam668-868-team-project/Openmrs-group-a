@@ -20,6 +20,7 @@ import org.openmrs.api.APIException;
 import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.accessmonitor.AccessMonitor;
 import org.openmrs.module.accessmonitor.AccessMonitorConfig;
+import org.openmrs.module.accessmonitor.ChartData;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -156,7 +157,7 @@ public interface AccessMonitorService extends OpenmrsService {
 	 */
 	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
-	List<Object> getNumberOfRecords(Date start, Date end, Integer interval) throws IllegalArgumentException, APIException;
+	List<ChartData> getNumberOfRecords(Date start, Date end, Integer interval) throws IllegalArgumentException, APIException;
 	
 	/**
 	 * Saves an record. Sets the owner to superuser, if it is not set. It can be called by users

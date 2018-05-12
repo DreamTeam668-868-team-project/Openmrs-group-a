@@ -24,6 +24,7 @@ import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.accessmonitor.AccessMonitor;
 import org.openmrs.module.accessmonitor.AccessMonitorConfig;
+import org.openmrs.module.accessmonitor.ChartData;
 import org.openmrs.module.accessmonitor.api.AccessMonitorService;
 import org.openmrs.module.accessmonitor.api.db.AccessMonitorDAO;
 import org.springframework.transaction.annotation.Transactional;
@@ -184,7 +185,7 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
 	@Override
-	public List<Object> getNumberOfRecords(Date start, Date end, Integer interval) throws IllegalArgumentException,
+	public List<ChartData> getNumberOfRecords(Date start, Date end, Integer interval) throws IllegalArgumentException,
 	        APIException {
 		System.out.println("aaa");
 		if (interval < 1 || interval > 24) {
@@ -192,7 +193,7 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 		}
 		
 		// create the return list
-		List<Object> list = new ArrayList();
+		List<ChartData> list = new ArrayList();
 		
 		// create calendar objects to make time based decisions
 		Calendar startTime = Calendar.getInstance();
@@ -214,11 +215,9 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 		stopTime.add(Calendar.MILLISECOND, -1);
 		
 		while (!stopTime.after(endTime)) {
-			// add time to list
-			list.add(startTime.getTime());
-			// add size of results fo list
-			list.add(Context.getService(AccessMonitorService.class)
-			        .getAccessMonitors(null, startTime.getTime(), stopTime.getTime()).size());
+			System.out.println("bbb");
+			list.add(new ChartData(startTime.getTime(), Context.getService(AccessMonitorService.class)
+			        .getAccessMonitors(null, startTime.getTime(), stopTime.getTime()).size()));
 			
 			// add the interval to both start and end time
 			startTime.add(Calendar.HOUR_OF_DAY, interval);
