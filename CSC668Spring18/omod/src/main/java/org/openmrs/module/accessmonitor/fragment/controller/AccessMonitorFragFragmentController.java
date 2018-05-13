@@ -5,10 +5,8 @@
  */
 package org.openmrs.module.accessmonitor.fragment.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpSession;
-import org.openmrs.User;
 import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.accessmonitor.AccessMonitor;
@@ -37,7 +35,8 @@ public class AccessMonitorFragFragmentController {
 	        @RequestParam(value = "end", required = false) Date endDate, UiUtils ui) {//@SpringBean("userService") UserService service,
 		AccessMonitorService service = Context.getService(AccessMonitorService.class);
 		System.out.println("Chart!!!");
-		List<ChartData> chartData = service.getFilteredNumberOfRecords(startDate, endDate, 24);
+		List<ChartData> chartData = service.getNumberOfRecords(startDate, endDate, 24);
+//                List<DetailData> chartData = service.getFilteredNumberOfRecords(startDate, endDate, 24);
 		System.out.println("Chart!!! Start Date: " + startDate + ", End Date: " + endDate + ", Count: " + chartData.size());
 		
 		String[] properties = new String[] { "start", "number" };
