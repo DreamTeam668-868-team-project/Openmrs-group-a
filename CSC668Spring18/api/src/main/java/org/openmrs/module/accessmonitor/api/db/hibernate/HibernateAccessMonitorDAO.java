@@ -62,6 +62,7 @@ public class HibernateAccessMonitorDAO implements AccessMonitorDAO {
 		Criteria criteria = getSession().createCriteria(AccessMonitor.class);
 		criteria.add(Restrictions.eq("timestamp", date));
 		criteria.addOrder(Order.asc("timestamp"));
+		criteria.addOrder(Order.asc("id"));
 		return criteria.list();
 	}
 	
@@ -78,6 +79,7 @@ public class HibernateAccessMonitorDAO implements AccessMonitorDAO {
 		criteria.add(Restrictions.ge("timestamp", start));
 		criteria.add(Restrictions.lt("timestamp", end));
 		criteria.addOrder(Order.asc("timestamp"));
+		criteria.addOrder(Order.asc("id"));
 		return criteria.list();
 	}
 	
@@ -87,6 +89,7 @@ public class HibernateAccessMonitorDAO implements AccessMonitorDAO {
 		criteria.add(Restrictions.eq("user_id", userId));
 		criteria.add(Restrictions.eq("timestamp", date));
 		criteria.addOrder(Order.asc("timestamp"));
+		criteria.addOrder(Order.asc("id"));
 		return criteria.list();
 	}
 	
@@ -97,6 +100,7 @@ public class HibernateAccessMonitorDAO implements AccessMonitorDAO {
 		criteria.add(Restrictions.ge("timestamp", start));
 		criteria.add(Restrictions.lt("timestamp", end));
 		criteria.addOrder(Order.asc("timestamp"));
+		criteria.addOrder(Order.asc("id"));
 		return criteria.list();
 	}
 	
