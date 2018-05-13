@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.openmrs.module.accessmonitor.AccessMonitor;
 import org.openmrs.module.accessmonitor.api.db.AccessMonitorDAO;
@@ -60,6 +61,7 @@ public class HibernateAccessMonitorDAO implements AccessMonitorDAO {
 	public List<AccessMonitor> getRecordsByDate(Date date) {
 		Criteria criteria = getSession().createCriteria(AccessMonitor.class);
 		criteria.add(Restrictions.eq("timestamp", date));
+		criteria.addOrder(Order.asc("timestamp"));
 		return criteria.list();
 	}
 	
@@ -75,6 +77,7 @@ public class HibernateAccessMonitorDAO implements AccessMonitorDAO {
 		Criteria criteria = getSession().createCriteria(AccessMonitor.class);
 		criteria.add(Restrictions.ge("timestamp", start));
 		criteria.add(Restrictions.lt("timestamp", end));
+		criteria.addOrder(Order.asc("timestamp"));
 		return criteria.list();
 	}
 	
@@ -83,7 +86,7 @@ public class HibernateAccessMonitorDAO implements AccessMonitorDAO {
 		Criteria criteria = getSession().createCriteria(AccessMonitor.class);
 		criteria.add(Restrictions.eq("user_id", userId));
 		criteria.add(Restrictions.eq("timestamp", date));
-		
+		criteria.addOrder(Order.asc("timestamp"));
 		return criteria.list();
 	}
 	
@@ -93,6 +96,7 @@ public class HibernateAccessMonitorDAO implements AccessMonitorDAO {
 		criteria.add(Restrictions.eq("user_id", userId));
 		criteria.add(Restrictions.ge("timestamp", start));
 		criteria.add(Restrictions.lt("timestamp", end));
+		criteria.addOrder(Order.asc("timestamp"));
 		return criteria.list();
 	}
 	

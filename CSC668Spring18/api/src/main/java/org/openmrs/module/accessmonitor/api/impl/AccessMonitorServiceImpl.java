@@ -227,13 +227,13 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 				}
 				startTime.add(Calendar.HOUR_OF_DAY, interval);
 				stopTime.add(Calendar.HOUR_OF_DAY, interval);
-                                
-                                // this is the only section of code that could loop infinitely
-                                // this should stop it if it does occur, and alert
-                                if(startTime.after(endTime)){
-                                    System.out.println("Error in getNumberOfRecords: Infinite loop");
-                                    return new ArrayList();
-                                }
+				
+				// this is the only section of code that could loop infinitely
+				// this should stop it if it does occur, and alert
+				if (startTime.after(endTime)) {
+					System.out.println("Error in getNumberOfRecords: Infinite loop");
+					return new ArrayList();
+				}
 			}
 			temp.add(data.get(i));
 		}
