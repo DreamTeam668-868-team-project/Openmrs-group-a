@@ -238,7 +238,7 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
                 // this is the only section of code that could loop infinitely
                 // this should stop it if it does occur, and alert
                 if (startTime.after(endTime)) {
-                    System.out.println("Error in getNumberOfRecords: Infinite loop");
+                    log.error("Error in getSummedRecordList: Infinite loop");
                     return new ArrayList();
                 }
             }
@@ -326,7 +326,7 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
                 // this is the only section of code that could loop infinitely
                 // this should stop it if it does occur, and alert
                 if (startTime.after(endTime)) {
-                    log.error("Error in getNumberOfRecords: Infinite loop");
+                    log.error("Error in getFilteredSummedRecordList: Infinite loop");
                     return new ArrayList();
                 }
             }
