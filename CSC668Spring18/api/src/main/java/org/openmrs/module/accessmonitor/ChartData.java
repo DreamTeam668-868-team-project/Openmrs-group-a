@@ -29,9 +29,9 @@ public class ChartData extends BaseOpenmrsObject implements Serializable {
 	private String userFamily;
 	
 	public ChartData(Date s, Date e, Integer n) {
-                userId = 0;
-                userGiven = "";
-                userFamily = "";
+		userId = 0;
+		userGiven = "";
+		userFamily = "";
 		start = s;
 		end = e;
 		number = n;
@@ -63,8 +63,8 @@ public class ChartData extends BaseOpenmrsObject implements Serializable {
 	public void setStart(Date time) {
 		this.start = time;
 	}
-        
-        public Date getEnd() {
+	
+	public Date getEnd() {
 		return end;
 	}
 	

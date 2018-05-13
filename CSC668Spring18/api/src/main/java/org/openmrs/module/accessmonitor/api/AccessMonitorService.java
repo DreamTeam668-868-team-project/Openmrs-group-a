@@ -157,8 +157,7 @@ public interface AccessMonitorService extends OpenmrsService {
 	 */
 	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
-	List<ChartData> getNumberOfRecords(Date start, Date end, Integer interval) throws IllegalArgumentException,
-	        APIException;
+	List<ChartData> getNumberOfRecords(Date start, Date end, Integer interval) throws IllegalArgumentException, APIException;
 	
 	/**
 	 * Returns a number of records in given timeframe, separated by interval and user

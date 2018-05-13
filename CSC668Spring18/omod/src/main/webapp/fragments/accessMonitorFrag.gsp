@@ -116,10 +116,10 @@ function getChartData(s, e){
          for (index in users) {
              var user = users[index]; 
              chart_data.push({
-                x: new moment(user.time, "DD.MMM.YYYY"),
+                x: new moment(user.start, "DD.MMM.YYYY"),
                 y: user.number
               })
-//             alert(user.time + ": " + user.number);
+//             alert(user.start + ": " + user.number);
          };
          jq( "#slider-range" ).slider({
                 disabled: false

@@ -243,10 +243,11 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 			}
 			temp.add(data.get(i));
 		}
-		
-		// add last of the data to the return list
-		list.add(new ChartData(startTime.getTime(), stopTime.getTime(), temp.size()));
-		System.out.println(list.size());
+		if (!temp.isEmpty()) {
+			// add last of the data to the return list
+			list.add(new ChartData(startTime.getTime(), stopTime.getTime(), temp.size()));
+			System.out.println(list.size());
+		}
 		return list;
 	}
 	
@@ -297,6 +298,7 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 		Integer lastUserId = data.get(0).getAccessingUserId();
 		String lastUserGiven = data.get(0).getUserGiven();
 		String lastUserFamily = data.get(0).getUserFamily();
+		
 		for (int i = 0; i < data.size(); ++i) {
 			tempCal.setTime(data.get(i).getTimestamp());
 			
@@ -305,6 +307,7 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 				
 				// check if there is data to add to the return value, and do so
 				if (!temp.isEmpty()) {
+					System.out.println("Add 312");
 					list.add(new ChartData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime
 					        .getTime(), temp.size()));
 					
@@ -332,6 +335,7 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 			// check if this user is the same as the last user
 			// add current list to output and clear if user is different
 			if (!lastUserId.equals(data.get(i).getAccessingUserId())) {
+				System.out.println("Add 340");
 				list.add(new ChartData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime.getTime(),
 				        temp.size()));
 				lastUserId = data.get(i).getAccessingUserId();
@@ -344,10 +348,11 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 			temp.add(data.get(i));
 			
 		}
-		
-		// add last of the data to the return list
-		list.add(new ChartData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime.getTime(), temp
-		        .size()));
+		if (!temp.isEmpty()) {
+			// add last of the data to the return list
+			list.add(new ChartData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime.getTime(), temp
+			        .size()));
+		}
 		System.out.println(list.size());
 		return list;
 	}
