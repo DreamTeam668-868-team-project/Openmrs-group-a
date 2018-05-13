@@ -220,13 +220,20 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 		
 		for (int i = 0; i < data.size(); ++i) {
 			tempCal.setTime(data.get(i).getTimestamp());
-			while (tempCal.before(startTime) || tempCal.after(stopTime)) {
+			while (tempCal.before(startTime) || !tempCal.before(stopTime)) {
 				if (!temp.isEmpty()) {
 					list.add(new ChartData(startTime.getTime(), temp.size()));
 					temp = new ArrayList();
 				}
 				startTime.add(Calendar.HOUR_OF_DAY, interval);
 				stopTime.add(Calendar.HOUR_OF_DAY, interval);
+                                
+                                // this is the only section of code that could loop infinitely
+                                // this should stop it if it does occur, and alert
+                                if(startTime.after(endTime)){
+                                    System.out.println("Error in getNumberOfRecords: Infinite loop");
+                                    return new ArrayList();
+                                }
 			}
 			temp.add(data.get(i));
 		}
