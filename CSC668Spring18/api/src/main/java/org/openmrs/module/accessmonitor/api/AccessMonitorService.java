@@ -157,11 +157,11 @@ public interface AccessMonitorService extends OpenmrsService {
 	 */
 	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
-	List<ChartData> getSummedRecordList(Date start, Date end, Integer interval) throws IllegalArgumentException, APIException;
-        
-        /**
-	 * Returns a number of records in given timeframe, separated by interval
-         * and user
+	List<ChartData> getNumberOfRecords(Date start, Date end, Integer interval) throws IllegalArgumentException,
+	        APIException;
+	
+	/**
+	 * Returns a number of records in given timeframe, separated by interval and user
 	 * 
 	 * @param start the start of the time frame
 	 * @param end the end of the time frame
@@ -169,9 +169,9 @@ public interface AccessMonitorService extends OpenmrsService {
 	 * @return
 	 * @throws APIException
 	 */
-        @Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
+	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
-	List<ChartData> getFilteredSummedRecordList(Date start, Date end, Integer interval) throws IllegalArgumentException,
+	List<ChartData> getFilteredNumberOfRecords(Date start, Date end, Integer interval) throws IllegalArgumentException,
 	        APIException;
 	
 	/**
