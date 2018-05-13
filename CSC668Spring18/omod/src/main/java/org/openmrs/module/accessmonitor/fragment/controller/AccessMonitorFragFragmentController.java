@@ -37,7 +37,7 @@ public class AccessMonitorFragFragmentController {
 	        @RequestParam(value = "end", required = false) Date endDate, UiUtils ui) {//@SpringBean("userService") UserService service,
 		AccessMonitorService service = Context.getService(AccessMonitorService.class);
 		System.out.println("Chart!!!");
-		List<ChartData> chartData = service.getNumberOfRecords(startDate, endDate, 24);
+		List<ChartData> chartData = service.getSummedRecordList(startDate, endDate, 24);
 		System.out.println("Chart!!! Start Date: " + startDate + ", End Date: " + endDate + ", Count: " + chartData.size());
 		
 		String[] properties = new String[] { "time", "number" };
