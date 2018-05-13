@@ -25,6 +25,7 @@ import org.openmrs.api.context.Context;
 import org.openmrs.module.accessmonitor.AccessMonitor;
 import org.openmrs.module.accessmonitor.AccessMonitorConfig;
 import org.openmrs.module.accessmonitor.ChartData;
+import org.openmrs.module.accessmonitor.DetailData;
 import org.openmrs.module.accessmonitor.api.AccessMonitorService;
 import org.openmrs.module.accessmonitor.api.db.AccessMonitorDAO;
 import org.springframework.transaction.annotation.Transactional;
@@ -217,36 +218,37 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 		// create the return list
 		List<ChartData> list = new ArrayList();
 		List<AccessMonitor> temp = new ArrayList();
-		
-		for (int i = 0; i < data.size(); ++i) {
-			tempCal.setTime(data.get(i).getTimestamp());
-			
-			// if the current entry is outside the current timeframe, cycle forward
-			while (tempCal.before(startTime) || !tempCal.before(stopTime)) {
+		if (data.size() > 0) {
+			for (int i = 0; i < data.size(); ++i) {
+				tempCal.setTime(data.get(i).getTimestamp());
 				
-				// check if there is data to add to the return value, and do so if necessary
-				if (!temp.isEmpty()) {
-					list.add(new ChartData(startTime.getTime(), stopTime.getTime(), temp.size()));
-					temp = new ArrayList();
+				// if the current entry is outside the current timeframe, cycle forward
+				while (tempCal.before(startTime) || !tempCal.before(stopTime)) {
+					
+					// check if there is data to add to the return value, and do so if necessary
+					if (!temp.isEmpty()) {
+						list.add(new ChartData(startTime.getTime(), stopTime.getTime(), temp.size()));
+						temp = new ArrayList();
+					}
+					
+					// cycle timeframe forward one interval
+					startTime.add(Calendar.HOUR_OF_DAY, interval);
+					stopTime.add(Calendar.HOUR_OF_DAY, interval);
+					
+					// this is the only section of code that could loop infinitely
+					// this should stop it if it does occur, and alert
+					if (startTime.after(endTime)) {
+						log.error("Error in getSummedRecordList: Infinite loop");
+						return new ArrayList();
+					}
 				}
-				
-				// cycle timeframe forward one interval
-				startTime.add(Calendar.HOUR_OF_DAY, interval);
-				stopTime.add(Calendar.HOUR_OF_DAY, interval);
-				
-				// this is the only section of code that could loop infinitely
-				// this should stop it if it does occur, and alert
-				if (startTime.after(endTime)) {
-					log.error("Error in getSummedRecordList: Infinite loop");
-					return new ArrayList();
-				}
+				temp.add(data.get(i));
 			}
-			temp.add(data.get(i));
-		}
-		if (!temp.isEmpty()) {
-			// add last of the data to the return list
-			list.add(new ChartData(startTime.getTime(), stopTime.getTime(), temp.size()));
-			System.out.println(list.size());
+			if (!temp.isEmpty()) {
+				// add last of the data to the return list
+				list.add(new ChartData(startTime.getTime(), stopTime.getTime(), temp.size()));
+				System.out.println(list.size());
+			}
 		}
 		return list;
 	}
@@ -263,7 +265,7 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
 	@Override
-	public List<ChartData> getFilteredNumberOfRecords(Date start, Date end, Integer interval)
+	public List<DetailData> getFilteredNumberOfRecords(Date start, Date end, Integer interval)
 	        throws IllegalArgumentException, APIException {
 		
 		if (interval < 1 || interval > 24) {
@@ -293,65 +295,67 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 		System.out.println(data.size());
 		
 		// create the return list
-		List<ChartData> list = new ArrayList();
+		List<DetailData> list = new ArrayList();
 		List<AccessMonitor> temp = new ArrayList();
-		Integer lastUserId = data.get(0).getAccessingUserId();
-		String lastUserGiven = data.get(0).getUserGiven();
-		String lastUserFamily = data.get(0).getUserFamily();
-		
-		for (int i = 0; i < data.size(); ++i) {
-			tempCal.setTime(data.get(i).getTimestamp());
+		if (data.size() > 0) {
+			Integer lastUserId = data.get(0).getAccessingUserId();
+			String lastUserGiven = data.get(0).getUserGiven();
+			String lastUserFamily = data.get(0).getUserFamily();
 			
-			// if the current entry is outside the current timeframe, cycle forward
-			while (tempCal.before(startTime) || !tempCal.before(stopTime)) {
+			for (int i = 0; i < data.size(); ++i) {
+				tempCal.setTime(data.get(i).getTimestamp());
 				
-				// check if there is data to add to the return value, and do so
-				if (!temp.isEmpty()) {
-					System.out.println("Add 312");
-					list.add(new ChartData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime
-					        .getTime(), temp.size()));
+				// if the current entry is outside the current timeframe, cycle forward
+				while (tempCal.before(startTime) || !tempCal.before(stopTime)) {
 					
-					// list was added, so reset these values
+					// check if there is data to add to the return value, and do so
+					if (!temp.isEmpty()) {
+						System.out.println("Add 312");
+						list.add(new DetailData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime
+						        .getTime(), temp.size()));
+						
+						// list was added, so reset these values
+						lastUserId = data.get(i).getAccessingUserId();
+						lastUserGiven = data.get(i).getUserGiven();
+						lastUserFamily = data.get(i).getUserFamily();
+						
+						// and clear the temp list
+						temp = new ArrayList();
+					}
+					
+					// cycle timeframe forward one interval
+					startTime.add(Calendar.HOUR_OF_DAY, interval);
+					stopTime.add(Calendar.HOUR_OF_DAY, interval);
+					
+					// this is the only section of code that could loop infinitely
+					// this should stop it if it does occur, and alert
+					if (startTime.after(endTime)) {
+						log.error("Error in getFilteredSummedRecordList: Infinite loop");
+						return new ArrayList();
+					}
+				}
+				
+				// check if this user is the same as the last user
+				// add current list to output and clear if user is different
+				if (!lastUserId.equals(data.get(i).getAccessingUserId())) {
+					System.out.println("Add 340");
+					list.add(new DetailData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime
+					        .getTime(), temp.size()));
 					lastUserId = data.get(i).getAccessingUserId();
 					lastUserGiven = data.get(i).getUserGiven();
 					lastUserFamily = data.get(i).getUserFamily();
-					
-					// and clear the temp list
 					temp = new ArrayList();
 				}
 				
-				// cycle timeframe forward one interval
-				startTime.add(Calendar.HOUR_OF_DAY, interval);
-				stopTime.add(Calendar.HOUR_OF_DAY, interval);
+				// add entry to temp list either way
+				temp.add(data.get(i));
 				
-				// this is the only section of code that could loop infinitely
-				// this should stop it if it does occur, and alert
-				if (startTime.after(endTime)) {
-					log.error("Error in getFilteredSummedRecordList: Infinite loop");
-					return new ArrayList();
-				}
 			}
 			
-			// check if this user is the same as the last user
-			// add current list to output and clear if user is different
-			if (!lastUserId.equals(data.get(i).getAccessingUserId())) {
-				System.out.println("Add 340");
-				list.add(new ChartData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime.getTime(),
-				        temp.size()));
-				lastUserId = data.get(i).getAccessingUserId();
-				lastUserGiven = data.get(i).getUserGiven();
-				lastUserFamily = data.get(i).getUserFamily();
-				temp = new ArrayList();
-			}
-			
-			// add entry to temp list either way
-			temp.add(data.get(i));
-			
-		}
-		if (!temp.isEmpty()) {
 			// add last of the data to the return list
-			list.add(new ChartData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime.getTime(), temp
+			list.add(new DetailData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime.getTime(), temp
 			        .size()));
+			
 		}
 		System.out.println(list.size());
 		return list;
