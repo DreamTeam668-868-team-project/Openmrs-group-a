@@ -18,31 +18,10 @@ public class ChartData extends BaseOpenmrsObject implements Serializable {
 	
 	private Date start;
 	
-	private Date end;
-	
 	private Integer number;
 	
-	private Integer userId;
-	
-	private String userGiven;
-	
-	private String userFamily;
-	
 	public ChartData(Date s, Date e, Integer n) {
-		userId = 0;
-		userGiven = "";
-		userFamily = "";
 		start = s;
-		end = e;
-		number = n;
-	}
-	
-	public ChartData(Integer userId, String userGiven, String userFamily, Date s, Date e, Integer n) {
-		this.userId = userId;
-		this.userGiven = userGiven;
-		this.userFamily = userFamily;
-		start = s;
-		end = e;
 		number = n;
 	}
 	
@@ -64,43 +43,11 @@ public class ChartData extends BaseOpenmrsObject implements Serializable {
 		this.start = time;
 	}
 	
-	public Date getEnd() {
-		return end;
-	}
-	
-	public void setEnd(Date time) {
-		this.end = time;
-	}
-	
 	public Integer getNumber() {
 		return number;
 	}
 	
 	public void setNumber(Integer number) {
 		this.number = number;
-	}
-	
-	public Integer getUserId() {
-		return userId;
-	}
-	
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-	
-	public String getUserGiven() {
-		return userGiven;
-	}
-	
-	public void setUserGiven(String userGiven) {
-		this.userGiven = userGiven;
-	}
-	
-	public String getUserFamily() {
-		return userFamily;
-	}
-	
-	public void setUserFamily(String userFamily) {
-		this.userFamily = userFamily;
 	}
 }
