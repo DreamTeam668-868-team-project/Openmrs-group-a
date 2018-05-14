@@ -124,7 +124,8 @@ function getChartData(s, e){
          jq( "#slider-range" ).slider({
                 disabled: false
               });
-         
+         chart.data.datasets[0].data = chart_data;
+         chart.update();
 //         alert(chart_data);
 //         document.getElementById("userList").style.display = "block";
       }
@@ -211,7 +212,7 @@ var data2 = [{
  var chart_data = [];
 function sliderDo(s,e) {
     getChartData(s, e);
-    chart.data.datasets[0].data = chart_data;
+    
     getDetailData(s, e);
     if(s==e){
 //        chart.data.datasets[0].data = data2;
@@ -239,7 +240,6 @@ function sliderDo(s,e) {
           }],
         }
     }
-    chart.update();
 }
 
 //function newDate(days) {
@@ -300,7 +300,7 @@ var chart = new Chart(ctx, config);
 <thead>
   <tr>
         <th>Name</th>
-        <th>Action Type</th>
+        <th>Access Type</th>
         <th>Record Type</th>
         <th>Record Id</th>
         <th>Timestamp</th>
