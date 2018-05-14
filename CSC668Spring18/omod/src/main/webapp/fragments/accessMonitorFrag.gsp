@@ -122,12 +122,13 @@ function getChartData(s, e){
          for (index in users) {
              var user = users[index]; 
              chart_data.push({
-                x: new moment(user.start, "DD.MMM.YYYY"),
+                x: new moment(user.start, "DD.MMM.YYYY, hh:mm:ss"),
                 y: user.number
               })
               if (user.number > maxY ) {
                 maxY = user.number;
               }
+//              alert(user.start);
 //             alert(user.start + ": " + user.number);
          };
 //         chart_data.push({
