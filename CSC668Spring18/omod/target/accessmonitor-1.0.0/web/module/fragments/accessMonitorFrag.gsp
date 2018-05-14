@@ -87,7 +87,7 @@ function getDetailData(s, e){
     //userTable.Rows.Clear();
     //userTable.Rows.Add(dr);
 
-
+         userTable.fnClearTable();
          for (index in users) {
              var user = users[index];
              userTable.fnAddData( [
@@ -113,18 +113,42 @@ function getChartData(s, e){
      })
      .success(function(users) {
      chart_data = [];
+     maxY = 18;
+//     chart_data.push({
+//                x: new moment("22.Apr.2018", "DD.MMM.YYYY"),
+//                y: 0
+//              });
+//             
          for (index in users) {
              var user = users[index]; 
              chart_data.push({
-                x: new moment(user.start, "DD.MMM.YYYY"),
+                x: new moment(user.start, "DD.MMM.YYYY, hh:mm:ss"),
                 y: user.number
               })
+              if (user.number > maxY ) {
+                maxY = user.number;
+              }
+//              alert(user.start);
 //             alert(user.start + ": " + user.number);
          };
-         jq( "#slider-range" ).slider({
-                disabled: false
-              });
-         
+//         chart_data.push({
+//                x: new moment("31.May.2018", "DD.MMM.YYYY"),
+//                y: 0
+//              });
+//         jq( "#slider-range" ).slider({
+//                disabled: false
+//              });
+        
+        chart.options.scales.yAxes = [{
+            ticks: {
+                suggestedMin: 0,
+                suggestedMax: Math.ceil(maxY*1.1),
+                stepSize: 1
+            }
+        }]
+    
+         chart.data.datasets[0].data = chart_data;
+         chart.update();
 //         alert(chart_data);
 //         document.getElementById("userList").style.display = "block";
       }
@@ -208,21 +232,25 @@ var data2 = [{
       y: Math.random() * 100
     },
   ];  
+  
+  
  var chart_data = [];
+ 
+ 
 function sliderDo(s,e) {
+
     getChartData(s, e);
-    chart.data.datasets[0].data = chart_data;
     getDetailData(s, e);
+    
     if(s==e){
 //        chart.data.datasets[0].data = data2;
-        chart.options.scales = {
-            xAxes: [{
+        chart.options.scales.xAxes = [{
             type: 'time',
             time: {
                 unit: 'hour',
             }
-          }],
-        }
+          }]
+        
     } else {
 //        if(chart.data.datasets[0].data == data) {
 //            chart.data.datasets[0].data = data1;
@@ -230,16 +258,13 @@ function sliderDo(s,e) {
 //            chart.data.datasets[0].data = data;
 //        }
         
-        chart.options.scales = {
-            xAxes: [{
+        chart.options.scales.xAxes = [{
             type: 'time',
             time: {
                 unit: 'day',
             }
-          }],
-        }
+          }]
     }
-    chart.update();
 }
 
 //function newDate(days) {
@@ -269,6 +294,12 @@ var config = {
 //  },
   options: {
     scales: {
+      yAxes: [{
+            ticks: {
+                suggestedMin: 0,
+                suggestedMax: 100
+            }
+        }],
       xAxes: [{
         type: 'time',
         distribution: 'linear',
@@ -294,7 +325,10 @@ var chart = new Chart(ctx, config);
  
 <div id="slider-range"></div>
 
-<br>
+<div>
+    <button id="getUsers" type="button">By User in given timeframe</button> <button id="getUsers" type="button">Detail</button>
+</div>
+    
 <div class="Table" id="userList" hidden>
 <table id="userTable"  border="1" class="display" cellspacing="0" width="50%">
 <thead>
@@ -312,5 +346,5 @@ var chart = new Chart(ctx, config);
 
 </div>
 
-<button id="getUsers" type="button">Detail</button>
+<!--<button id="getUsers" type="button">Detail</button>-->
 </div>

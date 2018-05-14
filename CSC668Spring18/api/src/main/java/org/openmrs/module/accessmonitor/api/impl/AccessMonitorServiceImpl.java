@@ -201,14 +201,17 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 		
 		// set startTime
 		startTime.setTime(start);
+		startTime.set(Calendar.HOUR_OF_DAY, 0);
 		
 		// set stop time to be one interval after start
 		stopTime.setTime(start);
+		stopTime.set(Calendar.HOUR_OF_DAY, 0);
 		stopTime.add(Calendar.HOUR_OF_DAY, interval);
 		
 		// set end time to be one day after provided date
 		endTime.setTime(end);
-		endTime.add(Calendar.DATE, 1);
+		//		endTime.add(Calendar.DATE, 1);
+		endTime.set(Calendar.HOUR_OF_DAY, 0);
 		
 		List<AccessMonitor> data = Context.getService(AccessMonitorService.class).getAccessMonitors(null,
 		    startTime.getTime(), endTime.getTime());
@@ -226,10 +229,8 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 				while (tempCal.before(startTime) || !tempCal.before(stopTime)) {
 					
 					// check if there is data to add to the return value, and do so if necessary
-					if (!temp.isEmpty()) {
-						list.add(new ChartData(startTime.getTime(), stopTime.getTime(), temp.size()));
-						temp = new ArrayList();
-					}
+					list.add(new ChartData(startTime.getTime(), stopTime.getTime(), temp.size()));
+					temp = new ArrayList();
 					
 					// cycle timeframe forward one interval
 					startTime.add(Calendar.HOUR_OF_DAY, interval);
@@ -237,18 +238,16 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 					
 					// this is the only section of code that could loop infinitely
 					// this should stop it if it does occur, and alert
-					if (startTime.after(endTime)) {
-						log.error("Error in getSummedRecordList: Infinite loop");
-						return new ArrayList();
-					}
+					//					if (!startTime.before(endTime)) {
+					//						break;
+					//					}
 				}
 				temp.add(data.get(i));
 			}
-			if (!temp.isEmpty()) {
-				// add last of the data to the return list
-				list.add(new ChartData(startTime.getTime(), stopTime.getTime(), temp.size()));
-				System.out.println(list.size());
-			}
+			
+			// add last of the data to the return list
+			list.add(new ChartData(startTime.getTime(), stopTime.getTime(), temp.size()));
+			System.out.println(list.size());
 		}
 		return list;
 	}
@@ -309,19 +308,17 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 				while (tempCal.before(startTime) || !tempCal.before(stopTime)) {
 					
 					// check if there is data to add to the return value, and do so
-					if (!temp.isEmpty()) {
-						System.out.println("Add 312");
-						list.add(new DetailData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime
-						        .getTime(), temp.size()));
-						
-						// list was added, so reset these values
-						lastUserId = data.get(i).getAccessingUserId();
-						lastUserGiven = data.get(i).getUserGiven();
-						lastUserFamily = data.get(i).getUserFamily();
-						
-						// and clear the temp list
-						temp = new ArrayList();
-					}
+					System.out.println("Add 312");
+					list.add(new DetailData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime
+					        .getTime(), temp.size()));
+					
+					// list was added, so reset these values
+					lastUserId = data.get(i).getAccessingUserId();
+					lastUserGiven = data.get(i).getUserGiven();
+					lastUserFamily = data.get(i).getUserFamily();
+					
+					// and clear the temp list
+					temp = new ArrayList();
 					
 					// cycle timeframe forward one interval
 					startTime.add(Calendar.HOUR_OF_DAY, interval);
@@ -330,8 +327,7 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 					// this is the only section of code that could loop infinitely
 					// this should stop it if it does occur, and alert
 					if (startTime.after(endTime)) {
-						log.error("Error in getFilteredSummedRecordList: Infinite loop");
-						return new ArrayList();
+						break;
 					}
 				}
 				

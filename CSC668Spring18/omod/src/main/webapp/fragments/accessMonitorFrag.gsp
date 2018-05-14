@@ -118,7 +118,7 @@ function getChartData(s, e){
 //                x: new moment("22.Apr.2018", "DD.MMM.YYYY"),
 //                y: 0
 //              });
-//              
+//             
          for (index in users) {
              var user = users[index]; 
              chart_data.push({
