@@ -87,7 +87,7 @@ function getDetailData(s, e){
     //userTable.Rows.Clear();
     //userTable.Rows.Add(dr);
 
-
+         userTable.fnClearTable();
          for (index in users) {
              var user = users[index];
              userTable.fnAddData( [
@@ -209,11 +209,16 @@ var data2 = [{
       y: Math.random() * 100
     },
   ];  
+  
+  
  var chart_data = [];
+ 
+ 
 function sliderDo(s,e) {
+
     getChartData(s, e);
-    
     getDetailData(s, e);
+    
     if(s==e){
 //        chart.data.datasets[0].data = data2;
         chart.options.scales = {
