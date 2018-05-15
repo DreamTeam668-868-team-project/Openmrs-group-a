@@ -92,6 +92,7 @@ function getDetailData(s, e){
              var user = users[index];
              userTable.fnAddData( [
                  user.userGiven + " " + user.userFamily,
+                 user.accessingUserId,
                  user.actionType,
                  user.recordType,
                  user.recordId,
@@ -398,6 +399,7 @@ var chart = new Chart(ctx, config);
 <thead>
   <tr>
         <th>User Name</th>
+        <th>User Id</th>
         <th>Action Type</th>
         <th>Record Type</th>
         <th>Record Id</th>
