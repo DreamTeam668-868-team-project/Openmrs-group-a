@@ -251,7 +251,8 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 			// add last of the data to the return list
 			list.add(new ChartData(startTime.getTime(), stopTime.getTime(), temp.size()));
 			
-			if (stopTime.before(endTime)) {
+			// this is purely for display of last hour of day
+			if (!stopTime.after(endTime)) {
 				list.add(new ChartData(endTime.getTime(), endTime.getTime(), new Integer(0)));
 			}
 			
@@ -316,18 +317,18 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 				while (tempCal.before(startTime) || !tempCal.before(stopTime)) {
 					
 					// check if there is data to add to the return value, and do so
-					System.out.println("Add 312");
-					list.add(new DetailData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime
-					        .getTime(), temp.size()));
-					
-					// list was added, so reset these values
-					lastUserId = data.get(i).getAccessingUserId();
-					lastUserGiven = data.get(i).getUserGiven();
-					lastUserFamily = data.get(i).getUserFamily();
-					
-					// and clear the temp list
-					temp = new ArrayList();
-					
+					if (!temp.isEmpty()) {
+						list.add(new DetailData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime
+						        .getTime(), temp.size()));
+						
+						// list was added, so reset these values
+						lastUserId = data.get(i).getAccessingUserId();
+						lastUserGiven = data.get(i).getUserGiven();
+						lastUserFamily = data.get(i).getUserFamily();
+						
+						// and clear the temp list
+						temp = new ArrayList();
+					}
 					// cycle timeframe forward one interval
 					startTime.add(Calendar.HOUR_OF_DAY, interval);
 					stopTime.add(Calendar.HOUR_OF_DAY, interval);
@@ -357,8 +358,10 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 			}
 			
 			// add last of the data to the return list
-			list.add(new DetailData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime.getTime(), temp
-			        .size()));
+			if (!temp.isEmpty()) {
+				list.add(new DetailData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime.getTime(),
+				        temp.size()));
+			}
 			
 		}
 		System.out.println(list.size());
