@@ -19,38 +19,20 @@ jq(function() {
             "bJQueryUI": true
         });
 
-    jq("#getUsers").click(function(){
-       jq.getJSON('${ ui.actionLink("getDetailData") }',
-           {
-           start: "2018-05-10",
-           end: "2018-05-10"
-            })
-       .error(function(xhr, status, err) {
-            alert('AJAX error ' + err);
-        })
-        .success(function(users) {
-            jq('#userTable').dataTable({
-                "aaSorting": [],
-                "sPaginationType": "full_numbers",
-                "bPaginate": true,
-                "bAutoWidth": false,
-                "bLengthChange": true,
-                "bSort": true,
-                "bJQueryUI": true
-            });
-            var userTable = jq('#userTable').DataTable();
-            for (index in users) {
-                var user = users[index];
-                userTable.fnAddData( [
-                    user.userGiven + " " + user.userFamily,
-                    user.actionType,
-                    user.recordType,
-                    user.recordId,
-                    user.timestamp
-                ]) 
-            };
+    jq("#getByUsers").click(function(){
+            
+            document.getElementById("userList").style.display = "none";
+            document.getElementById("getByUsers").style.display = "none";
+            document.getElementById("byUserList").style.display = "block";
+            document.getElementById("getByRecords").style.display = "block";
+    })
+    
+    jq("#getByRecords").click(function(){
+            
+            document.getElementById("byUserList").style.display = "none";
+            document.getElementById("getByRecords").style.display = "none";
             document.getElementById("userList").style.display = "block";
-            })
+            document.getElementById("getByUsers").style.display = "block";
     })
 });
 
@@ -91,15 +73,15 @@ function getDetailData(s, e){
          for (index in users) {
              var user = users[index];
              userTable.fnAddData( [
-                 user.userGiven + " " + user.userFamily,
-                 user.accessingUserId,
-                 user.actionType,
-                 user.recordType,
-                 user.recordId,
-                 new moment(user.timestamp, "DD.MMM.YYYY, hh:mm:ss").format("YYYY-MM-DD HH:mm:ss")
+                user.recordId,
+                user.recordType,
+                user.actionType,
+                user.accessingUserId,
+                user.userGiven + " " + user.userFamily,
+                new moment(user.timestamp, "DD.MMM.YYYY, hh:mm:ss").format("YYYY-MM-DD HH:mm:ss")
              ]) 
          };
-         document.getElementById("userList").style.display = "block";
+//         document.getElementById("userList").style.display = "block";
     })
 }
 
@@ -136,13 +118,17 @@ function getByUserData(s, e){
          for (index in users) {
              var user = users[index];
              userTable.fnAddData( [
-                 user.userGiven + " " + user.userFamily,
                  user.userId,
+                 user.userGiven + " " + user.userFamily,
                  user.number,
                  new moment(user.start, "DD.MMM.YYYY, hh:mm:ss").format("YYYY-MM-DD HH:mm:ss") + " - " + new moment(user.end, "DD.MMM.YYYY, hh:mm:ss").format("YYYY-MM-DD HH:mm:ss")
              ]) 
          };
-         document.getElementById("byUserList").style.display = "block";
+//         document.getElementById("byUserList").style.display = "block";
+            document.getElementById("userList").style.display = "none";
+            document.getElementById("getByUsers").style.display = "none";
+            document.getElementById("byUserList").style.display = "block";
+            document.getElementById("getByRecords").style.display = "block";
     })
 }
 
@@ -370,9 +356,9 @@ var chart = new Chart(ctx, config);
  
 <div id="slider-range"></div>
 
-<!--<div>
-    <button id="getUsers" type="button">By User in given timeframe</button> <button id="getUsers" type="button">Detail</button>
-</div>-->
+<div style="margin-top: 20px">
+    <button id="getByUsers" type="button" hidden>By Users</button> <button id="getByRecords" type="button" >By Records</button>
+</div>
     
 
 
@@ -381,8 +367,8 @@ var chart = new Chart(ctx, config);
 <table id="byUserTable"  border="1" class="display" cellspacing="0" width="50%">
 <thead>
   <tr>
-        <th>User Name</th>
         <th>User Id</th>
+        <th>Person Name</th>
         <th>Number of Access</th>
         <th>Time Frame</th>
   </tr>
@@ -398,11 +384,11 @@ var chart = new Chart(ctx, config);
 <table id="userTable"  border="1" class="display" cellspacing="0" width="50%">
 <thead>
   <tr>
-        <th>User Name</th>
-        <th>User Id</th>
-        <th>Action Type</th>
-        <th>Record Type</th>
         <th>Record Id</th>
+        <th>Record Type</th>
+        <th>Access Type</th>
+        <th>User Id</th>
+        <th>Person Name</th>
         <th>Timestamp</th>
   </tr>
 </thead>
