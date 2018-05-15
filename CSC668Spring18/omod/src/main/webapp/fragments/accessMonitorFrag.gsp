@@ -95,10 +95,53 @@ function getDetailData(s, e){
                  user.actionType,
                  user.recordType,
                  user.recordId,
-                 user.timestamp
+                 new moment(user.timestamp, "DD.MMM.YYYY, hh:mm:ss").format("YYYY-MM-DD HH:mm:ss")
              ]) 
          };
          document.getElementById("userList").style.display = "block";
+    })
+}
+
+function getByUserData(s, e){
+    jq.getJSON('${ ui.actionLink("getByUserData") }',
+        {
+        start: s,
+        end: e
+         })
+    .error(function(xhr, status, err) {
+         alert('AJAX error ' + err);
+     })
+     .success(function(users) {
+    //            alert(jq('#byUserTable').dataTable);
+         jq('#byUserTable').dataTable({
+             "bDestroy": true,
+             "aaSorting": [],
+             "sPaginationType": "full_numbers",
+             "bPaginate": true,
+             "bAutoWidth": false,
+             "bLengthChange": true,
+             "bSort": true,
+             "bJQueryUI": true
+         });
+         var userTable = jq('#byUserTable').DataTable();
+    //            alert(userTable.Rows.Count);
+
+    //var dr = userTable.Rows[0];
+    //
+    //userTable.Rows.Clear();
+    //userTable.Rows.Add(dr);
+
+         userTable.fnClearTable();
+         for (index in users) {
+             var user = users[index];
+             userTable.fnAddData( [
+                 user.userGiven + " " + user.userFamily,
+                 user.userId,
+                 user.number,
+                 new moment(user.start, "DD.MMM.YYYY, hh:mm:ss").format("YYYY-MM-DD HH:mm:ss") + " - " + new moment(user.end, "DD.MMM.YYYY, hh:mm:ss").format("YYYY-MM-DD HH:mm:ss")
+             ]) 
+         };
+         document.getElementById("byUserList").style.display = "block";
     })
 }
 
@@ -241,6 +284,7 @@ function sliderDo(s,e) {
 
     getChartData(s, e);
     getDetailData(s, e);
+    getByUserData(s, e);
     
     if(s==e){
 //        chart.data.datasets[0].data = data2;
@@ -325,15 +369,35 @@ var chart = new Chart(ctx, config);
  
 <div id="slider-range"></div>
 
-<div>
+<!--<div>
     <button id="getUsers" type="button">By User in given timeframe</button> <button id="getUsers" type="button">Detail</button>
-</div>
+</div>-->
     
-<div class="Table" id="userList" hidden>
+
+
+
+<div class="Table" id="byUserList"  style="margin-top: 20px" hidden>
+<table id="byUserTable"  border="1" class="display" cellspacing="0" width="50%">
+<thead>
+  <tr>
+        <th>User Name</th>
+        <th>User Id</th>
+        <th>Number of Access</th>
+        <th>Time Frame</th>
+  </tr>
+</thead>
+<tbody >
+</tbody>
+</table>
+
+</div>
+
+
+<div class="Table" id="userList" style="margin-top: 20px" hidden>
 <table id="userTable"  border="1" class="display" cellspacing="0" width="50%">
 <thead>
   <tr>
-        <th>Name</th>
+        <th>User Name</th>
         <th>Action Type</th>
         <th>Record Type</th>
         <th>Record Id</th>
@@ -345,6 +409,7 @@ var chart = new Chart(ctx, config);
 </table>
 
 </div>
+
 
 <!--<button id="getUsers" type="button">Detail</button>-->
 </div>

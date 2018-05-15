@@ -16,6 +16,7 @@ import org.openmrs.ui.framework.annotation.SpringBean;
 import org.openmrs.ui.framework.fragment.FragmentModel;
 import org.openmrs.module.accessmonitor.api.AccessMonitorService;
 import java.util.Date;
+import org.openmrs.module.accessmonitor.ByUserData;
 import org.openmrs.module.accessmonitor.ChartData;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -56,7 +57,7 @@ public class AccessMonitorFragFragmentController {
 		//		System.out.println(startDate.getClass());
 		//		System.out.println(endDate.getClass());
 		//		AccessMonitorService service = Context.getService(AccessMonitorService.class);
-		List<AccessMonitor> chartData = service.getAccessMonitors(null, startDate, endDate);
+		List<AccessMonitor> byDetailData = service.getAccessMonitors(null, startDate, endDate);
 		//		System.out.println(chartData.size());
 		String[] properties;
 		properties = new String[8];
@@ -69,7 +70,34 @@ public class AccessMonitorFragFragmentController {
 		properties[6] = "userGiven";
 		properties[7] = "userFamily";
 		
-		return SimpleObject.fromCollection(chartData, ui, properties);
+		return SimpleObject.fromCollection(byDetailData, ui, properties);
+		//				return new ArrayList<SimpleObject>();
+	}
+	
+	public List<SimpleObject> getByUserData(@RequestParam(value = "start", required = false) Date startDate,
+	        @RequestParam(value = "end", required = false) Date endDate, UiUtils ui) {
+		AccessMonitorService service = Context.getService(AccessMonitorService.class);
+		System.out.println("Detail!!! Start Date: " + startDate + ", End Date: " + endDate);
+		//		System.out.println(startDate.getClass());
+		//		System.out.println(endDate.getClass());
+		//		AccessMonitorService service = Context.getService(AccessMonitorService.class);
+		Integer interval = 24;
+		if (startDate.equals(endDate)) {
+			interval = 1;
+		}
+		List<ByUserData> byUserData = service.getFilteredNumberOfRecords(startDate, endDate, interval);
+		//		System.out.println(chartData.size());
+		String[] properties;
+		properties = new String[7];
+		properties[0] = "id";
+		properties[1] = "start";
+		properties[2] = "end";
+		properties[3] = "number";
+		properties[4] = "userId";
+		properties[5] = "userGiven";
+		properties[6] = "userFamily";
+		
+		return SimpleObject.fromCollection(byUserData, ui, properties);
 		//				return new ArrayList<SimpleObject>();
 	}
 }

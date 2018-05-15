@@ -12,7 +12,7 @@ import org.openmrs.BaseOpenmrsObject;
 /**
  * @author guanming
  */
-public class DetailData extends BaseOpenmrsObject implements Serializable {
+public class ByUserData extends BaseOpenmrsObject implements Serializable {
 	
 	private Integer id;
 	
@@ -28,7 +28,7 @@ public class DetailData extends BaseOpenmrsObject implements Serializable {
 	
 	private String userFamily;
 	
-	public DetailData(Integer userId, String userGiven, String userFamily, Date s, Date e, Integer n) {
+	public ByUserData(Integer userId, String userGiven, String userFamily, Date s, Date e, Integer n) {
 		this.userId = userId;
 		this.userGiven = userGiven;
 		this.userFamily = userFamily;
