@@ -145,7 +145,7 @@ function getChartData(s, e){
      })
      .success(function(users) {
      chart_data = [];
-     maxY = 18;
+     maxY = 3;
 //     chart_data.push({
 //                x: new moment("22.Apr.2018", "DD.MMM.YYYY"),
 //                y: 0
@@ -347,7 +347,7 @@ var config = {
 var ctx = document.getElementById("myChart").getContext("2d");
 var chart = new Chart(ctx, config);
     
-sliderDo("2018-05-01", "2018-05-12");
+sliderDo("2018-05-01", "2018-05-11");
 </script>
     
 <div>

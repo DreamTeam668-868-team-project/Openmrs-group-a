@@ -25,7 +25,7 @@ jq(function() {
       "min": new Date('2018/03/01').getTime() / 1000,
       "max": new Date().getTime() / 1000,
       "step": 86400,
-      "values": [ new Date('2018/05/01').getTime() / 1000, new Date('2018/05/12').getTime() / 1000 ],
+      "values": [ new Date('2018/05/01').getTime() / 1000, new Date('2018/05/11').getTime() / 1000 ],
       "slide": function( event, ui ) {
         jq( "#amount" ).val( formatDate(new Date(ui.values[ 0 ] *1000)) + " - " + formatDate(new Date(ui.values[ 1 ] *1000)) );
       },
