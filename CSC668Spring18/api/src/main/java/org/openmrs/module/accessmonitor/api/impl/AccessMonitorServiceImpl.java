@@ -149,10 +149,7 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 				list = dao.getRecordsByDate(date);
 				break;
 			case 3: // getAccessMonitorsByTimeframe();
-				Calendar stopTime = Calendar.getInstance();
-				stopTime.setTime(end);
-				stopTime.add(Calendar.DATE, 1);
-				list = dao.getRecordsByTimeframe(start, stopTime.getTime());
+				list = dao.getRecordsByTimeframe(start, end);
 				break;
 			case 4: // getAccessMonitorsByUser()
 				list = dao.getRecordsByUser(userId);
@@ -202,16 +199,22 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 		// set startTime
 		startTime.setTime(start);
 		startTime.set(Calendar.HOUR_OF_DAY, 0);
+		startTime.set(Calendar.MINUTE, 0);
+		startTime.set(Calendar.SECOND, 0);
 		
 		// set stop time to be one interval after start
 		stopTime.setTime(start);
 		stopTime.set(Calendar.HOUR_OF_DAY, 0);
+		stopTime.set(Calendar.MINUTE, 0);
+		stopTime.set(Calendar.SECOND, 0);
 		stopTime.add(Calendar.HOUR_OF_DAY, interval);
 		
 		// set end time to be one day after provided date
 		endTime.setTime(end);
-		//		endTime.add(Calendar.DATE, 1);
 		endTime.set(Calendar.HOUR_OF_DAY, 0);
+		endTime.set(Calendar.MINUTE, 0);
+		endTime.set(Calendar.SECOND, 0);
+		endTime.add(Calendar.DATE, 1);
 		
 		List<AccessMonitor> data = Context.getService(AccessMonitorService.class).getAccessMonitors(null,
 		    startTime.getTime(), endTime.getTime());
@@ -247,6 +250,11 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 			
 			// add last of the data to the return list
 			list.add(new ChartData(startTime.getTime(), stopTime.getTime(), temp.size()));
+			
+			if (stopTime.before(endTime)) {
+				list.add(new ChartData(endTime.getTime(), endTime.getTime(), new Integer(0)));
+			}
+			
 			System.out.println(list.size());
 		}
 		return list;
