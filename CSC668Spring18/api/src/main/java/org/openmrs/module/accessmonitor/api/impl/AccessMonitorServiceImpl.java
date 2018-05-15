@@ -24,7 +24,6 @@ import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.accessmonitor.AccessMonitor;
 import org.openmrs.module.accessmonitor.AccessMonitorConfig;
-import org.openmrs.module.accessmonitor.ByUserData;
 import org.openmrs.module.accessmonitor.ChartData;
 import org.openmrs.module.accessmonitor.ByUserData;
 import org.openmrs.module.accessmonitor.api.AccessMonitorService;
@@ -220,8 +219,6 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 		List<AccessMonitor> data = Context.getService(AccessMonitorService.class).getAccessMonitors(null,
 		    startTime.getTime(), endTime.getTime());
 		
-		System.out.println(data.size());
-		
 		// create the return list
 		List<ChartData> list = new ArrayList();
 		List<AccessMonitor> temp = new ArrayList();
@@ -253,11 +250,9 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 			list.add(new ChartData(startTime.getTime(), stopTime.getTime(), temp.size()));
 			
 			// this is purely for display of last hour of day
-			if (!stopTime.after(endTime)) {
+			if (!stopTime.after(endTime) && interval != 24) {
 				list.add(new ChartData(endTime.getTime(), endTime.getTime(), new Integer(0)));
 			}
-			
-			System.out.println(list.size());
 		}
 		return list;
 	}
@@ -301,8 +296,6 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 		List<AccessMonitor> data = Context.getService(AccessMonitorService.class).getAccessMonitors(null,
 		    startTime.getTime(), endTime.getTime());
 		
-		System.out.println(data.size());
-		
 		// create the return list
 		List<ByUserData> list = new ArrayList();
 		List<AccessMonitor> temp = new ArrayList();
@@ -319,7 +312,7 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 					
 					// check if there is data to add to the return value, and do so
 					if (!temp.isEmpty()) {
-						list.add(new DetailData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime
+						list.add(new ByUserData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime
 						        .getTime(), temp.size()));
 						
 						// list was added, so reset these values
@@ -344,7 +337,6 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 				// check if this user is the same as the last user
 				// add current list to output and clear if user is different
 				if (!lastUserId.equals(data.get(i).getAccessingUserId())) {
-					System.out.println("Add 340");
 					list.add(new ByUserData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime
 					        .getTime(), temp.size()));
 					lastUserId = data.get(i).getAccessingUserId();
@@ -360,13 +352,12 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 			
 			// add last of the data to the return list
 			if (!temp.isEmpty()) {
-				list.add(new DetailData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime.getTime(),
+				list.add(new ByUserData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime.getTime(),
 				        temp.size()));
+				
 			}
-			
 		}
-		System.out.println(list.size());
-		return list;
+                return list;
 	}
 	
 	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
