@@ -21,7 +21,7 @@ import org.openmrs.api.OpenmrsService;
 import org.openmrs.module.accessmonitor.AccessMonitor;
 import org.openmrs.module.accessmonitor.AccessMonitorConfig;
 import org.openmrs.module.accessmonitor.ChartData;
-import org.openmrs.module.accessmonitor.DetailData;
+import org.openmrs.module.accessmonitor.ByUserData;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -171,7 +171,7 @@ public interface AccessMonitorService extends OpenmrsService {
 	 */
 	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
-	List<DetailData> getFilteredNumberOfRecords(Date start, Date end, Integer interval) throws IllegalArgumentException,
+	List<ByUserData> getFilteredNumberOfRecords(Date start, Date end, Integer interval) throws IllegalArgumentException,
 	        APIException;
 	
 	/**

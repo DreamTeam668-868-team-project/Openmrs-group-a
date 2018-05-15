@@ -24,8 +24,9 @@ import org.openmrs.api.UserService;
 import org.openmrs.api.context.Context;
 import org.openmrs.module.accessmonitor.AccessMonitor;
 import org.openmrs.module.accessmonitor.AccessMonitorConfig;
+import org.openmrs.module.accessmonitor.ByUserData;
 import org.openmrs.module.accessmonitor.ChartData;
-import org.openmrs.module.accessmonitor.DetailData;
+import org.openmrs.module.accessmonitor.ByUserData;
 import org.openmrs.module.accessmonitor.api.AccessMonitorService;
 import org.openmrs.module.accessmonitor.api.db.AccessMonitorDAO;
 import org.springframework.transaction.annotation.Transactional;
@@ -273,7 +274,7 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 	@Authorized(AccessMonitorConfig.MODULE_PRIVILEGE)
 	@Transactional(readOnly = true)
 	@Override
-	public List<DetailData> getFilteredNumberOfRecords(Date start, Date end, Integer interval)
+	public List<ByUserData> getFilteredNumberOfRecords(Date start, Date end, Integer interval)
 	        throws IllegalArgumentException, APIException {
 		
 		if (interval < 1 || interval > 24) {
@@ -303,7 +304,7 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 		System.out.println(data.size());
 		
 		// create the return list
-		List<DetailData> list = new ArrayList();
+		List<ByUserData> list = new ArrayList();
 		List<AccessMonitor> temp = new ArrayList();
 		if (data.size() > 0) {
 			Integer lastUserId = data.get(0).getAccessingUserId();
@@ -344,7 +345,7 @@ public class AccessMonitorServiceImpl extends BaseOpenmrsService implements Acce
 				// add current list to output and clear if user is different
 				if (!lastUserId.equals(data.get(i).getAccessingUserId())) {
 					System.out.println("Add 340");
-					list.add(new DetailData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime
+					list.add(new ByUserData(lastUserId, lastUserGiven, lastUserFamily, startTime.getTime(), stopTime
 					        .getTime(), temp.size()));
 					lastUserId = data.get(i).getAccessingUserId();
 					lastUserGiven = data.get(i).getUserGiven();
