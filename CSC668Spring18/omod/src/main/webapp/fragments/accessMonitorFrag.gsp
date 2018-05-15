@@ -117,12 +117,14 @@ function getByUserData(s, e){
          userTable.fnClearTable();
          for (index in users) {
              var user = users[index];
-             userTable.fnAddData( [
-                 user.userId,
-                 user.userGiven + " " + user.userFamily,
-                 user.number,
-                 new moment(user.start, "DD.MMM.YYYY, hh:mm:ss").format("YYYY-MM-DD HH:mm:ss") + " - " + new moment(user.end, "DD.MMM.YYYY, hh:mm:ss").format("YYYY-MM-DD HH:mm:ss")
-             ]) 
+             if(user.number > 0) {
+                userTable.fnAddData( [
+                    user.userId,
+                    user.userGiven + " " + user.userFamily,
+                    user.number,
+                    new moment(user.start, "DD.MMM.YYYY, hh:mm:ss").format("YYYY-MM-DD HH:mm:ss") + " - " + new moment(user.end, "DD.MMM.YYYY, hh:mm:ss").format("YYYY-MM-DD HH:mm:ss")
+                ]) 
+             }
          };
 //         document.getElementById("byUserList").style.display = "block";
             document.getElementById("userList").style.display = "none";
@@ -310,7 +312,7 @@ var config = {
   type: 'bar',
   data: {
       datasets: [{
-        data: data,
+//        data: data,
         label: "Number of Access",
 //        borderColor: "#3e95cd",
 //        fill: false
@@ -345,7 +347,7 @@ var config = {
 var ctx = document.getElementById("myChart").getContext("2d");
 var chart = new Chart(ctx, config);
     
-        
+sliderDo("2018-05-01", "2018-05-12");
 </script>
     
 <div>
