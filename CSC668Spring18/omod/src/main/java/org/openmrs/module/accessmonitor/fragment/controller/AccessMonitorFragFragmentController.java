@@ -5,6 +5,7 @@
  */
 package org.openmrs.module.accessmonitor.fragment.controller;
 
+import java.util.Calendar;
 import java.util.List;
 import javax.servlet.http.HttpSession;
 import org.openmrs.api.UserService;
@@ -57,7 +58,10 @@ public class AccessMonitorFragFragmentController {
 		//		System.out.println(startDate.getClass());
 		//		System.out.println(endDate.getClass());
 		//		AccessMonitorService service = Context.getService(AccessMonitorService.class);
-		List<AccessMonitor> byDetailData = service.getAccessMonitors(null, startDate, endDate);
+		Calendar endTime = Calendar.getInstance();
+		endTime.setTime(endDate);
+		endTime.add(Calendar.DATE, 1);
+		List<AccessMonitor> byDetailData = service.getAccessMonitors(null, startDate, endTime.getTime());
 		//		System.out.println(chartData.size());
 		String[] properties;
 		properties = new String[8];
