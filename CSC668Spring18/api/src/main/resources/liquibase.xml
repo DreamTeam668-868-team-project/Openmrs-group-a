@@ -9,31 +9,42 @@
         for a list of supported elements and attributes
     -->
 
-    <changeSet id="csc668spring18-1" author="travis">
+    <changeSet id="accessmonitor-1" author="groupA">
         <sql>
-            drop table if exists access_log;
+            drop table if exists access_monitor;
         </sql>
     </changeSet>
 
-    <changeSet id="csc668spring18-2" author="travis">
+    <changeSet id="accessmonitor-2" author="groupA">
         <preConditions onFail="WARN" onError="WARN">
             <not>
-                <tableExists tableName="access_log"/>
+                <tableExists tableName="access_monitor"/>
             </not>
         </preConditions>
         
-        <createTable tableName="access_log">
+        <createTable tableName="access_monitor">
             <column name="id" type="int" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="user_id" type="int" />
             <column name="record_id" type="int" />
             <column name="record_type" type="varchar(20)" />
-            <column name="accessed_on" type="datetime" />
             <column name="action_type" type="varchar(20)" />
+            <column name="timestamp" type="datetime" />
         </createTable>
         
-        <addForeignKeyConstraint constraintName="user" baseTableName="access_log" baseColumnNames="user_id"  referencedTableName="users"
+        <addForeignKeyConstraint constraintName="user" baseTableName="access_monitor" baseColumnNames="user_id"  referencedTableName="users"
                                  referencedColumnNames="user_id" />
     </changeSet>
+    
+    <changeSet id="accessmonitor-3" author="groupA">
+        <preConditions onFail="WARN" onError="WARN">
+            <tableExists tableName="access_monitor"/>
+        </preConditions>    
+        <addColumn tableName="access_monitor">        
+            <column name="user_given" type="varchar(75)" />
+            <column name="user_family" type="varchar(75)" />
+        </addColumn>
+    </changeSet> 
+    
 </databaseChangeLog>
