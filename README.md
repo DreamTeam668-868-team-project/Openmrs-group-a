@@ -8,9 +8,9 @@
 
 # Screenshots 
 <div style={{display: flex; flex-direction: row}}>
-  <img src="Screenshots/1.png" width="270" />
-  <img src="Screenshots/2.png" width="270" />
-  <img src="Screenshots/3.png" width="270" />
+  <img src="Screenshots/1.png" width="570" />
+  <img src="Screenshots/2.png" width="570" />
+  <img src="Screenshots/3.png" width="570" />
 </div>
 
 <div style={{display: flex; flex-direction: row}}>
