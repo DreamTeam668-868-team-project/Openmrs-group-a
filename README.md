@@ -14,9 +14,9 @@
 </div>
 
 <div style={{display: flex; flex-direction: row}}>
-  <img src="Screenshots/4.png" width="270"  />
-  <img src="Screenshots/5.png" width="270" />
-  <img src="Screenshots/6.png" width="270" />
+  <img src="Screenshots/4.png" width="570"  />
+  <img src="Screenshots/5.png" width="570" />
+  <img src="Screenshots/6.png" width="570" />
 </div>
 
 
